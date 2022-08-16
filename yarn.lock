@@ -873,10 +873,10 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
-"@types/chess.js@0.13.2":
-  version "0.13.2"
-  resolved "https://registry.yarnpkg.com/@types/chess.js/-/chess.js-0.13.2.tgz#b37f80c541391f6491a134b66c24f6f023a335c3"
-  integrity sha512-JEskkK0+rirQmbax2ap/kwwEbBaoKOqZHMemTjOVOCa5H1TvOjTHiJoR+H4aMhi5+dS3X3M+GJKZEuG3IcVZ7w==
+"@types/chess.js@0.13.3":
+  version "0.13.3"
+  resolved "https://registry.yarnpkg.com/@types/chess.js/-/chess.js-0.13.3.tgz#501c96c03ee3a11432d288cb28d12c7afe6f61cb"
+  integrity sha512-piyhKK3VkKVrgLT33wUQIg1wybb7yscW+X5PfXirTXy01XfwTLCB0HceXSbuK1wDsKQ3rfgYIBp3JC6nInD8aA==
 
 "@types/eslint-scope@^3.7.3":
   version "3.7.4"
