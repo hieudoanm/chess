@@ -1,10 +1,10 @@
-// Generated using webpack-cli https://github.com/webpack/webpack-cli
+import path from 'path';
 
-const path = require('path');
+const mode =
+  process.env.NODE_ENV == 'production' ? 'production' : 'development';
 
-const isProduction = process.env.NODE_ENV == 'production';
-
-const config = {
+export default {
+  mode,
   entry: './src/index.ts',
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -33,13 +33,4 @@ const config = {
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js', '...'],
   },
-};
-
-module.exports = () => {
-  if (isProduction) {
-    config.mode = 'production';
-  } else {
-    config.mode = 'development';
-  }
-  return config;
 };
