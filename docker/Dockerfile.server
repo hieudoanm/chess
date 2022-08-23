@@ -9,7 +9,7 @@ WORKDIR /home/node/app
 
 COPY ./package.json /home/node/app/
 COPY ./packages/shared /home/node/app/packages/shared
-COPY ./packages/server /home/node/app/services/server
+COPY ./packages/server /home/node/app/packages/server
 
 RUN yarn install
 RUN yarn build:server

@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FullScreen render default 1`] = `
+<div>
+  <div>
+    Button
+  </div>
+</div>
+`;

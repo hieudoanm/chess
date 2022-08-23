@@ -17,9 +17,9 @@ jobs:
             version: ubuntu-latest
         project:
           - app-name: server
-            dockerfile: ./docker/services/Dockerfile.server
+            dockerfile: ./docker/Dockerfile.server
           - app-name: web
-            dockerfile: ./docker/services/Dockerfile.web
+            dockerfile: ./docker/Dockerfile.web
     name: Node.js ${{ matrix.node.version }} - ${{ matrix.os.name }} - ${{ matrix.project.app-name }}
     runs-on: ${{ matrix.os.version }}
     steps:
