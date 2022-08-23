@@ -4,28 +4,43 @@ on:
   push:
     branches:
       - master
-      - 'hotfix/**'
-      - 'feature/**'
-      - 'renovate/**'
+      - develop
+      - hotfix/**
+      - feature/**
+      - renovate/**
 
 jobs:
   github-actions:
     strategy:
+      fail-fast: false
       matrix:
-        node-version: [18.x, 16.x, 14.x]
-        os: [ubuntu-latest, macos-latest, windows-latest]
-    name: Node.js ${{ matrix.node-version }} ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+        node:
+          - version: 16.x
+        os:
+          - name: Ubuntu
+            version: ubuntu-latest
+        project:
+          - app-name: Server
+            working-directory: ./packages/server
+          - app-name: Shared
+            working-directory: ./packages/shared
+          - app-name: Web
+            working-directory: ./packages/web
+    name: Node.js ${{ matrix.node.version }} - ${{ matrix.os.name }} - ${{ matrix.project.app-name }}
+    runs-on: ${{ matrix.os.version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ matrix.node.version }}
       - name: Install Dependencies
         run: yarn install --network-timeout 86400000
+        working-directory: ${{ matrix.project.working-directory }}
       - name: Build Production
         run: yarn build
+        working-directory: ${{ matrix.project.working-directory }}
       - name: Unit Test
         run: yarn test
+        working-directory: ${{ matrix.project.working-directory }}

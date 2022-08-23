@@ -1,0 +1,35 @@
+name: Docs
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  github-actions:
+    strategy:
+      matrix:
+        node-version: [16.x]
+        os:
+          - name: Ubuntu
+            version: ubuntu-latest
+    name: Node.js ${{ matrix.node-version }} - ${{ matrix.os.name }}
+    runs-on: ${{ matrix.os.version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install Redoc CLI
+        run: yarn global add redoc-cli
+      - name: Build Docs
+        run: redoc-cli build ./services/wallet/docs/swagger.json --output ./services/wallet/docs/index.html --title "Wallet API"
+      - name: Deploy GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4.4.0
+        with:
+          token: ${{ secrets.GH_PAGES_TOKEN }}
+          branch: gh-pages
+          folder: services/wallet/docs
+          clean: true
