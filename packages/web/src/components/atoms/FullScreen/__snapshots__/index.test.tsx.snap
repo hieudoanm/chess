@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FullScreen render default 1`] = `
+<div>
+  <div
+    class="w-screen h-screen"
+  >
+    FullScreen
+  </div>
+</div>
+`;

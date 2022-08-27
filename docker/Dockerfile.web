@@ -1,0 +1,25 @@
+FROM node AS build
+
+LABEL author hieudoanm
+
+ENV PORT=8080
+
+RUN mkdir /home/node/app
+WORKDIR /home/node/app
+
+COPY ./package.json /home/node/app/
+COPY ./packages/shared /home/node/app/packages/shared
+COPY ./packages/web /home/node/app/packages/web
+
+RUN yarn install
+RUN yarn build:web
+
+FROM node:alpine
+
+USER node
+
+COPY --from=build /home/node/app ./
+
+EXPOSE $PORT
+
+CMD ["yarn", "start:web"]
