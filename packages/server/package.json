@@ -35,7 +35,7 @@
     "express": "4.18.1",
     "helmet": "6.0.0",
     "pino": "8.4.2",
-    "socket.io": "4.5.1",
+    "socket.io": "4.5.2",
     "tsoa": "4.1.2"
   },
   "devDependencies": {
