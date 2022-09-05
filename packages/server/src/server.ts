@@ -1,9 +1,7 @@
 import dotenv from 'dotenv';
 const NODE_ENV = process.env.NODE_ENV || 'development';
 console.log('NODE_ENV', NODE_ENV);
-if (NODE_ENV === 'development') {
-  dotenv.config();
-}
+NODE_ENV === 'development' && dotenv.config();
 
 import http from 'http';
 import { HttpError } from 'http-errors';

@@ -1,7 +1,7 @@
 {
   "item": [
     {
-      "id": "64aacbfd-1cfc-4e76-ab96-f2575c3bf644",
+      "id": "0e09a88a-3bcd-426a-aecd-9d139ddf573e",
       "name": "Get",
       "request": {
         "name": "Get",
@@ -23,7 +23,7 @@
       },
       "response": [
         {
-          "id": "9c2df474-3e2a-4580-a586-951cddc24c04",
+          "id": "d5f72c3d-0060-4347-b0fa-31ffc1961d97",
           "name": "Ok",
           "originalRequest": {
             "url": {
@@ -43,7 +43,7 @@
               "value": "application/json"
             }
           ],
-          "body": "{\n  \"status\": \"fug\"\n}",
+          "body": "{\n  \"status\": \"laboris ipsum commodo\"\n}",
           "cookie": [],
           "_postman_previewlanguage": "json"
         }
@@ -60,7 +60,7 @@
     }
   ],
   "info": {
-    "_postman_id": "9e1be4a7-bdb6-4f84-94ae-b90305fd5149",
+    "_postman_id": "46874c68-5e00-473d-b5b2-9b0f805e83b0",
     "name": "@chess/server",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": {
