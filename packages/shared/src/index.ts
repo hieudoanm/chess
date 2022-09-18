@@ -1,1 +1,0 @@
-export { calculate } from './elo';

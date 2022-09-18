@@ -20,12 +20,12 @@ jobs:
           - name: Ubuntu
             version: ubuntu-latest
         project:
+          - app-name: Elo
+            working-directory: ./packages/elo
           - app-name: Server
-            working-directory: ./packages/server
-          - app-name: Shared
-            working-directory: ./packages/shared
+            working-directory: ./services/server
           - app-name: Web
-            working-directory: ./packages/web
+            working-directory: ./services/web
     name: Node.js ${{ matrix.node.version }} - ${{ matrix.os.name }} - ${{ matrix.project.app-name }}
     runs-on: ${{ matrix.os.version }}
     steps:

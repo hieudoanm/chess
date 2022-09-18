@@ -25,13 +25,13 @@ jobs:
       - name: Install Redoc CLI
         run: yarn global add redoc-cli
       - name: Build Docs
-        run: redoc-cli build ./packages/server/docs/swagger.json --output ./packages/server/docs/index.html --title "Chess API"
+        run: redoc-cli build ./services/server/docs/swagger.json --output ./services/server/docs/index.html --title "Chess API"
       - name: Deploy GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4.4.0
         with:
           branch: gh-pages
           clean: true
-          folder: packages/server/docs
+          folder: services/server/docs
           force: true
           git-config-name: hieudoanm
           git-config-email: hieumdoan@gmail.com

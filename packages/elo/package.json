@@ -1,8 +1,9 @@
 {
-  "name": "@chess/shared",
+  "name": "@chess/elo",
   "version": "0.0.1",
-  "description": "Shared",
+  "description": "Elo Calculator",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "repository": "git@github.com:hieudoanm/chess.git",
   "author": "hieudoanm <hieumdoan@gmail.com>",
   "license": "MIT",

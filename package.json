@@ -13,24 +13,25 @@
     "yarn": "1"
   },
   "scripts": {
+    "build:elo": "yarn workspace @chess/elo build",
     "build:server": "yarn workspace @chess/server build",
-    "build:shared": "yarn workspace @chess/shared build",
     "build:web": "yarn workspace @chess/web build",
-    "build": "yarn build:server && yarn build:shared && yarn build:web",
+    "build": "yarn build:server && yarn build:elo && yarn build:web",
+    "lint:elo": "yarn workspace @chess/elo lint",
+    "lint:server": "yarn workspace @chess/server lint",
+    "lint:web": "yarn workspace @chess/web lint",
+    "lint": "yarn lint:server && yarn lint:elo && yarn lint:web",
+    "test:elo": "yarn workspace @chess/elo test",
+    "test:server": "yarn workspace @chess/server test",
+    "test:web": "yarn workspace @chess/web test",
+    "test": "yarn test:server && yarn test:elo && yarn test:web",
     "dev:server": "yarn workspace @chess/server dev",
     "dev:web": "yarn workspace @chess/web dev",
     "dev": "concurrently --kill-others-on-fail \"yarn dev:server\" \"yarn dev:web\"",
-    "lint:server": "yarn workspace @chess/server lint",
-    "lint:shared": "yarn workspace @chess/shared lint",
-    "lint:web": "yarn workspace @chess/web lint",
-    "lint": "yarn lint:server && yarn lint:shared && yarn lint:web",
-    "test:server": "yarn workspace @chess/server test",
-    "test:shared": "yarn workspace @chess/shared test",
-    "test:web": "yarn workspace @chess/web test",
-    "test": "yarn test:server && yarn test:shared && yarn test:web",
     "start:server": "yarn workspace @chess/server start",
-    "start:shared": "yarn workspace @chess/shared start",
-    "prepare": "husky install"
+    "start:elo": "yarn workspace @chess/elo start",
+    "prepare": "husky install",
+    "graph": "nx graph"
   },
   "devDependencies": {
     "@nrwl/nx-cloud": "latest",
@@ -41,6 +42,7 @@
     "pretty-quick": "3.1.3"
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "services/*"
   ]
 }

@@ -1,5 +1,5 @@
 import { Result } from './index.enums';
-import { EloResponse } from './index.types';
+import { EloResponse } from './types';
 
 const CHANCES = Object.freeze({
   lost: 0,

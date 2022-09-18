@@ -8,8 +8,8 @@ RUN mkdir /home/node/app
 WORKDIR /home/node/app
 
 COPY ./package.json /home/node/app/
-COPY ./packages/shared /home/node/app/packages/shared
-COPY ./packages/server /home/node/app/packages/server
+COPY ./packages/elo /home/node/app/packages/elo
+COPY ./services/server /home/node/app/services/server
 
 RUN yarn install
 RUN yarn build:server
