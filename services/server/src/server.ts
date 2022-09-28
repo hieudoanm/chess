@@ -3,11 +3,11 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 console.log('NODE_ENV', NODE_ENV);
 NODE_ENV === 'development' && dotenv.config();
 
+import logger from '@hieudoanm/pino';
 import http from 'http';
 import { HttpError } from 'http-errors';
 import { Server, Socket } from 'socket.io';
 import app from './app';
-import logger from './libs/logger';
 import { joinGame, move, notify } from './services/socket.service';
 import { normalizePort, onError, onListening } from './utils/server';
 
@@ -24,7 +24,7 @@ const main = async () => {
 
   io.on('connection', (socket: Socket) => {
     const { id, connected } = socket;
-    logger.info({ id, connected }, 'Client is connected');
+    logger.info('Client is connected', { id, connected });
 
     socket.on('disconnect', () => logger.info('Client is disconnected'));
 
@@ -44,7 +44,7 @@ const main = async () => {
   httpServer.on('error', (error: HttpError) => onError(error, PORT));
 };
 
-main().catch((error: Error) => logger.error(error));
+main().catch((error: Error) => logger.error('Error', error));
 
 process.on('unhandledRejection', (reason: string) => {
   // I just caught an unhandled promise rejection,
@@ -55,6 +55,6 @@ process.on('unhandledRejection', (reason: string) => {
 
 process.on('uncaughtException', (error: Error) => {
   // I just received an error that was never handled, time to handle it and then decide whether a restart is needed
-  logger.error(error);
+  logger.error('Error', error);
   process.exit(1);
 });
