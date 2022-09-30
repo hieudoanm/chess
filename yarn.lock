@@ -508,6 +508,11 @@
     pino "8.6.1"
     pino-pretty "9.1.0"
 
+"@hieudoanm/utils@0.0.1":
+  version "0.0.1"
+  resolved "https://npm.pkg.github.com/download/@hieudoanm/utils/0.0.1/8df0a3bdfc48aeacc4e3b128a1860417d1c9490d#8df0a3bdfc48aeacc4e3b128a1860417d1c9490d"
+  integrity sha512-eA1timWmD1l03WkAOU787ai240JlXSpyji4cZoXeXg/lxzYwjeCiMFzkMXezYXJKxaJQn6HzFGbFTK+kaZOCFQ==
+
 "@humanwhocodes/config-array@^0.10.5":
   version "0.10.7"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.10.7.tgz#6d53769fd0c222767e6452e8ebda825c22e9f0dc"

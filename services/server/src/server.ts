@@ -4,12 +4,13 @@ console.log('NODE_ENV', NODE_ENV);
 NODE_ENV === 'development' && dotenv.config();
 
 import logger from '@hieudoanm/pino';
+import { normalizePort } from '@hieudoanm/utils';
 import http from 'http';
 import { HttpError } from 'http-errors';
 import { Server, Socket } from 'socket.io';
 import app from './app';
 import { joinGame, move, notify } from './services/socket.service';
-import { normalizePort, onError, onListening } from './utils/server';
+import { onError, onListening } from './utils/server';
 
 // Get port from environment and store in Express.
 const PORT = normalizePort(process.env.PORT || '8080');

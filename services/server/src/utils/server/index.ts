@@ -1,22 +1,6 @@
+import logger from '@hieudoanm/pino';
 import http from 'http';
 import { HttpError } from 'http-errors';
-import logger from '../../libs/logger';
-
-export const normalizePort = (val: string): string | number | boolean => {
-  const portOrPipe = parseInt(val, 10);
-
-  if (isNaN(portOrPipe)) {
-    // named pipe
-    return val;
-  }
-
-  if (portOrPipe >= 0) {
-    // port number
-    return portOrPipe;
-  }
-
-  return false;
-};
 
 export const onListening = (server: http.Server) => {
   const addr = server.address();
