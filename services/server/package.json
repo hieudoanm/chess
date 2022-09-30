@@ -38,7 +38,7 @@
   "devDependencies": {
     "@types/chess.js": "0.13.3",
     "@types/http-errors": "1.8.2",
-    "@types/jest": "29.1.0",
+    "@types/jest": "29.1.1",
     "@types/node": "18.7.2",
     "@types/supertest": "2.0.12",
     "@types/webpack-node-externals": "2.5.3",
