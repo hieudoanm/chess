@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { COORDINATES, Side, Piece, Coordinate } from '../../../constants';
-import Background from '../../molecules/Background';
-import File from '../../molecules/File';
-import Game from '../../molecules/Coordinates';
-import Rank from '../../molecules/Rank';
-import useEffectOnce from '../../../hooks/useEffortOnce';
+import useEffectOnce from '@hieudoanm/use-effect-once';
+import React, { useState } from 'react';
+import { Coordinate, COORDINATES, Piece, Side } from '../../../constants';
 import { useSocket } from '../../../contexts/SocketContext';
+import Background from '../../molecules/Background';
+import Game from '../../molecules/Coordinates';
+import File from '../../molecules/File';
+import Rank from '../../molecules/Rank';
 
 type BoardProps = { id: string };
 

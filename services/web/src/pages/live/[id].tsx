@@ -1,8 +1,8 @@
+import useEffectOnce from '@hieudoanm/use-effect-once';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import GameTemplate from '../../components/templates/GameTemplate';
 import { useSocket } from '../../contexts/SocketContext';
-import useEffectOnce from '../../hooks/useEffortOnce';
 
 const LivePage: NextPage = () => {
   const router = useRouter();

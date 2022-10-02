@@ -1,8 +1,8 @@
+import logger from '@hieudoanm/pino';
 import { Server, Socket } from 'socket.io';
-import logger from '../libs/logger';
 
 export const joinGame = (io: Server, socket: Socket, room: string) => {
-  logger.info({ room }, 'room');
+  logger.info('room', { room });
   socket.join(room);
   io.to(room).emit('notification', socket.id, 'a user just joined');
 };
