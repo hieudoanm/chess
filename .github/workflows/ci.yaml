@@ -38,9 +38,15 @@ jobs:
       - name: Install Dependencies
         run: yarn install --network-timeout 86400000
         working-directory: ${{ matrix.project.working-directory }}
+        env:
+          NODE_TOKEN: ${{ secrets.NODE_TOKEN }}
       - name: Build Production
         run: yarn build
         working-directory: ${{ matrix.project.working-directory }}
+        env:
+          NODE_TOKEN: ${{ secrets.NODE_TOKEN }}
       - name: Unit Test
         run: yarn test
         working-directory: ${{ matrix.project.working-directory }}
+        env:
+          NODE_TOKEN: ${{ secrets.NODE_TOKEN }}

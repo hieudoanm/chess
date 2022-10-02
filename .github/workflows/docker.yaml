@@ -54,4 +54,5 @@ jobs:
       - name: Docker Build
         run: docker build . --no-cache --file ${{ matrix.project.dockerfile }} -t ${{ matrix.project.app-name }}:$IMAGE_TAG
         env:
+          NODE_TOKEN: ${{ secrets.NODE_TOKEN }}
           IMAGE_TAG: ${{ github.head_ref || github.ref_name }}.${{ steps.datetime.outputs.datetime }}.${{ steps.version.outputs.sha_short }}
