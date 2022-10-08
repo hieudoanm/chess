@@ -1,8 +1,8 @@
 import path from 'path';
 import nodeExternals from 'webpack-node-externals';
 
-const mode =
-  process.env.NODE_ENV == 'production' ? 'production' : 'development';
+const isProduction = process.env.NODE_ENV === 'production';
+const mode = isProduction ? 'production' : 'development';
 
 export default {
   mode,
