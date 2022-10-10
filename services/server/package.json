@@ -28,11 +28,11 @@
     "watch": "webpack --watch"
   },
   "dependencies": {
+    "@hieudoanm/dotenv": "0.0.1",
     "@hieudoanm/express": "0.0.1",
     "@hieudoanm/pino": "0.0.1",
     "@hieudoanm/utils": "0.0.1",
     "chess.js": "0.13.4",
-    "dotenv": "16.0.2",
     "socket.io": "4.5.2"
   },
   "devDependencies": {

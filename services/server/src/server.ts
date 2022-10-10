@@ -1,6 +1,5 @@
-import dotenv from 'dotenv';
+import dotenv from '@hieudoanm/dotenv';
 const NODE_ENV = process.env.NODE_ENV || 'development';
-console.log('NODE_ENV', NODE_ENV);
 NODE_ENV === 'development' && dotenv.config();
 
 import logger from '@hieudoanm/pino';
