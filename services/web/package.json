@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Web",
   "main": "dist/index.js",
-  "repository": "git@github.com:hieudoanm/chess.git",
+  "repository": "git@github.com:hieudoanm/chess-app.git",
   "author": "hieudoanm <hieumdoan@gmail.com>",
   "license": "MIT",
   "private": true,

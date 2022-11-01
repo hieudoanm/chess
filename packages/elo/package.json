@@ -4,7 +4,7 @@
   "description": "Elo Calculator",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "repository": "git@github.com:hieudoanm/chess.git",
+  "repository": "git@github.com:hieudoanm/chess-app.git",
   "author": "hieudoanm <hieumdoan@gmail.com>",
   "license": "MIT",
   "private": true,
