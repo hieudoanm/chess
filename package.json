@@ -37,7 +37,7 @@
     "@nrwl/nx-cloud": "latest",
     "concurrently": "7.5.0",
     "husky": "8.0.1",
-    "nx": "15.0.4",
+    "nx": "15.0.5",
     "prettier": "2.7.1",
     "pretty-quick": "3.1.3"
   },
