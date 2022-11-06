@@ -34,7 +34,7 @@
     "graph": "nx graph"
   },
   "devDependencies": {
-    "@nrwl/nx-cloud": "latest",
+    "@nrwl/nx-cloud": "15.0.2",
     "concurrently": "7.5.0",
     "husky": "8.0.1",
     "nx": "15.0.10",

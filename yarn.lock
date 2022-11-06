@@ -1203,12 +1203,12 @@
   dependencies:
     nx "15.0.10"
 
-"@nrwl/nx-cloud@latest":
-  version "14.7.0"
-  resolved "https://registry.yarnpkg.com/@nrwl/nx-cloud/-/nx-cloud-14.7.0.tgz#71dc6663c9527001bbc374f8d1d841d166fd031f"
-  integrity sha512-sEGK5Ire5DC2liIsT89qR6SzZa46uinmWEAMz8ocMuu7nIMnwV9m15qajxhmYKasYsq9vTeT+x7BlZ4fnxPrNg==
+"@nrwl/nx-cloud@15.0.2":
+  version "15.0.2"
+  resolved "https://registry.yarnpkg.com/@nrwl/nx-cloud/-/nx-cloud-15.0.2.tgz#1d1e9c52743f7d7a40c8217c211ebd22402f6dde"
+  integrity sha512-DaTASuXmGyQHMxJuK6y3f7fs+Q0qQCfYDIDVGK9muNwN/QItLeWdRNltLQxbrBeS112kQTu2FPsr0DmRD60+0A==
   dependencies:
-    axios "^0.21.1"
+    axios "^0.21.2"
     chalk "4.1.0"
     dotenv "~10.0.0"
     fs-extra "^10.1.0"
@@ -2466,7 +2466,7 @@ axe-core@^4.4.3:
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.4.3.tgz#11c74d23d5013c0fa5d183796729bc3482bd2f6f"
   integrity sha512-32+ub6kkdhhWick/UjvEwRchgoetXqTK14INLqbGm5U2TzBkBNF3nQtLYm8ovxSkQWArjEQvftCKryjZaATu3w==
 
-axios@^0.21.1:
+axios@^0.21.1, axios@^0.21.2:
   version "0.21.4"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.4.tgz#c67b90dc0568e5c1cf2b0b858c43ba28e2eda575"
   integrity sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==
@@ -2902,10 +2902,10 @@ charset@^1.0.0:
   resolved "https://registry.yarnpkg.com/charset/-/charset-1.0.1.tgz#8d59546c355be61049a8fa9164747793319852bd"
   integrity sha512-6dVyOOYjpfFcL1Y4qChrAoQLRHvj2ziyhcm0QJlhOcAhykL/k1kTUPbeo+87MNRTRdk2OIIsIXbuF3x2wi5EXg==
 
-chess.js@0.13.4:
-  version "0.13.4"
-  resolved "https://registry.yarnpkg.com/chess.js/-/chess.js-0.13.4.tgz#5c67542206cab25690f53de3cf7ff6be602c7aad"
-  integrity sha512-li8pyEtvfw6V7xvVr5aUh8OuICfviWNT3YXPh56/wNZ8yEdqdAaWcWargK6xTmqsWKKH5c1bvdJ7lh5vqNv2wg==
+chess.js@1.0.0-alpha.0:
+  version "1.0.0-alpha.0"
+  resolved "https://registry.yarnpkg.com/chess.js/-/chess.js-1.0.0-alpha.0.tgz#3e476bdf58a908d93bddf879830860a9863147f6"
+  integrity sha512-nwEDlNEOZR/FaKW1DZLYtjgJrtAlxBW/6Fp4Hk8QXqpCCLrXweOU6/vKfJ/jNHT2gPqasxi0/ZPslcWAAdzozg==
 
 "chokidar@>=3.0.0 <4.0.0", chokidar@^3.5.1, chokidar@^3.5.2, chokidar@^3.5.3:
   version "3.5.3"
