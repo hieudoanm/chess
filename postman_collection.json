@@ -1,0 +1,71 @@
+{
+  "item": [
+    {
+      "id": "5c5b7a3a-b73d-4699-9391-4a9383142d51",
+      "name": "Get",
+      "request": {
+        "name": "Get",
+        "description": {},
+        "url": {
+          "path": ["health"],
+          "host": ["{{baseUrl}}"],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "26f2b138-ce1b-455e-a765-0633fcc4d488",
+          "name": "Ok",
+          "originalRequest": {
+            "url": {
+              "path": ["health"],
+              "host": ["{{baseUrl}}"],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"in qui id laboris enim\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "c6cc44ea-f431-428a-88fe-ea9074b0a657",
+    "name": "@chess/server",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Server\n\nContact Support:\n Name: hieudoanm \n Email: hieumdoan@gmail.com",
+      "type": "text/plain"
+    }
+  }
+}
