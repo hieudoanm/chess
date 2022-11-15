@@ -9,6 +9,7 @@ on:
 jobs:
   github-actions:
     strategy:
+      fail-fast: false
       matrix:
         node:
           - version: 16.x
