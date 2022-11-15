@@ -16,10 +16,12 @@ jobs:
           - name: Ubuntu
             version: ubuntu-latest
         project:
-          - app-name: server
-            dockerfile: ./docker/Dockerfile.server
-          - app-name: web
-            dockerfile: ./docker/Dockerfile.web
+          - app-name: Server
+            image-name: server
+            working-directory: ./services/server
+          - app-name: Web
+            image-name: web
+            working-directory: ./services/web
     name: Node.js ${{ matrix.node.version }} - ${{ matrix.os.name }} - ${{ matrix.project.app-name }}
     runs-on: ${{ matrix.os.version }}
     steps:
@@ -52,7 +54,8 @@ jobs:
       - name: Install Docker
         run: sudo apt-get update && sudo apt-get install docker-ce
       - name: Docker Build
-        run: docker build . --no-cache --file ${{ matrix.project.dockerfile }} -t ${{ matrix.project.app-name }}:$IMAGE_TAG
+        working-directory: ${{ matrix.project.working-directory }}
+        run: docker build . --no-cache -t ${{ matrix.project.image-name }}:$IMAGE_TAG --build-arg node_token=$NODE_TOKEN
         env:
           NODE_TOKEN: ${{ secrets.NODE_TOKEN }}
           IMAGE_TAG: ${{ github.head_ref || github.ref_name }}.${{ steps.datetime.outputs.datetime }}.${{ steps.version.outputs.sha_short }}
