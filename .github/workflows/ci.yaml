@@ -15,7 +15,8 @@ jobs:
       fail-fast: false
       matrix:
         node:
-          - version: 16.x
+          - name: Node.js 16
+            version: 16.x
         os:
           - name: Ubuntu
             version: ubuntu-latest
@@ -26,7 +27,7 @@ jobs:
             working-directory: ./services/server
           - app-name: Web
             working-directory: ./services/web
-    name: Node.js ${{ matrix.node.version }} - ${{ matrix.os.name }} - ${{ matrix.project.app-name }}
+    name: ${{ matrix.os.name }} - ${{ matrix.node.name }} - ${{ matrix.project.app-name }}
     runs-on: ${{ matrix.os.version }}
     steps:
       - name: Checkout
