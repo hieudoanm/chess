@@ -12,7 +12,7 @@
     "prebuild": "rimraf dist",
     "build": "tsc",
     "build:dev": "webpack --mode=development",
-    "build:prod": "webpack --mode=production --node-env=production",
+    "build:prod": "webpack --mode=production",
     "lint": "eslint . --fix --ext .ts",
     "watch": "webpack --watch",
     "test": "jest"

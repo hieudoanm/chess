@@ -14,9 +14,9 @@
   },
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "webpack --mode=production --node-env=production",
+    "build": "webpack --mode=production",
     "build:dev": "webpack --mode=development",
-    "build:prod": "webpack --mode=production --node-env=production",
+    "build:prod": "webpack --mode=production",
     "dev": "kill-port 8080 && concurrently \"nodemon\" \"nodemon -x yarn docs\"",
     "docs": "yarn docs:swagger:json && yarn docs:swagger:yaml && yarn docs:postman",
     "docs:postman": "node ./scripts/postman",
