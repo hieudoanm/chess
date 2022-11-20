@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@nrwl/nx-cloud": "15.0.2",
-    "concurrently": "7.5.0",
+    "concurrently": "7.6.0",
     "husky": "8.0.2",
     "nx": "15.2.1",
     "prettier": "2.7.1",
