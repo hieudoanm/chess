@@ -21,8 +21,6 @@ jobs:
           - name: Ubuntu
             version: ubuntu-latest
         project:
-          - app-name: Elo
-            working-directory: ./packages/elo
           - app-name: Server
             working-directory: ./services/server
           - app-name: Web
