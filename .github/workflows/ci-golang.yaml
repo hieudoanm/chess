@@ -1,0 +1,45 @@
+name: CI - Golang
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+      - hotfix/**
+      - feature/**
+      - renovate/**
+
+jobs:
+  github-actions:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - name: Ubuntu
+            version: ubuntu-latest
+        go:
+          - name: Golang 1.18
+            version: 1.18
+        project:
+          - name: Connections
+            working-directory: ./services/connections
+    name: ${{ matrix.os.name }} - ${{ matrix.go.name }} - ${{ matrix.project.name }}
+    runs-on: ${{ matrix.os.version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install Golang
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ matrix.go.version }}
+      - name: Install Dependencies
+        run: go mod download
+        working-directory: ${{ matrix.project.working-directory }}
+      - name: Build Production
+        run: go build -o ./dist/main
+        working-directory: ${{ matrix.project.working-directory }}
+      # - name: Unit Test
+      #   run: yarn test
+      #   working-directory: ${{ matrix.project.working-directory }}
+      #   env:
+      #     NODE_TOKEN: ${{ secrets.NODE_TOKEN }}

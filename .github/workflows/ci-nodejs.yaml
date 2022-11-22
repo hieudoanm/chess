@@ -1,4 +1,4 @@
-name: CI
+name: CI - Node.js
 
 on:
   push:
@@ -21,8 +21,6 @@ jobs:
           - name: Ubuntu
             version: ubuntu-latest
         project:
-          - app-name: Server
-            working-directory: ./services/server
           - app-name: Web
             working-directory: ./services/web
     name: ${{ matrix.os.name }} - ${{ matrix.node.name }} - ${{ matrix.project.app-name }}
