@@ -17,9 +17,9 @@ jobs:
           - name: Ubuntu
             version: ubuntu-latest
         project:
-          - app-name: Server
-            image-name: server
-            working-directory: ./services/server
+          - app-name: Connections
+            image-name: connections
+            working-directory: ./services/connections
           - app-name: Web
             image-name: web
             working-directory: ./services/web
