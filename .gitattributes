@@ -1,2 +1,4 @@
 # Linguist Detectable
 *.js linguist-detectable=false
+*.tsx linguist-detectable=false
+*.html linguist-detectable=false
