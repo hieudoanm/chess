@@ -27,7 +27,7 @@
     "@fortawesome/free-solid-svg-icons": "6.2.1",
     "@fortawesome/react-fontawesome": "0.2.0",
     "@hieudoanm/use-effect-once": "0.0.1",
-    "@mui/material": "5.10.17",
+    "@mui/material": "5.11.0",
     "nanoid": "4.0.0",
     "next": "13.0.6",
     "react": "18.2.0",
