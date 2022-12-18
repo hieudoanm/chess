@@ -15,8 +15,8 @@ jobs:
       fail-fast: false
       matrix:
         node:
-          - name: Node.js 16
-            version: 16.x
+          - name: Node.js 18
+            version: 18.x
         os:
           - name: Ubuntu
             version: ubuntu-latest
