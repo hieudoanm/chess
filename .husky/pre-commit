@@ -1,5 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-yarn lint:web
-yarn pretty-quick --staged
+echo "pre-commit"
