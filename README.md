@@ -24,75 +24,97 @@
 
 ## [Free Releases](https://hieudoanm.github.io/free)
 
-| No  | Platform | Category          | Name           | Free                        | Releases                            |
-| --- | -------- | ----------------- | -------------- | --------------------------- | ----------------------------------- |
-| 1   | Android  | Utilities         | Block          | [Free][free-block]          | [Releases][releases-block]          |
-| 2   | Android  | Utilities         | NFC            | [Free][free-nfc]            | [Releases][releases-nfc]            |
-| 3   | Browser  | Extension         | Ads Blocker    | [Free][free-ads-blocker]    | [Releases][releases-ads-blocker]    |
-| 4   | Browser  | Extension         | Bored          | [Free][free-bored]          | [Releases][releases-bored]          |
-| 5   | Browser  | Extension         | ChessX         | [Free][free-chessx]         | [Releases][releases-chessx]         |
-| 6   | Browser  | Extension         | ClaudeX        | [Free][free-claudex]        | [Releases][releases-claudex]        |
-| 7   | Browser  | Extension         | GitHubX        | [Free][free-githubx]        | [Releases][releases-githubx]        |
-| 8   | Browser  | Extension         | InstaX         | [Free][free-instax]         | [Releases][releases-instax]         |
-| 9   | Browser  | Extension         | New Tab        | [Free][free-new-tab]        | [Releases][releases-new-tab]        |
-| 10  | Browser  | Extension         | ShopifyX       | [Free][free-shopifyx]       | [Releases][releases-shopifyx]       |
-| 11  | Browser  | Extension         | Snapshot       | [Free][free-snapshot]       | [Releases][releases-snapshot]       |
-| 12  | Headless | Developer Tools   | Backbone       | [Free][free-backbone]       | [Releases][releases-backbone]       |
-| 13  | Headless | Developer Tools   | Browserverless | [Free][free-browserverless] | [Releases][releases-browserverless] |
-| 14  | Headless | Developer Tools   | J.A.C.K.       | [Free][free-jack]           | [Releases][releases-jack]           |
-| 15  | Headless | Developer Tools   | KeVIN          | [Free][free-kevin]          | [Releases][releases-kevin]          |
-| 16  | Hybrid   | Business          | Menu           | [Free][free-menu]           | [Releases][releases-menu]           |
-| 17  | Hybrid   | Business          | POS            | [Free][free-pos]            | [Releases][releases-pos]            |
-| 18  | Hybrid   | Developer Tools   | API            | [Free][free-api]            | [Releases][releases-api]            |
-| 19  | Hybrid   | Developer Tools   | Boilerplate    | [Free][free-boilerplate]    | [Releases][releases-boilerplate]    |
-| 20  | Hybrid   | Developer Tools   | Code           | [Free][free-code]           | [Releases][releases-code]           |
-| 21  | Hybrid   | Developer Tools   | Database       | [Free][free-database]       | [Releases][releases-database]       |
-| 22  | Hybrid   | Developer Tools   | Diagram        | [Free][free-diagram]        | [Releases][releases-diagram]        |
-| 23  | Hybrid   | Education         | Chemistry      | [Free][free-chemistry]      | [Releases][releases-chemistry]      |
-| 24  | Hybrid   | Education         | Economics      | [Free][free-economics]      | [Releases][releases-economics]      |
-| 25  | Hybrid   | Education         | History        | [Free][free-history]        | [Releases][releases-history]        |
-| 26  | Hybrid   | Education         | Lingo          | [Free][free-lingo]          | [Releases][releases-lingo]          |
-| 27  | Hybrid   | Education         | Music          | [Free][free-music]          | [Releases][releases-music]          |
-| 28  | Hybrid   | Finance           | Tax            | [Free][free-tax]            | [Releases][releases-tax]            |
-| 29  | Hybrid   | Finance           | Wallet         | [Free][free-wallet]         | [Releases][releases-wallet]         |
-| 30  | Hybrid   | Food & Drink      | Foody          | [Free][free-foody]          | [Releases][releases-foody]          |
-| 31  | Hybrid   | Games             | 8-Bit          | [Free][free-8-bit]          | [Releases][releases-8-bit]          |
-| 32  | Hybrid   | Games             | Casino         | [Free][free-casino]         | [Releases][releases-casino]         |
-| 33  | Hybrid   | Games             | Countries      | [Free][free-countries]      | [Releases][releases-countries]      |
-| 34  | Hybrid   | Games             | Memory         | [Free][free-memory]         | [Releases][releases-memory]         |
-| 35  | Hybrid   | Games             | Nikoli         | [Free][free-nikoli]         | [Releases][releases-nikoli]         |
-| 36  | Hybrid   | Games             | Tic-Tac-Toe    | [Free][free-tic-tac-toe]    | [Releases][releases-tic-tac-toe]    |
-| 37  | Hybrid   | Graphics & Design | Colors         | [Free][free-colors]         | [Releases][releases-colors]         |
-| 38  | Hybrid   | Graphics & Design | Photo          | [Free][free-photo]          | [Releases][releases-photo]          |
-| 39  | Hybrid   | Graphics & Design | SVG            | [Free][free-svg]            | [Releases][releases-svg]            |
-| 40  | Hybrid   | Graphics & Design | Video          | [Free][free-video]          | [Releases][releases-video]          |
-| 41  | Hybrid   | Medical           | Brainbow       | [Free][free-brainbow]       | [Releases][releases-brainbow]       |
-| 42  | Hybrid   | Medical           | Eyes           | [Free][free-eyes]           | [Releases][releases-eyes]           |
-| 43  | Hybrid   | Medical           | MRI            | [Free][free-mri]            | [Releases][releases-mri]            |
-| 44  | Hybrid   | Medical           | Psychology     | [Free][free-psychology]     | [Releases][releases-psychology]     |
-| 45  | Hybrid   | Productivity      | Calendar       | [Free][free-calendar]       | [Releases][releases-calendar]       |
-| 46  | Hybrid   | Productivity      | CSV            | [Free][free-csv]            | [Releases][releases-csv]            |
-| 47  | Hybrid   | Productivity      | Keynotes       | [Free][free-keynotes]       | [Releases][releases-keynotes]       |
-| 48  | Hybrid   | Productivity      | Markdown       | [Free][free-markdown]       | [Releases][releases-markdown]       |
-| 49  | Hybrid   | Productivity      | PDF            | [Free][free-pdf]            | [Releases][releases-pdf]            |
-| 50  | Hybrid   | Productivity      | Projects       | [Free][free-projects]       | [Releases][releases-projects]       |
-| 51  | Hybrid   | Productivity      | Resume         | [Free][free-resume]         | [Releases][releases-resume]         |
-| 52  | Hybrid   | Shopping          | Store          | [Free][free-store]          | [Releases][releases-store]          |
-| 53  | Hybrid   | Social Networking | Chat           | [Free][free-chat]           | [Releases][releases-chat]           |
-| 54  | Hybrid   | Social Networking | Messaging      | [Free][free-messaging]      | [Releases][releases-messaging]      |
-| 55  | Hybrid   | Sports            | Chess          | [Free][free-chess]          | [Releases][releases-chess]          |
-| 56  | Hybrid   | Sports            | Football       | [Free][free-football]       | [Releases][releases-football]       |
-| 57  | Hybrid   | Sports            | Tourney        | [Free][free-tourney]        | [Releases][releases-tourney]        |
-| 58  | Hybrid   | Utilities         | Clock          | [Free][free-clock]          | [Releases][releases-clock]          |
-| 59  | Hybrid   | Utilities         | Docs           | [Free][free-docs]           | [Releases][releases-docs]           |
-| 60  | Hybrid   | Utilities         | Password       | [Free][free-password]       | [Releases][releases-password]       |
-| 61  | macOS    | Utilities         | Brewery        | [Free][free-brewery]        | [Releases][releases-brewery]        |
-| 62  | macOS    | Utilities         | Clipper        | [Free][free-clipper]        | [Releases][releases-clipper]        |
-| 63  | macOS    | Utilities         | Gauge          | [Free][free-gauge]          | [Releases][releases-gauge]          |
-| 64  | macOS    | Utilities         | Mixer          | [Free][free-mixer]          | [Releases][releases-mixer]          |
-| 65  | macOS    | Utilities         | Ports          | [Free][free-ports]          | [Releases][releases-ports]          |
-| 66  | macOS    | Utilities         | Snap           | [Free][free-snap]           | [Releases][releases-snap]           |
-| 67  | macOS    | Utilities         | Top            | [Free][free-top]            | [Releases][releases-top]            |
+### Android (2)
+
+| No  | Platform | Category  | Name  | Free               | Releases                   |
+| --- | -------- | --------- | ----- | ------------------ | -------------------------- |
+| 1   | Android  | Utilities | Block | [Free][free-block] | [Releases][releases-block] |
+| 2   | Android  | Utilities | NFC   | [Free][free-nfc]   | [Releases][releases-nfc]   |
+
+### Browser Extensions (9)
+
+| No  | Platform | Category  | Name        | Free                     | Releases                         |
+| --- | -------- | --------- | ----------- | ------------------------ | -------------------------------- |
+| 3   | Browser  | Extension | Ads Blocker | [Free][free-ads-blocker] | [Releases][releases-ads-blocker] |
+| 4   | Browser  | Extension | Bored       | [Free][free-bored]       | [Releases][releases-bored]       |
+| 5   | Browser  | Extension | ChessX      | [Free][free-chessx]      | [Releases][releases-chessx]      |
+| 6   | Browser  | Extension | ClaudeX     | [Free][free-claudex]     | [Releases][releases-claudex]     |
+| 7   | Browser  | Extension | GitHubX     | [Free][free-githubx]     | [Releases][releases-githubx]     |
+| 8   | Browser  | Extension | InstaX      | [Free][free-instax]      | [Releases][releases-instax]      |
+| 9   | Browser  | Extension | New Tab     | [Free][free-new-tab]     | [Releases][releases-new-tab]     |
+| 10  | Browser  | Extension | ShopifyX    | [Free][free-shopifyx]    | [Releases][releases-shopifyx]    |
+| 11  | Browser  | Extension | Snapshot    | [Free][free-snapshot]    | [Releases][releases-snapshot]    |
+
+### Headless (4)
+
+| No  | Platform | Category        | Name           | Free                        | Releases                            |
+| --- | -------- | --------------- | -------------- | --------------------------- | ----------------------------------- |
+| 12  | Headless | Developer Tools | Backbone       | [Free][free-backbone]       | [Releases][releases-backbone]       |
+| 13  | Headless | Developer Tools | Browserverless | [Free][free-browserverless] | [Releases][releases-browserverless] |
+| 14  | Headless | Developer Tools | J.A.C.K.       | [Free][free-jack]           | [Releases][releases-jack]           |
+| 15  | Headless | Developer Tools | KeVIN          | [Free][free-kevin]          | [Releases][releases-kevin]          |
+
+### Hybrid (45)
+
+| No  | Platform | Category          | Name        | Free                     | Releases                         |
+| --- | -------- | ----------------- | ----------- | ------------------------ | -------------------------------- |
+| 16  | Hybrid   | Business          | Menu        | [Free][free-menu]        | [Releases][releases-menu]        |
+| 17  | Hybrid   | Business          | POS         | [Free][free-pos]         | [Releases][releases-pos]         |
+| 18  | Hybrid   | Developer Tools   | API         | [Free][free-api]         | [Releases][releases-api]         |
+| 19  | Hybrid   | Developer Tools   | Boilerplate | [Free][free-boilerplate] | [Releases][releases-boilerplate] |
+| 20  | Hybrid   | Developer Tools   | Code        | [Free][free-code]        | [Releases][releases-code]        |
+| 21  | Hybrid   | Developer Tools   | Database    | [Free][free-database]    | [Releases][releases-database]    |
+| 22  | Hybrid   | Developer Tools   | Diagram     | [Free][free-diagram]     | [Releases][releases-diagram]     |
+| 23  | Hybrid   | Education         | Chemistry   | [Free][free-chemistry]   | [Releases][releases-chemistry]   |
+| 24  | Hybrid   | Education         | Economics   | [Free][free-economics]   | [Releases][releases-economics]   |
+| 25  | Hybrid   | Education         | History     | [Free][free-history]     | [Releases][releases-history]     |
+| 26  | Hybrid   | Education         | Lingo       | [Free][free-lingo]       | [Releases][releases-lingo]       |
+| 27  | Hybrid   | Education         | Music       | [Free][free-music]       | [Releases][releases-music]       |
+| 28  | Hybrid   | Finance           | Tax         | [Free][free-tax]         | [Releases][releases-tax]         |
+| 29  | Hybrid   | Finance           | Wallet      | [Free][free-wallet]      | [Releases][releases-wallet]      |
+| 30  | Hybrid   | Food & Drink      | Foody       | [Free][free-foody]       | [Releases][releases-foody]       |
+| 31  | Hybrid   | Games             | 8-Bit       | [Free][free-8-bit]       | [Releases][releases-8-bit]       |
+| 32  | Hybrid   | Games             | Casino      | [Free][free-casino]      | [Releases][releases-casino]      |
+| 33  | Hybrid   | Games             | Countries   | [Free][free-countries]   | [Releases][releases-countries]   |
+| 34  | Hybrid   | Games             | Memory      | [Free][free-memory]      | [Releases][releases-memory]      |
+| 35  | Hybrid   | Games             | Nikoli      | [Free][free-nikoli]      | [Releases][releases-nikoli]      |
+| 36  | Hybrid   | Games             | Tic-Tac-Toe | [Free][free-tic-tac-toe] | [Releases][releases-tic-tac-toe] |
+| 37  | Hybrid   | Graphics & Design | Colors      | [Free][free-colors]      | [Releases][releases-colors]      |
+| 38  | Hybrid   | Graphics & Design | Photo       | [Free][free-photo]       | [Releases][releases-photo]       |
+| 39  | Hybrid   | Graphics & Design | SVG         | [Free][free-svg]         | [Releases][releases-svg]         |
+| 40  | Hybrid   | Graphics & Design | Video       | [Free][free-video]       | [Releases][releases-video]       |
+| 41  | Hybrid   | Medical           | Brainbow    | [Free][free-brainbow]    | [Releases][releases-brainbow]    |
+| 42  | Hybrid   | Medical           | Eyes        | [Free][free-eyes]        | [Releases][releases-eyes]        |
+| 43  | Hybrid   | Medical           | MRI         | [Free][free-mri]         | [Releases][releases-mri]         |
+| 44  | Hybrid   | Medical           | Psychology  | [Free][free-psychology]  | [Releases][releases-psychology]  |
+| 45  | Hybrid   | Productivity      | Calendar    | [Free][free-calendar]    | [Releases][releases-calendar]    |
+| 46  | Hybrid   | Productivity      | CSV         | [Free][free-csv]         | [Releases][releases-csv]         |
+| 47  | Hybrid   | Productivity      | Keynotes    | [Free][free-keynotes]    | [Releases][releases-keynotes]    |
+| 48  | Hybrid   | Productivity      | Markdown    | [Free][free-markdown]    | [Releases][releases-markdown]    |
+| 49  | Hybrid   | Productivity      | PDF         | [Free][free-pdf]         | [Releases][releases-pdf]         |
+| 50  | Hybrid   | Productivity      | Projects    | [Free][free-projects]    | [Releases][releases-projects]    |
+| 51  | Hybrid   | Productivity      | Resume      | [Free][free-resume]      | [Releases][releases-resume]      |
+| 52  | Hybrid   | Shopping          | Store       | [Free][free-store]       | [Releases][releases-store]       |
+| 53  | Hybrid   | Social Networking | Chat        | [Free][free-chat]        | [Releases][releases-chat]        |
+| 54  | Hybrid   | Social Networking | Messaging   | [Free][free-messaging]   | [Releases][releases-messaging]   |
+| 55  | Hybrid   | Sports            | Chess       | [Free][free-chess]       | [Releases][releases-chess]       |
+| 56  | Hybrid   | Sports            | Football    | [Free][free-football]    | [Releases][releases-football]    |
+| 57  | Hybrid   | Sports            | Tourney     | [Free][free-tourney]     | [Releases][releases-tourney]     |
+| 58  | Hybrid   | Utilities         | Clock       | [Free][free-clock]       | [Releases][releases-clock]       |
+| 59  | Hybrid   | Utilities         | Docs        | [Free][free-docs]        | [Releases][releases-docs]        |
+| 60  | Hybrid   | Utilities         | Password    | [Free][free-password]    | [Releases][releases-password]    |
+
+### macOS (7)
+
+| No  | Platform | Category  | Name    | Free                 | Releases                     |
+| --- | -------- | --------- | ------- | -------------------- | ---------------------------- |
+| 61  | macOS    | Utilities | Brewery | [Free][free-brewery] | [Releases][releases-brewery] |
+| 62  | macOS    | Utilities | Clipper | [Free][free-clipper] | [Releases][releases-clipper] |
+| 63  | macOS    | Utilities | Gauge   | [Free][free-gauge]   | [Releases][releases-gauge]   |
+| 64  | macOS    | Utilities | Mixer   | [Free][free-mixer]   | [Releases][releases-mixer]   |
+| 65  | macOS    | Utilities | Ports   | [Free][free-ports]   | [Releases][releases-ports]   |
+| 66  | macOS    | Utilities | Snap    | [Free][free-snap]    | [Releases][releases-snap]    |
+| 67  | macOS    | Utilities | Top     | [Free][free-top]     | [Releases][releases-top]     |
 
 <!-- Free -->
 
