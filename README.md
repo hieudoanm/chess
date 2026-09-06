@@ -6,7 +6,7 @@
 
 <!-- Profile -->
 
-[hieudoanm]: https://hieudoanm.vercel.app
+[hieudoanm]: https://hieudoanm.github.io
 [linkedin]: https://www.linkedin.com/in/hieudoanm/
 [twitter]: https://x.com/hieudoanm
 [instagram]: https://instagram.com/hieudoanm.github.io
@@ -111,7 +111,7 @@
 [releases-casino]: https://github.com/hieudoanm/hieudoanm.github.io/releases/tag/app-hybrid-games-casino-latest
 [releases-countries]: https://github.com/hieudoanm/hieudoanm.github.io/releases/tag/app-hybrid-games-countries-latest
 [releases-memory]: https://github.com/hieudoanm/hieudoanm.github.io/releases/tag/app-hybrid-games-memory-latest
-[releases-nikoli]: https://github.com/hieudoanm/hieudoanm.github.io/releases/tag/app-hybrid-entertainment-nikoli-latest
+[releases-nikoli]: https://github.com/hieudoanm/hieudoanm.github.io/releases/tag/app-hybrid-games-nikoli-latest
 [releases-tic-tac-toe]: https://github.com/hieudoanm/hieudoanm.github.io/releases/tag/app-hybrid-games-tic-tac-toe-latest
 [releases-photo]: https://github.com/hieudoanm/hieudoanm.github.io/releases/tag/app-hybrid-graphics-design-photo-latest
 [releases-svg]: https://github.com/hieudoanm/hieudoanm.github.io/releases/tag/app-hybrid-graphics-design-svg-latest
@@ -136,15 +136,15 @@
 [releases-clock]: https://github.com/hieudoanm/hieudoanm.github.io/releases/tag/app-hybrid-utilities-clock-latest
 [releases-docs]: https://github.com/hieudoanm/hieudoanm.github.io/releases/tag/app-hybrid-utilities-docs-latest
 [releases-password]: https://github.com/hieudoanm/hieudoanm.github.io/releases/tag/app-hybrid-utilities-password-latest
-[releases-brewery]: https://github.com/hieudoanm/hieudoanm.github.io/releases/tag/app-native-brewery-latest
-[releases-clipper]: https://github.com/hieudoanm/hieudoanm.github.io/releases/tag/app-native-clipper-latest
-[releases-gauge]: https://github.com/hieudoanm/hieudoanm.github.io/releases/tag/app-native-gauge-latest
-[releases-mixer]: https://github.com/hieudoanm/hieudoanm.github.io/releases/tag/app-native-mixer-latest
-[releases-ports]: https://github.com/hieudoanm/hieudoanm.github.io/releases/tag/app-native-ports-latest
-[releases-snap]: https://github.com/hieudoanm/hieudoanm.github.io/releases/tag/app-native-snap-latest
-[releases-top]: https://github.com/hieudoanm/hieudoanm.github.io/releases/tag/app-native-top-latest
-[releases-block]: https://github.com/hieudoanm/hieudoanm.github.io/releases/tag/app-native-block-latest
-[releases-nfc]: https://github.com/hieudoanm/hieudoanm.github.io/releases/tag/app-native-nfc-latest
+[releases-brewery]: https://github.com/hieudoanm/hieudoanm.github.io/releases/tag/app-native-macos-brewery-latest
+[releases-clipper]: https://github.com/hieudoanm/hieudoanm.github.io/releases/tag/app-native-macos-clipper-latest
+[releases-gauge]: https://github.com/hieudoanm/hieudoanm.github.io/releases/tag/app-native-macos-gauge-latest
+[releases-mixer]: https://github.com/hieudoanm/hieudoanm.github.io/releases/tag/app-native-macos-mixer-latest
+[releases-ports]: https://github.com/hieudoanm/hieudoanm.github.io/releases/tag/app-native-macos-ports-latest
+[releases-snap]: https://github.com/hieudoanm/hieudoanm.github.io/releases/tag/app-native-macos-snap-latest
+[releases-top]: https://github.com/hieudoanm/hieudoanm.github.io/releases/tag/app-native-macos-top-latest
+[releases-block]: https://github.com/hieudoanm/hieudoanm.github.io/releases/tag/app-native-android-block-latest
+[releases-nfc]: https://github.com/hieudoanm/hieudoanm.github.io/releases/tag/app-native-android-nfc-latest
 [releases-browserverless]: https://github.com/hieudoanm/hieudoanm.github.io/releases/tag/app-native-rust-browserverless-latest
 [releases-menu]: https://github.com/hieudoanm/hieudoanm.github.io/releases/tag/app-hybrid-business-menu-latest
 [releases-colors]: https://github.com/hieudoanm/hieudoanm.github.io/releases/tag/app-hybrid-graphics-design-colors-latest
