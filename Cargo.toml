@@ -4,6 +4,7 @@ members = [
   "crates/core",
   "crates/engine",
   "crates/cli",
+  "crates/stockfish_match",
 ]
 
 [workspace.package]

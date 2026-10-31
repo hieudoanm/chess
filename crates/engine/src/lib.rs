@@ -1,5 +1,6 @@
 use chess_core::{
-    apply_move, evaluate, game_result, generate_moves, GameResult, Move, PieceType, Position,
+    apply_move, evaluate, game_result, generate_captures, generate_moves, see_ge, undo_move,
+    GameResult, Move, PieceType, Position,
 };
 
 const TT_SIZE: usize = 1 << 20;
@@ -144,6 +145,7 @@ struct SearchCtx<'a> {
     tt: &'a mut TranspositionTable,
     killers: &'a mut KillerMoves,
     history: &'a mut HistoryTable,
+    pv_table: &'a mut [[Option<Move>; 128]; 128],
 }
 
 pub struct SearchResult {
@@ -159,6 +161,7 @@ pub struct Engine {
     tt: TranspositionTable,
     killers: KillerMoves,
     history: HistoryTable,
+    pv_table: [[Option<Move>; 128]; 128],
 }
 
 impl Engine {
@@ -168,6 +171,7 @@ impl Engine {
             tt: TranspositionTable::new(),
             killers: KillerMoves::new(),
             history: HistoryTable::new(),
+            pv_table: [[None; 128]; 128],
         }
     }
 
@@ -175,6 +179,7 @@ impl Engine {
         self.tt.clear();
         self.killers = KillerMoves::new();
         self.history = HistoryTable::new();
+        self.pv_table = [[None; 128]; 128];
         let mut nodes = 0;
         let mut best_move = None;
         let mut best_score = i32::MIN;
@@ -184,9 +189,11 @@ impl Engine {
                 tt: &mut self.tt,
                 killers: &mut self.killers,
                 history: &mut self.history,
+                pv_table: &mut self.pv_table,
             };
+            let mut pos_copy = self.position.clone();
             let (score, mv) = negamax_root(
-                &self.position,
+                &mut pos_copy,
                 d,
                 i32::MIN + 1,
                 i32::MAX,
@@ -216,7 +223,7 @@ impl Engine {
 }
 
 fn negamax_root(
-    position: &Position,
+    position: &mut Position,
     depth: u32,
     mut alpha: i32,
     beta: i32,
@@ -239,20 +246,39 @@ fn negamax_root(
         .probe(tt_hash, depth as i16, alpha, beta)
         .and_then(|(_, m)| m);
 
-    let ordered = order_moves(position, &moves, tt_move, ctx.killers, ctx.history, 0);
+    let pv_move = ctx.pv_table[0][0];
+
+    let ordered = order_moves(
+        position,
+        &moves,
+        tt_move.or(pv_move),
+        ctx.killers,
+        ctx.history,
+        0,
+    );
 
     let mut best_score = i32::MIN;
     let mut best_move = None;
+    let mut repetition = vec![tt_hash];
 
     for m in ordered {
-        let mut new_pos = position.clone();
-        apply_move(&mut new_pos, m);
+        let state = apply_move(position, m);
 
         let score = if depth >= 3 && !position.is_in_check(position.side_to_move) {
-            let mut null_pos = position.clone();
-            null_pos.side_to_move = null_pos.side_to_move.opponent();
-            let (null_score, _) =
-                negamax(&null_pos, depth - 3, -beta, -beta + 1, false, nodes, ctx, 1);
+            let saved_side = position.side_to_move;
+            position.side_to_move = position.side_to_move.opponent();
+            let (null_score, _) = negamax(
+                position,
+                depth - 3,
+                -beta,
+                -beta + 1,
+                false,
+                nodes,
+                ctx,
+                1,
+                &mut repetition,
+            );
+            position.side_to_move = saved_side;
             -null_score
         } else {
             i32::MIN
@@ -261,14 +287,33 @@ fn negamax_root(
         let score = if score >= beta {
             beta
         } else {
-            let (child_score, _) =
-                negamax(&new_pos, depth - 1, -beta, -alpha, false, nodes, ctx, 1);
+            let (child_score, _) = negamax(
+                position,
+                depth - 1,
+                -beta,
+                -alpha,
+                false,
+                nodes,
+                ctx,
+                1,
+                &mut repetition,
+            );
             -child_score
         };
+
+        undo_move(position, m, state);
 
         if score > best_score {
             best_score = score;
             best_move = Some(m);
+            ctx.pv_table[0][0] = Some(m);
+            for i in 1..127 {
+                if ctx.pv_table[1][i].is_some() {
+                    ctx.pv_table[0][i + 1] = ctx.pv_table[1][i];
+                } else {
+                    break;
+                }
+            }
         }
 
         if score > alpha {
@@ -294,7 +339,7 @@ fn negamax_root(
 
 #[allow(clippy::too_many_arguments)]
 fn negamax(
-    position: &Position,
+    position: &mut Position,
     depth: u32,
     mut alpha: i32,
     beta: i32,
@@ -302,14 +347,45 @@ fn negamax(
     nodes: &mut u64,
     ctx: &mut SearchCtx,
     ply: usize,
+    repetition: &mut Vec<u64>,
 ) -> (i32, Option<Move>) {
     *nodes += 1;
 
     if depth == 0 {
-        return (evaluate(position), None);
+        return quiesce(position, alpha, beta, nodes, ctx, ply, repetition);
     }
 
+    // Check extension: extend search when in check at low depth
+    let depth = if position.is_in_check(position.side_to_move) && depth <= 2 {
+        depth + 1
+    } else {
+        depth
+    };
+
     let tt_hash = position.zobrist_hash();
+
+    // Static evaluation for futility pruning
+    let in_check = position.is_in_check(position.side_to_move);
+    let static_eval = if !in_check {
+        Some(evaluate(position))
+    } else {
+        None
+    };
+
+    // Futility pruning: at low depth, if we're already ahead enough, fail low
+    if !in_check && depth <= 4 {
+        if let Some(se) = static_eval {
+            if se + depth as i32 * 100 <= alpha {
+                return (alpha, None);
+            }
+        }
+    }
+
+    // Repetition detection: draw if position repeats 3 times
+    let rep_count = repetition.iter().filter(|&&h| h == tt_hash).count();
+    if rep_count >= 2 {
+        return (0, None);
+    }
 
     // TT probe
     if let Some((score, mv)) = ctx.tt.probe(tt_hash, depth as i16, alpha, beta) {
@@ -324,22 +400,43 @@ fn negamax(
         return (0, None);
     }
 
-    let tt_move = None;
-    let ordered = order_moves(position, &moves, tt_move, ctx.killers, ctx.history, ply);
+    let tt_move = ctx
+        .tt
+        .probe(tt_hash, depth as i16, alpha, beta)
+        .and_then(|(_, m)| m);
+    let pv_move = ctx.pv_table[ply][0];
+    let ordered = order_moves(
+        position,
+        &moves,
+        tt_move.or(pv_move),
+        ctx.killers,
+        ctx.history,
+        ply,
+    );
 
     let mut best_score = i32::MIN;
     let mut best_move = None;
     let original_alpha = alpha;
+    let mut first_move = true;
+    repetition.push(tt_hash);
 
-    for m in ordered {
-        let mut new_pos = position.clone();
-        apply_move(&mut new_pos, m);
+    for (idx, m) in ordered.iter().enumerate() {
+        let state = apply_move(position, *m);
 
-        let score = if depth >= 3 && !position.is_in_check(position.side_to_move) {
-            let mut null_pos = position.clone();
-            null_pos.side_to_move = null_pos.side_to_move.opponent();
+        // Late Move Reductions
+        let reduced_depth =
+            if idx >= 3 && depth >= 3 && !first_move && position.get_piece(m.to).is_none() {
+                depth - 2
+            } else {
+                depth - 1
+            };
+
+        // Null move pruning
+        let score = if depth >= 3 && !position.is_in_check(position.side_to_move) && !first_move {
+            let saved_side = position.side_to_move;
+            position.side_to_move = position.side_to_move.opponent();
             let (null_score, _) = negamax(
-                &null_pos,
+                position,
                 depth - 3,
                 -beta,
                 -beta + 1,
@@ -347,7 +444,9 @@ fn negamax(
                 nodes,
                 ctx,
                 ply + 1,
+                repetition,
             );
+            position.side_to_move = saved_side;
             -null_score
         } else {
             i32::MIN
@@ -355,9 +454,9 @@ fn negamax(
 
         let score = if score >= beta {
             beta
-        } else {
+        } else if first_move {
             let (child_score, _) = negamax(
-                &new_pos,
+                position,
                 depth - 1,
                 -beta,
                 -alpha,
@@ -365,29 +464,71 @@ fn negamax(
                 nodes,
                 ctx,
                 ply + 1,
+                repetition,
             );
             -child_score
+        } else {
+            let (child_score, _) = negamax(
+                position,
+                reduced_depth,
+                -alpha - 1,
+                -alpha,
+                false,
+                nodes,
+                ctx,
+                ply + 1,
+                repetition,
+            );
+            let score = -child_score;
+            if score > alpha && score < beta {
+                let (child_score, _) = negamax(
+                    position,
+                    depth - 1,
+                    -beta,
+                    -alpha,
+                    false,
+                    nodes,
+                    ctx,
+                    ply + 1,
+                    repetition,
+                );
+                -child_score
+            } else {
+                score
+            }
         };
+
+        undo_move(position, *m, state);
 
         if score > best_score {
             best_score = score;
-            best_move = Some(m);
+            best_move = Some(*m);
+            ctx.pv_table[ply][0] = Some(*m);
+            for i in 1..127 {
+                if ctx.pv_table[ply + 1][i].is_some() {
+                    ctx.pv_table[ply][i + 1] = ctx.pv_table[ply + 1][i];
+                } else {
+                    break;
+                }
+            }
         }
 
         if score > alpha {
             alpha = score;
         }
         if alpha >= beta {
-            // Store killer for quiet moves
             if position.get_piece(m.to).is_none() {
-                ctx.killers.add(ply, m);
+                ctx.killers.add(ply, *m);
                 if let Some(piece) = position.get_piece(m.from) {
                     ctx.history.add(piece.piece_type, m.to.index() as u8, depth);
                 }
             }
             break;
         }
+        first_move = false;
     }
+
+    repetition.pop();
 
     let flag = if best_score <= original_alpha {
         TTFlag::Alpha
@@ -398,6 +539,98 @@ fn negamax(
     };
     ctx.tt
         .store(tt_hash, depth as i16, best_score, flag, best_move);
+
+    (best_score, best_move)
+}
+
+fn quiesce(
+    position: &mut Position,
+    mut alpha: i32,
+    beta: i32,
+    nodes: &mut u64,
+    ctx: &mut SearchCtx,
+    _ply: usize,
+    repetition: &mut Vec<u64>,
+) -> (i32, Option<Move>) {
+    *nodes += 1;
+
+    let stand_pat = evaluate(position);
+    if stand_pat >= beta {
+        return (beta, None);
+    }
+    if alpha < stand_pat {
+        alpha = stand_pat;
+    }
+
+    let in_check = position.is_in_check(position.side_to_move);
+    let moves = if in_check {
+        generate_moves(position)
+    } else {
+        generate_captures(position)
+    };
+    if moves.is_empty() {
+        return (stand_pat, None);
+    }
+
+    // Futility pruning: skip quiet moves when we're already ahead enough
+    if !in_check && stand_pat + 200 <= alpha {
+        return (alpha, None);
+    }
+
+    let tt_move = ctx
+        .tt
+        .probe(position.zobrist_hash(), 0, alpha, beta)
+        .and_then(|(_, m)| m);
+
+    let ordered = order_moves(position, &moves, tt_move, ctx.killers, ctx.history, 0);
+
+    let mut best_score = stand_pat;
+    let mut best_move = None;
+    let mut move_count = 0;
+
+    for m in ordered {
+        move_count += 1;
+
+        let capture = position.get_piece(m.to).is_some();
+
+        // SEE pruning: skip captures that lose material
+        if capture && !see_ge(position, m, -50) {
+            continue;
+        }
+
+        // Futility move count pruning
+        if !in_check && !capture && move_count > 2 {
+            continue;
+        }
+
+        let state = apply_move(position, m);
+
+        // Repetition detection
+        let hash = position.zobrist_hash();
+        let count = repetition.iter().filter(|&&h| h == hash).count();
+        if count >= 2 {
+            undo_move(position, m, state);
+            continue;
+        }
+
+        repetition.push(hash);
+        let (score, _) = quiesce(position, -beta, -alpha, nodes, ctx, 0, repetition);
+        repetition.pop();
+        undo_move(position, m, state);
+        let score = -score;
+
+        if score > best_score {
+            best_score = score;
+            best_move = Some(m);
+        }
+
+        if score > alpha {
+            alpha = score;
+        }
+        if alpha >= beta {
+            break;
+        }
+    }
 
     (best_score, best_move)
 }
@@ -429,7 +662,7 @@ fn score_move(
     killers: &[Option<Move>; KILLER_MOVES],
     history: &HistoryTable,
 ) -> i32 {
-    // TT move scores highest
+    // TT/PV move scores highest
     if tt_move == Some(*m) {
         return 200000;
     }

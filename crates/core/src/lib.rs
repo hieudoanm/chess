@@ -15,5 +15,7 @@ pub use mv::{Move, MoveType};
 pub use perft::{perft, perft_divide};
 pub use piece::{Piece, PieceType};
 pub use position::Position;
-pub use rules::{apply_move, evaluate, game_result, GameResult};
+pub use rules::{
+    apply_move, evaluate, game_result, piece_value, see_ge, undo_move, GameResult, StateInfo,
+};
 pub use square::Square;

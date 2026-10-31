@@ -1,6 +1,7 @@
 use crate::color::Color;
 use crate::mv::{Move, MoveType};
 use crate::piece::{Piece, PieceType};
+use crate::position::CastlingRights;
 use crate::Position;
 use crate::Square;
 
@@ -90,6 +91,10 @@ const KING_ENDGAME_PST: [[i32; 8]; 8] = [
 ];
 
 const MATERIAL: [i32; 6] = [100, 320, 330, 500, 900, 0];
+
+pub fn piece_value(pt: PieceType) -> i32 {
+    MATERIAL[pt as usize]
+}
 
 fn pst_for(piece_type: PieceType) -> &'static [[i32; 8]; 8] {
     match piece_type {
@@ -382,8 +387,87 @@ pub fn game_result(position: &Position) -> GameResult {
     }
 }
 
-pub fn apply_move(position: &mut Position, m: Move) {
+pub fn see_ge(position: &Position, m: Move, threshold: i32) -> bool {
+    let captured = position.get_piece(m.to);
+    let Some(captured) = captured else {
+        return true;
+    };
+
+    let mut scores: Vec<i32> = vec![piece_value(captured.piece_type)];
+
+    let mut pos = position.clone();
+    apply_move(&mut pos, m);
+
+    let square = m.to;
+    let mut side = pos.side_to_move;
+
+    loop {
+        let mut best_sq = None;
+        let mut best_val = i32::MAX;
+
+        for rank in 0..8 {
+            for file in 0..8 {
+                let sq = Square::new(file, rank).unwrap();
+                if let Some(piece) = pos.get_piece(sq) {
+                    if piece.color == side && pos.square_attacks(sq, square) {
+                        let val = piece_value(piece.piece_type);
+                        if val < best_val {
+                            best_val = val;
+                            best_sq = Some(sq);
+                        }
+                    }
+                }
+            }
+        }
+
+        let Some(from) = best_sq else {
+            break;
+        };
+
+        let victim_val = piece_value(pos.get_piece(square).unwrap().piece_type);
+
+        let piece = pos.get_piece(from).unwrap();
+        pos.set_piece(square, Some(piece));
+        pos.set_piece(from, None);
+
+        let last = *scores.last().unwrap();
+        scores.push(victim_val - last);
+
+        side = side.opponent();
+    }
+
+    let mut result = scores.pop().unwrap();
+    let mut idx = scores.len();
+    while let Some(score) = scores.pop() {
+        idx -= 1;
+        if idx == 0 {
+            break;
+        }
+        if (idx + 1) % 2 == 1 {
+            result = result.min(score);
+        } else {
+            result = result.max(score);
+        }
+    }
+
+    result >= threshold
+}
+
+pub struct StateInfo {
+    pub captured: Option<Piece>,
+    pub castling: CastlingRights,
+    pub en_passant: Option<Square>,
+    pub halfmove_clock: u32,
+    pub fullmove_number: u32,
+}
+
+pub fn apply_move(position: &mut Position, m: Move) -> StateInfo {
     let piece = position.get_piece(m.from).unwrap();
+    let captured = position.get_piece(m.to);
+    let castling = position.castling;
+    let en_passant = position.en_passant;
+    let halfmove_clock = position.halfmove_clock;
+    let fullmove_number = position.fullmove_number;
 
     position.set_piece(m.to, Some(piece));
     position.set_piece(m.from, None);
@@ -438,4 +522,74 @@ pub fn apply_move(position: &mut Position, m: Move) {
     if position.side_to_move == Color::White {
         position.fullmove_number += 1;
     }
+
+    StateInfo {
+        captured,
+        castling,
+        en_passant,
+        halfmove_clock,
+        fullmove_number,
+    }
+}
+
+pub fn undo_move(position: &mut Position, m: Move, state: StateInfo) {
+    let piece = position.get_piece(m.to).unwrap();
+
+    let from_piece = match m.flags {
+        MoveType::PawnPromotionQueen
+        | MoveType::PawnCapturePromotionQueen
+        | MoveType::PawnPromotionRook
+        | MoveType::PawnCapturePromotionRook
+        | MoveType::PawnPromotionBishop
+        | MoveType::PawnCapturePromotionBishop
+        | MoveType::PawnPromotionKnight
+        | MoveType::PawnCapturePromotionKnight => Piece::new(piece.color, PieceType::Pawn),
+        _ => piece,
+    };
+
+    position.set_piece(m.to, None);
+    position.set_piece(m.from, Some(from_piece));
+
+    match m.flags {
+        MoveType::CastleKingSide => {
+            if piece.color == Color::White {
+                position.set_piece(
+                    Square::new(7, 0).unwrap(),
+                    Some(Piece::new(Color::White, PieceType::Rook)),
+                );
+                position.set_piece(Square::new(5, 0).unwrap(), None);
+            } else {
+                position.set_piece(
+                    Square::new(7, 7).unwrap(),
+                    Some(Piece::new(Color::Black, PieceType::Rook)),
+                );
+                position.set_piece(Square::new(5, 7).unwrap(), None);
+            }
+        }
+        MoveType::CastleQueenSide => {
+            if piece.color == Color::White {
+                position.set_piece(
+                    Square::new(0, 0).unwrap(),
+                    Some(Piece::new(Color::White, PieceType::Rook)),
+                );
+                position.set_piece(Square::new(3, 0).unwrap(), None);
+            } else {
+                position.set_piece(
+                    Square::new(0, 7).unwrap(),
+                    Some(Piece::new(Color::Black, PieceType::Rook)),
+                );
+                position.set_piece(Square::new(3, 7).unwrap(), None);
+            }
+        }
+        _ => {}
+    }
+
+    position.set_piece(m.to, state.captured);
+
+    position.castling = state.castling;
+    position.en_passant = state.en_passant;
+    position.halfmove_clock = state.halfmove_clock;
+    position.fullmove_number = state.fullmove_number;
+
+    position.side_to_move = position.side_to_move.opponent();
 }
