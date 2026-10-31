@@ -368,6 +368,55 @@ pub fn evaluate(position: &Position) -> i32 {
         score -= 10;
     }
 
+    // Rook on 7th/8th rank bonus
+    score += rook_seventh_bonus(position, Color::White);
+    score -= rook_seventh_bonus(position, Color::Black);
+
+    // King attack: bonus for pieces attacking enemy king
+    score += king_attack_bonus(position, Color::White);
+    score -= king_attack_bonus(position, Color::Black);
+
+    score
+}
+
+fn rook_seventh_bonus(position: &Position, color: Color) -> i32 {
+    let mut score = 0;
+    let rank = if color == Color::White { 6 } else { 1 }; // 7th rank for white, 2nd for black
+    for file in 0..8 {
+        let sq = Square::new(file, rank).unwrap();
+        if let Some(piece) = position.get_piece(sq) {
+            if piece.color == color && piece.piece_type == PieceType::Rook {
+                score += 15;
+            }
+        }
+    }
+    score
+}
+
+fn king_attack_bonus(position: &Position, color: Color) -> i32 {
+    let enemy_king = match position.king_square(color.opponent()) {
+        Some(sq) => sq,
+        None => return 0,
+    };
+    let mut score = 0;
+    for rank in 0..8 {
+        for file in 0..8 {
+            let sq = Square::new(file, rank).unwrap();
+            if let Some(piece) = position.get_piece(sq) {
+                if piece.color == color && position.square_attacks(sq, enemy_king) {
+                    let weight = match piece.piece_type {
+                        PieceType::Queen => 10,
+                        PieceType::Rook => 8,
+                        PieceType::Bishop => 6,
+                        PieceType::Knight => 4,
+                        PieceType::Pawn => 2,
+                        _ => 0,
+                    };
+                    score += weight;
+                }
+            }
+        }
+    }
     score
 }
 
@@ -453,6 +502,7 @@ pub fn see_ge(position: &Position, m: Move, threshold: i32) -> bool {
     result >= threshold
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct StateInfo {
     pub captured: Option<Piece>,
     pub castling: CastlingRights,

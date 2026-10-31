@@ -1,6 +1,7 @@
 use chess_core::{
-    apply_move, evaluate, game_result, generate_captures, generate_moves, see_ge, undo_move,
-    GameResult, Move, PieceType, Position,
+    apply_move, apply_move_nnue, apply_move_nnue_post, game_result, generate_captures,
+    generate_moves, refresh_accumulator, see_ge, undo_move, undo_move_nnue_post,
+    undo_move_nnue_pre, GameResult, Move, NnueAccumulator, NnueEval, PieceType, Position,
 };
 
 const TT_SIZE: usize = 1 << 20;
@@ -121,6 +122,57 @@ impl KillerMoves {
     }
 }
 
+// CaptureHistory[piece_type][to_square][captured_piece_type] for capture ordering
+struct CaptureHistory {
+    history: [[[i32; 6]; 64]; 6],
+}
+
+impl CaptureHistory {
+    fn new() -> Self {
+        CaptureHistory {
+            history: [[[0; 6]; 64]; 6],
+        }
+    }
+
+    fn bonus(&self, piece_type: PieceType, to: u8, captured: PieceType) -> i32 {
+        self.history[piece_type as usize][to as usize][captured as usize]
+    }
+
+    fn add(&mut self, piece_type: PieceType, to: u8, captured: PieceType, depth: u32) {
+        let entry = &mut self.history[piece_type as usize][to as usize][captured as usize];
+        let bonus = (depth * depth) as i32;
+        *entry = *entry + bonus - *entry * bonus.abs() / 1024;
+    }
+}
+
+// ContinuationHistory[prev_move_index][piece_type][to_square] for quiet ordering
+// 5 tables indexed by how many plies back the previous move was
+struct ContinuationHistory {
+    tables: Box<[[[[i32; 64]; 6]; 5]; 4096]>,
+}
+
+impl ContinuationHistory {
+    fn new() -> Self {
+        ContinuationHistory {
+            tables: Box::new([[[[0; 64]; 6]; 5]; 4096]),
+        }
+    }
+
+    fn bonus(&self, prev_move_raw: u64, piece_type: PieceType, to: u8, idx: usize) -> i32 {
+        let table_idx = (prev_move_raw % 4096) as usize;
+        let idx = idx.min(4);
+        self.tables[table_idx][idx][piece_type as usize][to as usize]
+    }
+
+    fn add(&mut self, prev_move_raw: u64, piece_type: PieceType, to: u8, idx: usize, depth: u32) {
+        let table_idx = (prev_move_raw % 4096) as usize;
+        let idx = idx.min(4);
+        let entry = &mut self.tables[table_idx][idx][piece_type as usize][to as usize];
+        let bonus = (depth * depth) as i32;
+        *entry = *entry + bonus - *entry * bonus.abs() / 1024;
+    }
+}
+
 struct HistoryTable {
     history: [[i32; 64]; 6],
 }
@@ -137,7 +189,9 @@ impl HistoryTable {
     }
 
     fn add(&mut self, piece_type: PieceType, to: u8, depth: u32) {
-        self.history[piece_type as usize][to as usize] += (depth * depth) as i32;
+        let entry = &mut self.history[piece_type as usize][to as usize];
+        let bonus = (depth * depth) as i32;
+        *entry = *entry + bonus - *entry * bonus.abs() / 1024;
     }
 }
 
@@ -145,6 +199,9 @@ struct SearchCtx<'a> {
     tt: &'a mut TranspositionTable,
     killers: &'a mut KillerMoves,
     history: &'a mut HistoryTable,
+    capture_history: &'a mut CaptureHistory,
+    continuation_history: &'a mut ContinuationHistory,
+    nnue_eval: &'a mut NnueEval,
     pv_table: &'a mut [[Option<Move>; 128]; 128],
 }
 
@@ -161,6 +218,10 @@ pub struct Engine {
     tt: TranspositionTable,
     killers: KillerMoves,
     history: HistoryTable,
+    capture_history: CaptureHistory,
+    continuation_history: ContinuationHistory,
+    nnue_eval: NnueEval,
+    nnue_accumulator: NnueAccumulator,
     pv_table: [[Option<Move>; 128]; 128],
 }
 
@@ -171,6 +232,10 @@ impl Engine {
             tt: TranspositionTable::new(),
             killers: KillerMoves::new(),
             history: HistoryTable::new(),
+            capture_history: CaptureHistory::new(),
+            continuation_history: ContinuationHistory::new(),
+            nnue_eval: NnueEval::new(),
+            nnue_accumulator: NnueAccumulator::new(),
             pv_table: [[None; 128]; 128],
         }
     }
@@ -179,19 +244,28 @@ impl Engine {
         self.tt.clear();
         self.killers = KillerMoves::new();
         self.history = HistoryTable::new();
+        self.capture_history = CaptureHistory::new();
+        self.continuation_history = ContinuationHistory::new();
+        self.nnue_accumulator = NnueAccumulator::new();
         self.pv_table = [[None; 128]; 128];
         let mut nodes = 0;
         let mut best_move = None;
         let mut best_score = i32::MIN;
 
+        refresh_accumulator(&self.position, &mut self.nnue_accumulator);
+
         for d in 1..=depth {
+            let mut pos_copy = self.position.clone();
+            let mut acc_copy = self.nnue_accumulator.clone();
             let mut ctx = SearchCtx {
                 tt: &mut self.tt,
                 killers: &mut self.killers,
                 history: &mut self.history,
+                capture_history: &mut self.capture_history,
+                continuation_history: &mut self.continuation_history,
+                nnue_eval: &mut self.nnue_eval,
                 pv_table: &mut self.pv_table,
             };
-            let mut pos_copy = self.position.clone();
             let (score, mv) = negamax_root(
                 &mut pos_copy,
                 d,
@@ -199,6 +273,7 @@ impl Engine {
                 i32::MAX,
                 &mut nodes,
                 &mut ctx,
+                &mut acc_copy,
             );
             best_score = score;
             best_move = mv;
@@ -214,7 +289,9 @@ impl Engine {
     }
 
     pub fn apply(&mut self, m: Move) {
+        apply_move_nnue(&self.position, m, &mut self.nnue_accumulator);
         apply_move(&mut self.position, m);
+        apply_move_nnue_post(&self.position, m, &mut self.nnue_accumulator);
     }
 
     pub fn result(&self) -> GameResult {
@@ -229,6 +306,7 @@ fn negamax_root(
     beta: i32,
     nodes: &mut u64,
     ctx: &mut SearchCtx,
+    nnue_accumulator: &mut NnueAccumulator,
 ) -> (i32, Option<Move>) {
     *nodes += 1;
 
@@ -254,7 +332,10 @@ fn negamax_root(
         tt_move.or(pv_move),
         ctx.killers,
         ctx.history,
+        ctx.capture_history,
+        ctx.continuation_history,
         0,
+        None,
     );
 
     let mut best_score = i32::MIN;
@@ -262,7 +343,9 @@ fn negamax_root(
     let mut repetition = vec![tt_hash];
 
     for m in ordered {
+        apply_move_nnue(position, m, nnue_accumulator);
         let state = apply_move(position, m);
+        apply_move_nnue_post(position, m, nnue_accumulator);
 
         let score = if depth >= 3 && !position.is_in_check(position.side_to_move) {
             let saved_side = position.side_to_move;
@@ -277,6 +360,7 @@ fn negamax_root(
                 ctx,
                 1,
                 &mut repetition,
+                nnue_accumulator,
             );
             position.side_to_move = saved_side;
             -null_score
@@ -297,11 +381,14 @@ fn negamax_root(
                 ctx,
                 1,
                 &mut repetition,
+                nnue_accumulator,
             );
             -child_score
         };
 
+        undo_move_nnue_pre(position, m, nnue_accumulator);
         undo_move(position, m, state);
+        undo_move_nnue_post(position, m, &state, nnue_accumulator);
 
         if score > best_score {
             best_score = score;
@@ -348,11 +435,21 @@ fn negamax(
     ctx: &mut SearchCtx,
     ply: usize,
     repetition: &mut Vec<u64>,
+    nnue_accumulator: &mut NnueAccumulator,
 ) -> (i32, Option<Move>) {
     *nodes += 1;
 
     if depth == 0 {
-        return quiesce(position, alpha, beta, nodes, ctx, ply, repetition);
+        return quiesce(
+            position,
+            alpha,
+            beta,
+            nodes,
+            ctx,
+            ply,
+            repetition,
+            nnue_accumulator,
+        );
     }
 
     // Check extension: extend search when in check at low depth
@@ -364,10 +461,13 @@ fn negamax(
 
     let tt_hash = position.zobrist_hash();
 
-    // Static evaluation for futility pruning
+    // Static evaluation for futility pruning using NNUE
     let in_check = position.is_in_check(position.side_to_move);
     let static_eval = if !in_check {
-        Some(evaluate(position))
+        Some(
+            ctx.nnue_eval
+                .evaluate(nnue_accumulator, position.side_to_move),
+        )
     } else {
         None
     };
@@ -411,7 +511,10 @@ fn negamax(
         tt_move.or(pv_move),
         ctx.killers,
         ctx.history,
+        ctx.capture_history,
+        ctx.continuation_history,
         ply,
+        None,
     );
 
     let mut best_score = i32::MIN;
@@ -421,7 +524,9 @@ fn negamax(
     repetition.push(tt_hash);
 
     for (idx, m) in ordered.iter().enumerate() {
+        apply_move_nnue(position, *m, nnue_accumulator);
         let state = apply_move(position, *m);
+        apply_move_nnue_post(position, *m, nnue_accumulator);
 
         // Late Move Reductions
         let reduced_depth =
@@ -445,6 +550,7 @@ fn negamax(
                 ctx,
                 ply + 1,
                 repetition,
+                nnue_accumulator,
             );
             position.side_to_move = saved_side;
             -null_score
@@ -465,6 +571,7 @@ fn negamax(
                 ctx,
                 ply + 1,
                 repetition,
+                nnue_accumulator,
             );
             -child_score
         } else {
@@ -478,6 +585,7 @@ fn negamax(
                 ctx,
                 ply + 1,
                 repetition,
+                nnue_accumulator,
             );
             let score = -child_score;
             if score > alpha && score < beta {
@@ -491,6 +599,7 @@ fn negamax(
                     ctx,
                     ply + 1,
                     repetition,
+                    nnue_accumulator,
                 );
                 -child_score
             } else {
@@ -498,7 +607,9 @@ fn negamax(
             }
         };
 
+        undo_move_nnue_pre(position, *m, nnue_accumulator);
         undo_move(position, *m, state);
+        undo_move_nnue_post(position, *m, &state, nnue_accumulator);
 
         if score > best_score {
             best_score = score;
@@ -521,6 +632,28 @@ fn negamax(
                 ctx.killers.add(ply, *m);
                 if let Some(piece) = position.get_piece(m.from) {
                     ctx.history.add(piece.piece_type, m.to.index() as u8, depth);
+                    // Continuation history: bonus based on previous ply's move
+                    if ply > 0 {
+                        // We need the previous move's raw value - stored in repetition
+                        // Use the previous position's hash as a proxy for prev move
+                        let prev_move_hash = repetition.last().copied().unwrap_or(0);
+                        ctx.continuation_history.add(
+                            prev_move_hash,
+                            piece.piece_type,
+                            m.to.index() as u8,
+                            0,
+                            depth,
+                        );
+                    }
+                    // Capture history for captures
+                    if let Some(captured) = position.get_piece(m.to) {
+                        ctx.capture_history.add(
+                            piece.piece_type,
+                            m.to.index() as u8,
+                            captured.piece_type,
+                            depth,
+                        );
+                    }
                 }
             }
             break;
@@ -543,6 +676,7 @@ fn negamax(
     (best_score, best_move)
 }
 
+#[allow(clippy::too_many_arguments)]
 fn quiesce(
     position: &mut Position,
     mut alpha: i32,
@@ -551,10 +685,13 @@ fn quiesce(
     ctx: &mut SearchCtx,
     _ply: usize,
     repetition: &mut Vec<u64>,
+    nnue_accumulator: &mut NnueAccumulator,
 ) -> (i32, Option<Move>) {
     *nodes += 1;
 
-    let stand_pat = evaluate(position);
+    let stand_pat = ctx
+        .nnue_eval
+        .evaluate(nnue_accumulator, position.side_to_move);
     if stand_pat >= beta {
         return (beta, None);
     }
@@ -582,7 +719,17 @@ fn quiesce(
         .probe(position.zobrist_hash(), 0, alpha, beta)
         .and_then(|(_, m)| m);
 
-    let ordered = order_moves(position, &moves, tt_move, ctx.killers, ctx.history, 0);
+    let ordered = order_moves(
+        position,
+        &moves,
+        tt_move,
+        ctx.killers,
+        ctx.history,
+        ctx.capture_history,
+        ctx.continuation_history,
+        0,
+        None,
+    );
 
     let mut best_score = stand_pat;
     let mut best_move = None;
@@ -603,20 +750,35 @@ fn quiesce(
             continue;
         }
 
+        apply_move_nnue(position, m, nnue_accumulator);
         let state = apply_move(position, m);
+        apply_move_nnue_post(position, m, nnue_accumulator);
 
         // Repetition detection
         let hash = position.zobrist_hash();
         let count = repetition.iter().filter(|&&h| h == hash).count();
         if count >= 2 {
+            undo_move_nnue_pre(position, m, nnue_accumulator);
             undo_move(position, m, state);
+            undo_move_nnue_post(position, m, &state, nnue_accumulator);
             continue;
         }
 
         repetition.push(hash);
-        let (score, _) = quiesce(position, -beta, -alpha, nodes, ctx, 0, repetition);
+        let (score, _) = quiesce(
+            position,
+            -beta,
+            -alpha,
+            nodes,
+            ctx,
+            0,
+            repetition,
+            nnue_accumulator,
+        );
         repetition.pop();
+        undo_move_nnue_pre(position, m, nnue_accumulator);
         undo_move(position, m, state);
+        undo_move_nnue_post(position, m, &state, nnue_accumulator);
         let score = -score;
 
         if score > best_score {
@@ -628,6 +790,18 @@ fn quiesce(
             alpha = score;
         }
         if alpha >= beta {
+            if capture {
+                if let Some(piece) = position.get_piece(m.from) {
+                    if let Some(captured) = position.get_piece(m.to) {
+                        ctx.capture_history.add(
+                            piece.piece_type,
+                            m.to.index() as u8,
+                            captured.piece_type,
+                            0,
+                        );
+                    }
+                }
+            }
             break;
         }
     }
@@ -635,19 +809,36 @@ fn quiesce(
     (best_score, best_move)
 }
 
+#[allow(clippy::too_many_arguments)]
 fn order_moves(
     position: &Position,
     moves: &[Move],
     tt_move: Option<Move>,
     killers: &KillerMoves,
     history: &HistoryTable,
+    capture_history: &CaptureHistory,
+    continuation_history: &ContinuationHistory,
     ply: usize,
+    prev_move: Option<Move>,
 ) -> Vec<Move> {
     let killer_set = killers.get(ply);
+    let prev_raw = prev_move.map_or(0, |m| {
+        ((m.from.index() as u64) << 6) | (m.to.index() as u64)
+    });
     let mut scored: Vec<(i32, Move)> = moves
         .iter()
         .map(|m| {
-            let score = score_move(position, m, tt_move, &killer_set, history);
+            let score = score_move(
+                position,
+                m,
+                tt_move,
+                &killer_set,
+                history,
+                capture_history,
+                continuation_history,
+                prev_raw,
+                ply,
+            );
             (score, *m)
         })
         .collect();
@@ -655,12 +846,17 @@ fn order_moves(
     scored.into_iter().map(|(_, m)| m).collect()
 }
 
+#[allow(clippy::too_many_arguments)]
 fn score_move(
     position: &Position,
     m: &Move,
     tt_move: Option<Move>,
     killers: &[Option<Move>; KILLER_MOVES],
     history: &HistoryTable,
+    capture_history: &CaptureHistory,
+    continuation_history: &ContinuationHistory,
+    prev_raw: u64,
+    ply: usize,
 ) -> i32 {
     // TT/PV move scores highest
     if tt_move == Some(*m) {
@@ -672,12 +868,15 @@ fn score_move(
         return 150000;
     }
 
-    // Captures: MVV-LVA
+    // Captures: MVV-LVA + capture history
     if let Some(captured) = position.get_piece(m.to) {
         let attacker = position.get_piece(m.from).unwrap();
         let victim_val = piece_value(captured.piece_type);
         let attacker_val = piece_value(attacker.piece_type);
-        return 10000 + victim_val * 10 - attacker_val;
+        let base = 10000 + victim_val * 10 - attacker_val;
+        let hist_bonus =
+            capture_history.bonus(attacker.piece_type, m.to.index() as u8, captured.piece_type);
+        return base + hist_bonus;
     }
 
     // Killer moves
@@ -687,12 +886,22 @@ fn score_move(
         }
     }
 
-    // Quiet moves: history bonus
+    // Quiet moves: history + continuation history + check bonus
+    let mut score = 0;
     if let Some(piece) = position.get_piece(m.from) {
-        history.bonus(piece.piece_type, m.to.index() as u8)
-    } else {
-        0
+        score += history.bonus(piece.piece_type, m.to.index() as u8);
+        // Continuation history from previous ply
+        if ply > 0 {
+            score += continuation_history.bonus(prev_raw, piece.piece_type, m.to.index() as u8, 0);
+        }
+        // Bonus for moves that give check
+        if let Some(enemy_king) = position.king_square(position.side_to_move.opponent()) {
+            if position.square_attacks(m.to, enemy_king) {
+                score += 500;
+            }
+        }
     }
+    score
 }
 
 fn piece_value(pt: PieceType) -> i32 {
