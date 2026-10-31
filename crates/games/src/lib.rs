@@ -7,7 +7,7 @@ const CHESS_COM_BASE: &str = "https://api.chess.com/pub";
 
 /// Async client for the Chess.com public API.
 pub struct ChessComClient {
-    http: Client,
+    pub http: Client,
 }
 
 impl ChessComClient {
@@ -66,6 +66,31 @@ impl ChessComClient {
         Ok(pgn)
     }
 
+    /// Get list of players with a specific title.
+    /// Title can be GM, IM, FM, CM, NM, WGM, WIM, WFM, WCM, WNM
+    pub async fn get_titled_players(&self, title: &str) -> Result<Vec<String>> {
+        let url = format!("{}/titled/{}", CHESS_COM_BASE, title);
+
+        #[derive(Deserialize)]
+        struct TitledResponse {
+            players: Vec<String>,
+        }
+
+        let resp: TitledResponse = self
+            .http
+            .get(&url)
+            .send()
+            .await
+            .with_context(|| format!("GET {}", url))?
+            .error_for_status()
+            .with_context(|| format!("GET {} failed", url))?
+            .json()
+            .await
+            .with_context(|| format!("parse JSON from {}", url))?;
+
+        Ok(resp.players)
+    }
+
     /// Extract (year, month) from an archive URL like
     /// `https://api.chess.com/pub/player/hikaru/games/2014/01`
     pub fn extract_year_month(&self, archive_url: &str) -> Result<(u32, u32)> {
@@ -75,7 +100,6 @@ impl ChessComClient {
             .map(|c| c.as_os_str().to_string_lossy().to_string())
             .collect();
 
-        // Find "games" then take the next two components as year and month
         let games_idx = parts
             .iter()
             .position(|p| p == "games")

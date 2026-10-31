@@ -1,47 +1,8 @@
 use games::ChessComClient;
+use std::fs;
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
 use tokio::sync::Semaphore;
-
-const PLAYER_DIRS: &[&str] = &[
-    "anishgiri",
-    "azerichess",
-    "banhgiahuy2606",
-    "chefshouse",
-    "chesswarrior7197",
-    "crescentmoon2411",
-    "danielnaroditsky",
-    "denlaz",
-    "dominguezonyoutube",
-    "duhless",
-    "fabianocaruana",
-    "faustinooro",
-    "firouzja2003",
-    "ghandeevam2003",
-    "gmwso",
-    "grischuk",
-    "gukeshdommaraju",
-    "hikaru",
-    "javokhir_sindarov05",
-    "lachesisq",
-    "levonaronian",
-    "liemle",
-    "lyonbeast",
-    "magnuscarlsen",
-    "parhamov",
-    "penguingm1",
-    "polish_fighter3000",
-    "rpragchess",
-    "sergeykarjakin",
-    "thevish",
-    "tradjabov",
-    "veselintopalov359",
-    "viditchess",
-    "vincentkeymer",
-    "vladimirkramnik",
-    "volodar_murzin",
-    "wonderfultime",
-];
 
 const MAX_CONCURRENT_DOWNLOADS: usize = 8;
 
@@ -49,6 +10,19 @@ fn output_dir_for(player: &str) -> PathBuf {
     Path::new(env!("CARGO_MANIFEST_DIR"))
         .join("pgn")
         .join(player)
+}
+
+fn load_players() -> anyhow::Result<Vec<String>> {
+    let players_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("players")
+        .join("titled_players.txt");
+    let content = fs::read_to_string(&players_path)?;
+    let players: Vec<String> = content
+        .lines()
+        .filter(|l| !l.trim().is_empty())
+        .map(|l| l.trim().to_string())
+        .collect();
+    Ok(players)
 }
 
 async fn download_archive(
@@ -108,8 +82,11 @@ async fn download_archive(
 async fn main() -> anyhow::Result<()> {
     let client = Arc::new(ChessComClient::new()?);
     let semaphore = Arc::new(Semaphore::new(MAX_CONCURRENT_DOWNLOADS));
+    let players = load_players()?;
 
-    for player in PLAYER_DIRS {
+    println!("Loaded {} players", players.len());
+
+    for player in &players {
         let output_dir = output_dir_for(player);
         std::fs::create_dir_all(&output_dir)?;
 
@@ -138,7 +115,6 @@ async fn main() -> anyhow::Result<()> {
             }));
         }
 
-        // Wait for all downloads for this player to complete
         for handle in handles {
             if let Err(e) = handle.await {
                 eprintln!("Task join error: {}", e);
