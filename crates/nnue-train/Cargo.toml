@@ -1,0 +1,12 @@
+[package]
+name = "nnue-train"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+chess-core = { path = "../core" }
+anyhow = "1.0"
+
+[[bin]]
+name = "nnue-train"
+path = "src/main.rs"

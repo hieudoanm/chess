@@ -6,6 +6,7 @@ members = [
   "crates/cli",
   "crates/arena",
   "crates/games",
+  "crates/nnue-train",
 ]
 
 [workspace.package]

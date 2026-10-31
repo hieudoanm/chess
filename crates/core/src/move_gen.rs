@@ -148,6 +148,7 @@ fn generate_pawn_moves(position: &Position, from: Square, piece: Piece, moves: &
             }
         }
     }
+    generate_en_passant(position, from, piece, moves);
 }
 
 fn generate_knight_moves(position: &Position, from: Square, piece: Piece, moves: &mut Vec<Move>) {
@@ -222,6 +223,190 @@ fn generate_king_moves(position: &Position, from: Square, piece: Piece, moves: &
                     None => {
                         add_move(position, from, to, piece, moves, false);
                     }
+                }
+            }
+        }
+    }
+    generate_castling(position, from, piece, moves);
+}
+
+fn generate_castling(position: &Position, from: Square, piece: Piece, moves: &mut Vec<Move>) {
+    if position.is_in_check(piece.color) {
+        return;
+    }
+    let color = piece.color;
+    if color == Color::White {
+        if from != Square::new(4, 0).unwrap() {
+            return;
+        }
+        // King side: e1-g1, rook h1-f1
+        if position.castling.white_king_side
+            && position.get_piece(Square::new(5, 0).unwrap()).is_none()
+            && position.get_piece(Square::new(6, 0).unwrap()).is_none()
+            && position.get_piece(Square::new(7, 0).unwrap())
+                == Some(Piece::new(Color::White, PieceType::Rook))
+        {
+            if !position.square_attacks(Square::new(4, 0).unwrap(), Square::new(4, 0).unwrap())
+                && !position.square_attacks(Square::new(5, 0).unwrap(), Square::new(5, 0).unwrap())
+                && !position.square_attacks(Square::new(6, 0).unwrap(), Square::new(6, 0).unwrap())
+            {
+                // Check squares the king passes through and lands on are not attacked by enemy
+                let enemy = Color::Black;
+                let mut attacked = false;
+                for r in 0..8 {
+                    for f in 0..8 {
+                        let sq = Square::new(f, r).unwrap();
+                        if let Some(p) = position.get_piece(sq) {
+                            if p.color == enemy
+                                && (position.square_attacks(sq, Square::new(4, 0).unwrap())
+                                    || position.square_attacks(sq, Square::new(5, 0).unwrap())
+                                    || position.square_attacks(sq, Square::new(6, 0).unwrap()))
+                            {
+                                attacked = true;
+                            }
+                        }
+                    }
+                }
+                if !attacked {
+                    moves.push(Move {
+                        from,
+                        to: Square::new(6, 0).unwrap(),
+                        promotion: None,
+                        flags: MoveType::CastleKingSide,
+                    });
+                }
+            }
+        }
+        // Queen side: e1-c1, rook a1-d1
+        if position.castling.white_queen_side
+            && position.get_piece(Square::new(1, 0).unwrap()).is_none()
+            && position.get_piece(Square::new(2, 0).unwrap()).is_none()
+            && position.get_piece(Square::new(3, 0).unwrap()).is_none()
+            && position.get_piece(Square::new(0, 0).unwrap())
+                == Some(Piece::new(Color::White, PieceType::Rook))
+        {
+            let enemy = Color::Black;
+            let mut attacked = false;
+            for r in 0..8 {
+                for f in 0..8 {
+                    let sq = Square::new(f, r).unwrap();
+                    if let Some(p) = position.get_piece(sq) {
+                        if p.color == enemy
+                            && (position.square_attacks(sq, Square::new(4, 0).unwrap())
+                                || position.square_attacks(sq, Square::new(3, 0).unwrap())
+                                || position.square_attacks(sq, Square::new(2, 0).unwrap()))
+                        {
+                            attacked = true;
+                        }
+                    }
+                }
+            }
+            if !attacked {
+                moves.push(Move {
+                    from,
+                    to: Square::new(2, 0).unwrap(),
+                    promotion: None,
+                    flags: MoveType::CastleQueenSide,
+                });
+            }
+        }
+    } else {
+        if from != Square::new(4, 7).unwrap() {
+            return;
+        }
+        // King side: e8-g8, rook h8-f8
+        if position.castling.black_king_side
+            && position.get_piece(Square::new(5, 7).unwrap()).is_none()
+            && position.get_piece(Square::new(6, 7).unwrap()).is_none()
+            && position.get_piece(Square::new(7, 7).unwrap())
+                == Some(Piece::new(Color::Black, PieceType::Rook))
+        {
+            let enemy = Color::White;
+            let mut attacked = false;
+            for r in 0..8 {
+                for f in 0..8 {
+                    let sq = Square::new(f, r).unwrap();
+                    if let Some(p) = position.get_piece(sq) {
+                        if p.color == enemy
+                            && (position.square_attacks(sq, Square::new(4, 7).unwrap())
+                                || position.square_attacks(sq, Square::new(5, 7).unwrap())
+                                || position.square_attacks(sq, Square::new(6, 7).unwrap()))
+                        {
+                            attacked = true;
+                        }
+                    }
+                }
+            }
+            if !attacked {
+                moves.push(Move {
+                    from,
+                    to: Square::new(6, 7).unwrap(),
+                    promotion: None,
+                    flags: MoveType::CastleKingSide,
+                });
+            }
+        }
+        // Queen side: e8-c8, rook a8-d8
+        if position.castling.black_queen_side
+            && position.get_piece(Square::new(1, 7).unwrap()).is_none()
+            && position.get_piece(Square::new(2, 7).unwrap()).is_none()
+            && position.get_piece(Square::new(3, 7).unwrap()).is_none()
+            && position.get_piece(Square::new(0, 7).unwrap())
+                == Some(Piece::new(Color::Black, PieceType::Rook))
+        {
+            let enemy = Color::White;
+            let mut attacked = false;
+            for r in 0..8 {
+                for f in 0..8 {
+                    let sq = Square::new(f, r).unwrap();
+                    if let Some(p) = position.get_piece(sq) {
+                        if p.color == enemy
+                            && (position.square_attacks(sq, Square::new(4, 7).unwrap())
+                                || position.square_attacks(sq, Square::new(3, 7).unwrap())
+                                || position.square_attacks(sq, Square::new(2, 7).unwrap()))
+                        {
+                            attacked = true;
+                        }
+                    }
+                }
+            }
+            if !attacked {
+                moves.push(Move {
+                    from,
+                    to: Square::new(2, 7).unwrap(),
+                    promotion: None,
+                    flags: MoveType::CastleQueenSide,
+                });
+            }
+        }
+    }
+}
+
+fn generate_en_passant(position: &Position, from: Square, piece: Piece, moves: &mut Vec<Move>) {
+    let Some(ep) = position.en_passant else {
+        return;
+    };
+    let dir = if piece.color == Color::White { 1 } else { -1 };
+    let from_rank = if piece.color == Color::White { 4 } else { 3 };
+    if from.rank != from_rank {
+        return;
+    }
+    for df in [-1i8, 1i8] {
+        let to_file = from.file as i8 + df;
+        if let Some(to) = Square::new(to_file as u8, ep.rank) {
+            if to.file == ep.file {
+                let mut new_pos = position.clone();
+                let captured_sq = Square::new(ep.file, (ep.rank as i8 - dir) as u8).unwrap();
+                new_pos.set_piece(to, Some(piece));
+                new_pos.set_piece(from, None);
+                new_pos.set_piece(captured_sq, None);
+                if !new_pos.is_in_check(piece.color) {
+                    moves.push(Move {
+                        from,
+                        to,
+                        promotion: None,
+                        flags: MoveType::EnPassant,
+                    });
                 }
             }
         }
