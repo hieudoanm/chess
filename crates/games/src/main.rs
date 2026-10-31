@@ -1,4 +1,5 @@
 use games::ChessComClient;
+use rusqlite::Connection;
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
@@ -12,15 +13,15 @@ fn output_dir_for(player: &str) -> PathBuf {
         .join(player)
 }
 
-fn load_players() -> anyhow::Result<Vec<String>> {
-    let players_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+fn load_players_from_db() -> anyhow::Result<Vec<String>> {
+    let db_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
         .join("players")
-        .join("titled_players.txt");
-    let content = fs::read_to_string(&players_path)?;
-    let players: Vec<String> = content
-        .lines()
-        .filter(|l| !l.trim().is_empty())
-        .map(|l| l.trim().to_string())
+        .join("titled_players.sqlite");
+    let conn = Connection::open(&db_path)?;
+    let mut stmt = conn.prepare("SELECT username FROM players WHERE username IS NOT NULL ORDER BY joined DESC, last_online DESC")?;
+    let players: Vec<String> = stmt
+        .query_map([], |row| row.get::<_, String>(0))?
+        .filter_map(|r| r.ok())
         .collect();
     Ok(players)
 }
@@ -82,24 +83,25 @@ async fn download_archive(
 async fn main() -> anyhow::Result<()> {
     let client = Arc::new(ChessComClient::new()?);
     let semaphore = Arc::new(Semaphore::new(MAX_CONCURRENT_DOWNLOADS));
-    let players = load_players()?;
+    let players = load_players_from_db()?;
 
-    println!("Loaded {} players", players.len());
+    println!("Loaded {} players from DB", players.len());
+    println!("Starting download with {} concurrent downloads", MAX_CONCURRENT_DOWNLOADS);
 
-    for player in &players {
+    for (pidx, player) in players.iter().enumerate() {
         let output_dir = output_dir_for(player);
         std::fs::create_dir_all(&output_dir)?;
 
-        println!("Fetching game archives for {}", player);
+        println!("\n[Player {}/{}] Fetching game archives for {}", pidx + 1, players.len(), player);
         let archives = match client.get_game_archives(player).await {
             Ok(a) => a,
             Err(e) => {
-                eprintln!("Skipping {}: {}", player, e);
+                eprintln!("[Player {}/{}] Skipping {}: {}", pidx + 1, players.len(), player, e);
                 continue;
             }
         };
 
-        println!("Found {} archives for {}", archives.len(), player);
+        println!("[Player {}/{}] Found {} archives for {}", pidx + 1, players.len(), archives.len(), player);
 
         let archive_urls: Vec<String> = archives.to_vec();
         let total = archive_urls.len();
@@ -121,8 +123,9 @@ async fn main() -> anyhow::Result<()> {
             }
         }
 
-        println!("Done. PGN files saved to {:?}", output_dir);
+        println!("[Player {}/{}] Done. PGN files saved to {:?}", pidx + 1, players.len(), output_dir);
     }
 
+    println!("\nAll done!");
     Ok(())
 }
