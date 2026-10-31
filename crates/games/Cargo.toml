@@ -13,3 +13,7 @@ tokio = { version = "=1.54.1", features = ["full"] }
 [[bin]]
 name = "download-pgn"
 path = "src/main.rs"
+
+[[bin]]
+name = "parse-pgn"
+path = "src/bin/parse_pgn.rs"

@@ -3,6 +3,7 @@ use chess_core::{
     generate_moves, refresh_accumulator, see_ge, undo_move, undo_move_nnue_post,
     undo_move_nnue_pre, GameResult, Move, NnueAccumulator, NnueEval, PieceType, Position,
 };
+use std::path::Path;
 
 const TT_SIZE: usize = 1 << 20;
 const KILLER_MOVES: usize = 2;
@@ -227,6 +228,8 @@ pub struct Engine {
 
 impl Engine {
     pub fn new() -> Self {
+        let nnue_eval = NnueEval::load_from_file(Path::new("nnue_weights.bin"))
+            .unwrap_or_else(|_| NnueEval::new());
         Engine {
             position: Position::standard(),
             tt: TranspositionTable::new(),
@@ -234,7 +237,7 @@ impl Engine {
             history: HistoryTable::new(),
             capture_history: CaptureHistory::new(),
             continuation_history: ContinuationHistory::new(),
-            nnue_eval: NnueEval::new(),
+            nnue_eval,
             nnue_accumulator: NnueAccumulator::new(),
             pv_table: [[None; 128]; 128],
         }

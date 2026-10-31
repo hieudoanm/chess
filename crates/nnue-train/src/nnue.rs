@@ -1,3 +1,11 @@
+#![allow(
+    clippy::needless_range_loop,
+    clippy::new_without_default,
+    clippy::unnecessary_cast,
+    clippy::manual_pattern_char_comparison,
+    clippy::unnecessary_map_or
+)]
+
 use anyhow::{Context, Result};
 use chess_core::{
     apply_move, generate_moves, Color, GameResult, Move, MoveType, Piece, PieceType, Position,
@@ -24,14 +32,46 @@ pub struct Weights {
 
 impl Weights {
     pub fn new() -> Self {
-        Self {
-            w0: [[0; L2]; L1],
-            b0: [0; L2],
-            w1: [[0; L3]; L2 * 2],
-            b1: [0; L3],
-            w2: [0; L2 * 2 + L3 * 2],
-            b2: 0,
+        let mut seed: u32 = 0x12345678;
+        let mut next = move || {
+            seed = seed.wrapping_mul(1103515245).wrapping_add(12345);
+            ((seed >> 16) & 0x7fff) as i32
+        };
+
+let mut w0 = [[0i8; L2]; L1];
+
+        // Fill w0 with small random values (no PST seeding to avoid saturated initial outputs)
+        for i in 0..L1 {
+            for j in 0..L2 {
+                w0[i][j] = ((next() % 9) - 4) as i8;
+            }
         }
+
+        let mut b0 = [0i16; L2];
+        for j in 0..L2 {
+            b0[j] = ((next() % 41) - 20) as i16;
+        }
+
+        let mut w1 = [[0i8; L3]; L2 * 2];
+        for i in 0..(L2 * 2) {
+            for j in 0..L3 {
+                w1[i][j] = ((next() % 21) - 10) as i8;
+            }
+        }
+
+        let mut b1 = [0i16; L3];
+        for j in 0..L3 {
+            b1[j] = ((next() % 41) - 20) as i16;
+        }
+
+        let mut w2 = [0i8; L2 * 2 + L3 * 2];
+        for i in 0..(L2 * 2 + L3 * 2) {
+            w2[i] = ((next() % 9) - 4) as i8;
+        }
+
+        let b2 = 0i16;
+
+        Self { w0, b0, w1, b1, w2, b2 }
     }
 
     pub fn load(path: &Path) -> Result<Self> {
@@ -99,6 +139,7 @@ impl Weights {
     }
 }
 
+#[allow(dead_code)]
 #[derive(Clone, Debug)]
 pub struct ForwardCache {
     pub acc: [i16; L1],
@@ -109,6 +150,7 @@ pub struct ForwardCache {
     pub output: i32,
 }
 
+#[allow(dead_code)]
 pub fn evaluate(acc: &[i16; L1], weights: &Weights) -> ForwardCache {
     let mut hidden0 = [0i32; L2];
     for i in 0..L1 {
@@ -164,157 +206,18 @@ pub fn evaluate(acc: &[i16; L1], weights: &Weights) -> ForwardCache {
     }
 }
 
+#[allow(dead_code)]
 pub fn output_score(cache: &ForwardCache) -> i32 {
     cache.output * 600 / 1024
 }
 
-pub fn backward(cache: &ForwardCache, weights: &Weights, d_output: f32) -> WeightGrads {
-    let mut gw0 = [[0i32; L2]; L1];
-    let mut gb0 = [0i32; L2];
-    let mut gw1 = [[0i32; L3]; L2 * 2];
-    let mut gb1 = [0i32; L3];
-    let mut gw2 = [0i32; L2 * 2 + L3 * 2];
-    let mut gb2 = 0i32;
-
-    for i in 0..(L2 * 2) {
-        gw2[i] += (d_output * cache.relu0[i] as f32) as i32;
-    }
-    for i in 0..(L3 * 2) {
-        gw2[L2 * 2 + i] += (d_output * cache.relu1[i] as f32) as i32;
-    }
-    gb2 += d_output as i32;
-
-    let mut d_relu0 = [0f32; L2 * 2];
-    for i in 0..(L2 * 2) {
-        d_relu0[i] = d_output * weights.w2[i] as f32;
-    }
-    let mut d_relu1 = [0f32; L3 * 2];
-    for i in 0..(L3 * 2) {
-        d_relu1[i] = d_output * weights.w2[L2 * 2 + i] as f32;
-    }
-
-    let mut d_hidden0 = [0f32; L2];
-    for j in 0..L2 {
-        let val0 = cache.hidden0[j] + weights.b0[j] as i32;
-        let d_relu = if val0 > 0 { d_relu0[j] } else { 0.0 };
-        let d_sqr = d_relu0[L2 + j] * (2.0 * val0 as f32 / 1024.0);
-        d_hidden0[j] = d_relu + d_sqr;
-        gb0[j] += (d_relu + d_sqr) as i32;
-    }
-
-    for i in 0..L1 {
-        if cache.acc[i] != 0 {
-            for j in 0..L2 {
-                gw0[i][j] += (d_hidden0[j] * cache.acc[i] as f32) as i32;
-            }
-        }
-    }
-
-    let mut d_hidden1 = [0f32; L3];
-    for j in 0..L3 {
-        let val1 = cache.hidden1[j] + weights.b1[j] as i32;
-        let d_relu = if val1 > 0 { d_relu1[j] } else { 0.0 };
-        let d_sqr = d_relu1[L3 + j] * (2.0 * val1 as f32 / 1024.0);
-        d_hidden1[j] = d_relu + d_sqr;
-        gb1[j] += (d_relu + d_sqr) as i32;
-    }
-
-    for i in 0..(L2 * 2) {
-        if cache.relu0[i] != 0 {
-            for j in 0..L3 {
-                gw1[i][j] += (d_hidden1[j] * cache.relu0[i] as f32) as i32;
-            }
-        }
-    }
-
-    WeightGrads {
-        gw0,
-        gb0,
-        gw1,
-        gb1,
-        gw2,
-        gb2,
-    }
+pub fn tanh_output(raw_score: f32, scale: f32) -> f32 {
+    (raw_score / scale).tanh()
 }
 
-#[derive(Clone, Debug)]
-pub struct WeightGrads {
-    pub gw0: [[i32; L2]; L1],
-    pub gb0: [i32; L2],
-    pub gw1: [[i32; L3]; L2 * 2],
-    pub gb1: [i32; L3],
-    pub gw2: [i32; L2 * 2 + L3 * 2],
-    pub gb2: i32,
-}
-
-impl WeightGrads {
-    pub fn new() -> Self {
-        Self {
-            gw0: [[0; L2]; L1],
-            gb0: [0; L2],
-            gw1: [[0; L3]; L2 * 2],
-            gb1: [0; L3],
-            gw2: [0; L2 * 2 + L3 * 2],
-            gb2: 0,
-        }
-    }
-
-    pub fn accumulate(&mut self, other: &WeightGrads) {
-        for i in 0..L1 {
-            for j in 0..L2 {
-                self.gw0[i][j] = self.gw0[i][j].saturating_add(other.gw0[i][j]);
-            }
-        }
-        for j in 0..L2 {
-            self.gb0[j] = self.gb0[j].saturating_add(other.gb0[j]);
-        }
-        for i in 0..(L2 * 2) {
-            for j in 0..L3 {
-                self.gw1[i][j] = self.gw1[i][j].saturating_add(other.gw1[i][j]);
-            }
-        }
-        for j in 0..L3 {
-            self.gb1[j] = self.gb1[j].saturating_add(other.gb1[j]);
-        }
-        for i in 0..(L2 * 2 + L3 * 2) {
-            self.gw2[i] = self.gw2[i].saturating_add(other.gw2[i]);
-        }
-        self.gb2 = self.gb2.saturating_add(other.gb2);
-    }
-
-    pub fn apply(&self, weights: &mut Weights, lr: f32) {
-        for i in 0..L1 {
-            for j in 0..L2 {
-                let change = (self.gw0[i][j] as f32 * lr).round() as i8;
-                weights.w0[i][j] = weights.w0[i][j].saturating_add(change);
-            }
-        }
-        for j in 0..L2 {
-            let change = (self.gb0[j] as f32 * lr).round() as i16;
-            weights.b0[j] = weights.b0[j].saturating_add(change);
-        }
-        for i in 0..(L2 * 2) {
-            for j in 0..L3 {
-                let change = (self.gw1[i][j] as f32 * lr).round() as i8;
-                weights.w1[i][j] = weights.w1[i][j].saturating_add(change);
-            }
-        }
-        for j in 0..L3 {
-            let change = (self.gb1[j] as f32 * lr).round() as i16;
-            weights.b1[j] = weights.b1[j].saturating_add(change);
-        }
-        for i in 0..(L2 * 2 + L3 * 2) {
-            let change = (self.gw2[i] as f32 * lr).round() as i8;
-            weights.w2[i] = weights.w2[i].saturating_add(change);
-        }
-        let change = (self.gb2 as f32 * lr).round() as i16;
-        weights.b2 = weights.b2.saturating_add(change);
-    }
-
-    pub fn clear(&mut self) {
-        *self = WeightGrads::new();
-    }
-}
+// ---------------------------------------------------------------------------
+// Feature computation
+// ---------------------------------------------------------------------------
 
 fn king_bucket(ksq: Square) -> usize {
     let mut f = ksq.file;
@@ -362,7 +265,13 @@ fn psq_block(position: &Position, perspective: Color) -> usize {
     }
 }
 
-fn feature_index(perspective: Color, ksq: Square, block: usize, piece: Piece, sq: Square) -> usize {
+fn feature_index(
+    perspective: Color,
+    ksq: Square,
+    block: usize,
+    piece: Piece,
+    sq: Square,
+) -> usize {
     let rel = if perspective == Color::White {
         sq
     } else {
@@ -393,7 +302,7 @@ pub fn compute_features(position: &Position, perspective: Color, acc: &mut [i16;
     for v in acc.iter_mut() {
         *v = 0;
     }
-    let Some(ksq) = king_square(position, perspective) else {
+    let Some(ksq) = position.king_square(perspective) else {
         return;
     };
     let block = psq_block(position, perspective);
@@ -408,6 +317,255 @@ pub fn compute_features(position: &Position, perspective: Color, acc: &mut [i16;
                 }
             }
         }
+    }
+}
+
+// ---------------------------------------------------------------------------
+// F32 weights for training
+// ---------------------------------------------------------------------------
+
+#[derive(Clone, Debug)]
+pub struct F32Weights {
+    pub w0: [[f32; L2]; L1],
+    pub b0: [f32; L2],
+    pub w1: [[f32; L3]; L2 * 2],
+    pub b1: [f32; L3],
+    pub w2: [f32; L2 * 2 + L3 * 2],
+    pub b2: f32,
+}
+
+impl F32Weights {
+    pub fn from_i8(weights: &Weights) -> Self {
+        Self {
+            w0: weights.w0.map(|row| row.map(|v| v as f32)),
+            b0: weights.b0.map(|v| v as f32),
+            w1: weights.w1.map(|row| row.map(|v| v as f32)),
+            b1: weights.b1.map(|v| v as f32),
+            w2: weights.w2.map(|v| v as f32),
+            b2: weights.b2 as f32,
+        }
+    }
+
+    pub fn to_i8(&self) -> Weights {
+        Weights {
+            w0: self.w0.map(|row| row.map(|v| v.round() as i8)),
+            b0: self.b0.map(|v| v.round() as i16),
+            w1: self.w1.map(|row| row.map(|v| v.round() as i8)),
+            b1: self.b1.map(|v| v.round() as i16),
+            w2: self.w2.map(|v| v.round() as i8),
+            b2: self.b2.round() as i16,
+        }
+    }
+}
+
+#[derive(Clone, Debug)]
+pub struct F32ForwardCache {
+    pub acc: [i16; L1],
+    pub hidden0: [f32; L2],
+    pub relu0: [f32; L2 * 2],
+    pub hidden1: [f32; L3],
+    pub relu1: [f32; L3 * 2],
+    pub output: f32,
+}
+
+pub fn evaluate_f32(acc: &[i16; L1], weights: &F32Weights) -> F32ForwardCache {
+    let mut hidden0 = [0f32; L2];
+    for i in 0..L1 {
+        if acc[i] != 0 {
+            for j in 0..L2 {
+                hidden0[j] += acc[i] as f32 * weights.w0[i][j];
+            }
+        }
+    }
+
+    let mut relu0 = [0f32; L2 * 2];
+    for j in 0..L2 {
+        let val = hidden0[j] + weights.b0[j];
+        let sqr = val * val / 1024.0;
+        let relu = if val > 0.0 { val } else { 0.0 };
+        relu0[j] = relu;
+        relu0[L2 + j] = sqr;
+    }
+
+    let mut hidden1 = [0f32; L3];
+    for i in 0..(L2 * 2) {
+        if relu0[i] != 0.0 {
+            for j in 0..L3 {
+                hidden1[j] += relu0[i] * weights.w1[i][j];
+            }
+        }
+    }
+
+    let mut relu1 = [0f32; L3 * 2];
+    for j in 0..L3 {
+        let val = hidden1[j] + weights.b1[j];
+        let sqr = val * val / 1024.0;
+        let relu = if val > 0.0 { val } else { 0.0 };
+        relu1[j] = relu;
+        relu1[L3 + j] = sqr;
+    }
+
+    let mut output = weights.b2;
+    for i in 0..(L2 * 2) {
+        output += relu0[i] * weights.w2[i];
+    }
+    for i in 0..(L3 * 2) {
+        output += relu1[i] * weights.w2[L2 * 2 + i];
+    }
+
+    F32ForwardCache {
+        acc: *acc,
+        hidden0,
+        relu0,
+        hidden1,
+        relu1,
+        output,
+    }
+}
+
+pub fn backward_f32(
+    cache: &F32ForwardCache,
+    weights: &F32Weights,
+    d_output: f32,
+) -> F32WeightGrads {
+    let mut gw0 = [[0f32; L2]; L1];
+    let mut gb0 = [0f32; L2];
+    let mut gw1 = [[0f32; L3]; L2 * 2];
+    let mut gb1 = [0f32; L3];
+    let mut gw2 = [0f32; L2 * 2 + L3 * 2];
+    let mut gb2 = 0f32;
+
+    for i in 0..(L2 * 2) {
+        gw2[i] += d_output * cache.relu0[i];
+    }
+    for i in 0..(L3 * 2) {
+        gw2[L2 * 2 + i] += d_output * cache.relu1[i];
+    }
+    gb2 += d_output;
+
+    let mut d_relu0 = [0f32; L2 * 2];
+    for i in 0..(L2 * 2) {
+        d_relu0[i] = d_output * weights.w2[i];
+    }
+    let mut d_relu1 = [0f32; L3 * 2];
+    for i in 0..(L3 * 2) {
+        d_relu1[i] = d_output * weights.w2[L2 * 2 + i];
+    }
+
+    let mut d_hidden0 = [0f32; L2];
+    for j in 0..L2 {
+        let val0 = cache.hidden0[j] + weights.b0[j];
+        let d_relu = if val0 > 0.0 { d_relu0[j] } else { 0.0 };
+        let d_sqr = d_relu0[L2 + j] * (2.0 * val0 / 1024.0);
+        d_hidden0[j] = d_relu + d_sqr;
+        gb0[j] += d_relu + d_sqr;
+    }
+
+    for i in 0..L1 {
+        if cache.acc[i] != 0 {
+            for j in 0..L2 {
+                gw0[i][j] += d_hidden0[j] * cache.acc[i] as f32;
+            }
+        }
+    }
+
+    let mut d_hidden1 = [0f32; L3];
+    for j in 0..L3 {
+        let val1 = cache.hidden1[j] + weights.b1[j];
+        let d_relu = if val1 > 0.0 { d_relu1[j] } else { 0.0 };
+        let d_sqr = d_relu1[L3 + j] * (2.0 * val1 / 1024.0);
+        d_hidden1[j] = d_relu + d_sqr;
+        gb1[j] += d_relu + d_sqr;
+    }
+
+    for i in 0..(L2 * 2) {
+        if cache.relu0[i] != 0.0 {
+            for j in 0..L3 {
+                gw1[i][j] += d_hidden1[j] * cache.relu0[i];
+            }
+        }
+    }
+
+    F32WeightGrads {
+        gw0,
+        gb0,
+        gw1,
+        gb1,
+        gw2,
+        gb2,
+    }
+}
+
+#[derive(Clone, Debug)]
+pub struct F32WeightGrads {
+    pub gw0: [[f32; L2]; L1],
+    pub gb0: [f32; L2],
+    pub gw1: [[f32; L3]; L2 * 2],
+    pub gb1: [f32; L3],
+    pub gw2: [f32; L2 * 2 + L3 * 2],
+    pub gb2: f32,
+}
+
+impl F32WeightGrads {
+    pub fn new() -> Self {
+        Self {
+            gw0: [[0.0; L2]; L1],
+            gb0: [0.0; L2],
+            gw1: [[0.0; L3]; L2 * 2],
+            gb1: [0.0; L3],
+            gw2: [0.0; L2 * 2 + L3 * 2],
+            gb2: 0.0,
+        }
+    }
+
+    pub fn accumulate(&mut self, other: &F32WeightGrads) {
+        for i in 0..L1 {
+            for j in 0..L2 {
+                self.gw0[i][j] += other.gw0[i][j];
+            }
+        }
+        for j in 0..L2 {
+            self.gb0[j] += other.gb0[j];
+        }
+        for i in 0..(L2 * 2) {
+            for j in 0..L3 {
+                self.gw1[i][j] += other.gw1[i][j];
+            }
+        }
+        for j in 0..L3 {
+            self.gb1[j] += other.gb1[j];
+        }
+        for i in 0..(L2 * 2 + L3 * 2) {
+            self.gw2[i] += other.gw2[i];
+        }
+        self.gb2 += other.gb2;
+    }
+
+    pub fn apply(&self, weights: &mut F32Weights, lr: f32) {
+        for i in 0..L1 {
+            for j in 0..L2 {
+                weights.w0[i][j] -= self.gw0[i][j] * lr;
+            }
+        }
+        for j in 0..L2 {
+            weights.b0[j] -= self.gb0[j] * lr;
+        }
+        for i in 0..(L2 * 2) {
+            for j in 0..L3 {
+                weights.w1[i][j] -= self.gw1[i][j] * lr;
+            }
+        }
+        for j in 0..L3 {
+            weights.b1[j] -= self.gb1[j] * lr;
+        }
+        for i in 0..(L2 * 2 + L3 * 2) {
+            weights.w2[i] -= self.gw2[i] * lr;
+        }
+        weights.b2 -= self.gb2 * lr;
+    }
+
+    pub fn clear(&mut self) {
+        *self = F32WeightGrads::new();
     }
 }
 
@@ -443,7 +601,6 @@ fn strip_annotations(s: &str) -> String {
 
 fn parse_pgn_moves(move_text: &str) -> Vec<String> {
     let cleaned = strip_annotations(move_text);
-    // Remove PGN move numbers: digits followed by dots, and "..."
     let cleaned = cleaned.replace("...", " ");
     let tokens: Vec<&str> = cleaned.split_whitespace().collect();
     let mut moves = Vec::new();
@@ -451,12 +608,7 @@ fn parse_pgn_moves(move_text: &str) -> Vec<String> {
         if token.is_empty() {
             continue;
         }
-        // Skip move numbers like "1.", "12.", "45..."
-        let is_move_num = token
-            .chars()
-            .all(|c| c.is_ascii_digit() || c == '.')
-            && token.contains('.');
-        if is_move_num {
+        if token.chars().all(|c| c.is_ascii_digit() || c == '.') {
             continue;
         }
         if token == "1-0" || token == "0-1" || token == "1/2-1/2" {
@@ -490,7 +642,9 @@ pub fn parse_pgn_file(path: &Path) -> Result<Vec<PgnGame>> {
 
         if in_headers {
             if trimmed.is_empty() {
-                in_headers = false;
+                if !headers.is_empty() {
+                    in_headers = false;
+                }
                 continue;
             }
             if let Some(rest) = trimmed.strip_prefix('[') {
@@ -593,10 +747,10 @@ pub fn san_to_move(position: &Position, san: &str) -> Option<Move> {
                         'n' | 'N' => Some(PieceType::Knight),
                         _ => None,
                     };
-                    idx += 1;
                 }
             }
-            let dest = Square::new(dest_file as u8, dest_rank.ok_or_else(|| anyhow::anyhow!("missing dest rank" as _))? as u8)?;
+            let dest_rank = dest_rank.map(|r| r as u8);
+            let dest = Square::new(dest_file as u8, dest_rank?)?;
             (
                 PieceType::Pawn,
                 Some(file),
@@ -615,35 +769,52 @@ pub fn san_to_move(position: &Position, san: &str) -> Option<Move> {
                 'N' => PieceType::Knight,
                 _ => return None,
             };
+
+            // Find end of meaningful SAN (strip trailing +, #, ++)
+            let mut end = bytes.len();
+            while end > 0 {
+                let c = bytes[end - 1] as char;
+                if c == '+' || c == '#' {
+                    end -= 1;
+                } else {
+                    break;
+                }
+            }
+
+            // Destination is always the last 2 characters before suffix
             let mut idx = 1;
+            if end < idx + 2 {
+                return None;
+            }
+            let dest_file = (bytes[end - 2] as u8 - b'a') as usize;
+            let dest_rank = (bytes[end - 1] as u8 - b'1') as usize;
+            let dest = Square::new(dest_file as u8, dest_rank as u8)?;
+
+            // Everything between piece (idx=1) and destination (end-2) is disambiguation
             let mut file_hint = None;
             let mut rank_hint = None;
-            if idx < bytes.len() {
+            let mut is_capture = false;
+            while idx < end - 2 {
                 let c = bytes[idx] as char;
-                if c.is_ascii_alphabetic() && c != 'x' {
+                if c == 'x' {
+                    is_capture = true;
+                    idx += 1;
+                } else if c.is_ascii_alphabetic() && c != 'x' {
                     file_hint = Some((c as u8 - b'a') as usize);
+                    idx += 1;
+                } else if c.is_ascii_digit() {
+                    rank_hint = Some((c as u8 - b'1') as usize);
+                    idx += 1;
+                } else {
                     idx += 1;
                 }
             }
-            if idx < bytes.len() && bytes[idx].is_ascii_digit() {
-                rank_hint = Some((bytes[idx] as u8 - b'1') as usize);
-                idx += 1;
-            }
-            let mut is_capture = false;
-            if idx < bytes.len() && bytes[idx] as char == 'x' {
-                is_capture = true;
-                idx += 1;
-            }
-            let dest_file = (bytes[idx] as u8 - b'a') as usize;
-            idx += 1;
-            let dest_rank = (bytes[idx] as u8 - b'1') as usize;
-            idx += 1;
-            let dest = Square::new(dest_file as u8, dest_rank as u8)?;
+
             let mut promotion = None;
-            if idx < bytes.len() && bytes[idx] as char == '=' {
-                idx += 1;
-                if idx < bytes.len() {
-                    let pc = bytes[idx] as char;
+            if end < bytes.len() && bytes[end] as char == '=' {
+                let pc_idx = end + 1;
+                if pc_idx < bytes.len() {
+                    let pc = bytes[pc_idx] as char;
                     promotion = match pc {
                         'Q' => Some(PieceType::Queen),
                         'R' => Some(PieceType::Rook),
@@ -651,7 +822,6 @@ pub fn san_to_move(position: &Position, san: &str) -> Option<Move> {
                         'N' => Some(PieceType::Knight),
                         _ => None,
                     };
-                    idx += 1;
                 }
             }
             (pt, file_hint, rank_hint, is_capture, dest, promotion)
@@ -684,7 +854,7 @@ pub fn san_to_move(position: &Position, san: &str) -> Option<Move> {
             }
         }
         if let Some(promo) = promotion {
-            if m.promotion != promo {
+            if m.promotion != Some(promo) {
                 continue;
             }
         }
@@ -765,6 +935,7 @@ pub fn replay_game(game: &PgnGame) -> Result<Vec<TrainingExample>> {
         examples.push(TrainingExample {
             acc_white: acc[0],
             acc_black: acc[1],
+            side_to_move: pos.side_to_move.opponent(),
             target,
         });
     }
@@ -780,7 +951,7 @@ fn read_pgn_files_recursive(dir: &Path) -> Result<Vec<std::path::PathBuf>> {
             let path = entry.path();
             if path.is_dir() {
                 paths.extend(read_pgn_files_recursive(&path)?);
-            } else if path.extension().map_or(false, |e| e == "pgn") {
+            } else if path.extension().is_some_and(|e| e == "pgn") {
                 paths.push(path);
             }
         }
@@ -800,6 +971,9 @@ pub fn collect_examples(pgn_dir: &Path, max_games: Option<usize>) -> Result<Vec<
                 Ok(exs) => {
                     all_examples.extend(exs);
                     game_count += 1;
+                    if game_count % 1000 == 0 {
+                        println!("  Collected {} examples from {} games...", all_examples.len(), game_count);
+                    }
                 }
                 Err(e) => {
                     eprintln!("Skipping game due to error: {}", e);
@@ -814,4 +988,46 @@ pub fn collect_examples(pgn_dir: &Path, max_games: Option<usize>) -> Result<Vec<
     }
 
     Ok(all_examples)
+}
+
+// ---------------------------------------------------------------------------
+// Tests
+// ---------------------------------------------------------------------------
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_san_from_startpos() {
+        let pos = Position::standard();
+        let m = san_to_move(&pos, "e4").unwrap_or_else(|| panic!("e4 should parse"));
+        assert_eq!(m.from.to_san(), "e2");
+        assert_eq!(m.to.to_san(), "e4");
+
+        let m = san_to_move(&pos, "d4").unwrap_or_else(|| panic!("d4 should parse"));
+        assert_eq!(m.from.to_san(), "d2");
+        assert_eq!(m.to.to_san(), "d4");
+
+        let m = san_to_move(&pos, "Nf3").unwrap_or_else(|| panic!("Nf3 should parse"));
+        assert_eq!(m.from.to_san(), "g1");
+        assert_eq!(m.to.to_san(), "f3");
+    }
+
+    #[test]
+    fn test_san_castling() {
+        let mut pos = Position::standard();
+        for san in ["e4", "e5", "Nf3", "Nc6", "Bb5", "a6", "Ba4", "Nf6"] {
+            let m = san_to_move(&pos, san).unwrap_or_else(|| panic!("{} should parse", san));
+            apply_move(&mut pos, m);
+        }
+        let moves = generate_moves(&pos);
+        let castle_moves: Vec<_> = moves
+            .iter()
+            .filter(|m| matches!(m.flags, MoveType::CastleKingSide | MoveType::CastleQueenSide))
+            .collect();
+        assert!(!castle_moves.is_empty(), "No castling moves generated");
+        let m = san_to_move(&pos, "O-O").unwrap_or_else(|| panic!("O-O should parse"));
+        assert!(matches!(m.flags, MoveType::CastleKingSide));
+    }
 }

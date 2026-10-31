@@ -10,6 +10,9 @@ use crate::piece::{Piece, PieceType};
 use crate::position::Position;
 use crate::rules::StateInfo;
 use crate::Square;
+use std::fs;
+use std::io;
+use std::path::Path;
 
 pub const L1: usize = 256;
 pub const L2: usize = 32;
@@ -108,117 +111,9 @@ impl DeterministicWeights {
 
         let mut w0 = [[0i8; L2]; L1];
 
-        // Piece-square tables (white perspective, mirrored for black)
-        const PST_PAWN: [i32; 64] = [
-            0, 0, 0, 0, 0, 0, 0, 0,
-            5, 10, 10, -20, -20, 10, 10, 5,
-            5, -5, -10, 0, 0, -10, -5, 5,
-            0, 0, 0, 20, 20, 0, 0, 0,
-            5, 5, 10, 25, 25, 10, 5, 5,
-            10, 10, 20, 30, 30, 20, 10, 10,
-            50, 50, 50, 50, 50, 50, 50, 50,
-            0, 0, 0, 0, 0, 0, 0, 0,
-        ];
-        const PST_KNIGHT: [i32; 64] = [
-            -50, -40, -30, -30, -30, -30, -40, -50,
-            -40, -20, 0, 5, 5, 0, -20, -40,
-            -30, 5, 10, 15, 15, 10, 5, -30,
-            -30, 0, 15, 20, 20, 15, 0, -30,
-            -30, 5, 15, 20, 20, 15, 5, -30,
-            -30, 0, 10, 15, 15, 10, 0, -30,
-            -40, -20, 0, 0, 0, 0, -20, -40,
-            -50, -40, -30, -30, -30, -30, -40, -50,
-        ];
-        const PST_BISHOP: [i32; 64] = [
-            -20, -10, -10, -10, -10, -10, -10, -20,
-            -10, 5, 0, 0, 0, 0, 5, -10,
-            -10, 10, 10, 10, 10, 10, 10, -10,
-            -10, 0, 10, 10, 10, 10, 0, -10,
-            -10, 5, 5, 10, 10, 5, 5, -10,
-            -10, 0, 5, 10, 10, 5, 0, -10,
-            -10, 0, 0, 0, 0, 0, 0, -10,
-            -20, -10, -10, -10, -10, -10, -10, -20,
-        ];
-        const PST_ROOK: [i32; 64] = [
-            0, 0, 0, 5, 5, 0, 0, 0,
-            -5, 0, 0, 0, 0, 0, 0, -5,
-            -5, 0, 0, 0, 0, 0, 0, -5,
-            -5, 0, 0, 0, 0, 0, 0, -5,
-            -5, 0, 0, 0, 0, 0, 0, -5,
-            -5, 0, 0, 0, 0, 0, 0, -5,
-            5, 10, 10, 10, 10, 10, 10, 5,
-            0, 0, 0, 0, 0, 0, 0, 0,
-        ];
-        const PST_QUEEN: [i32; 64] = [
-            -20, -10, -10, -5, -5, -10, -10, -20,
-            -10, 0, 5, 0, 0, 0, 0, -10,
-            -10, 5, 5, 5, 5, 5, 0, -10,
-            0, 0, 5, 5, 5, 5, 0, -5,
-            -5, 0, 5, 5, 5, 5, 0, -5,
-            -10, 0, 5, 5, 5, 5, 0, -10,
-            -10, 0, 0, 0, 0, 0, 0, -10,
-            -20, -10, -10, -5, -5, -10, -10, -20,
-        ];
-
-        let pst_tables = [
-            &PST_PAWN as &[i32; 64],
-            &PST_KNIGHT,
-            &PST_BISHOP,
-            &PST_ROOK,
-            &PST_QUEEN,
-        ];
-
-        // Initialize first output neuron to encode material + PST values
-        for perspective in [Color::White, Color::Black] {
-            for kb in 0..32usize {
-                for block in 0..3usize {
-                    for pt_idx in 0..5usize {
-                        let pt = match pt_idx {
-                            0 => PieceType::Pawn,
-                            1 => PieceType::Knight,
-                            2 => PieceType::Bishop,
-                            3 => PieceType::Rook,
-                            _ => PieceType::Queen,
-                        };
-                        let base_val = match pt {
-                            PieceType::Pawn => 100,
-                            PieceType::Knight => 320,
-                            PieceType::Bishop => 330,
-                            PieceType::Rook => 500,
-                            PieceType::Queen => 900,
-                            _ => 0,
-                        };
-                        let pst = pst_tables[pt_idx];
-                        for sq_idx in 0..64usize {
-                            let sq = Square::from_index(sq_idx).unwrap();
-                            // Mirror square for black perspective
-                            let mirrored_sq = if perspective == Color::White {
-                                sq
-                            } else {
-                                Square::new(7 - sq.file, 7 - sq.rank).unwrap()
-                            };
-                            let pst_val = pst[mirrored_sq.index()];
-
-                            let rel_ksq = Square::from_index(kb * 2).unwrap_or(Square::new(4, 0).unwrap());
-                            let ksq = if perspective == Color::White {
-                                rel_ksq
-                            } else {
-                                Square::new(7 - rel_ksq.file, 7 - rel_ksq.rank).unwrap()
-                            };
-                            let piece = Piece::new(perspective, pt);
-                            let idx = feature_index(perspective, ksq, block, piece, sq);
-                            let sign = if perspective == Color::White { 1 } else { -1 };
-                            let val = (sign * (base_val + pst_val)) as i8;
-                            w0[idx][0] = w0[idx][0].saturating_add(val);
-                        }
-                    }
-                }
-            }
-        }
-
-        // Fill remaining w0 entries with small random values
+        // Fill w0 with small random values
         for i in 0..L1 {
-            for j in 1..L2 {
+            for j in 0..L2 {
                 w0[i][j] = ((next() % 9) - 4) as i8;
             }
         }
@@ -241,13 +136,11 @@ impl DeterministicWeights {
         }
 
         let mut w2 = [0i8; L2 * 2 + L3 * 2];
-        // First output weight passes through material+PST
-        w2[0] = 6;
-        for i in 1..(L2 * 2 + L3 * 2) {
+        for i in 0..(L2 * 2 + L3 * 2) {
             w2[i] = ((next() % 9) - 4) as i8;
         }
 
-        let b2 = ((next() % 81) - 40) as i16;
+        let b2 = 0i16;
 
         Self {
             w0,
@@ -257,6 +150,44 @@ impl DeterministicWeights {
             w2,
             b2,
         }
+    }
+
+    pub fn load_from_file(path: &Path) -> Result<Self, io::Error> {
+        let data = fs::read(path)?;
+        let mut off: usize = 0;
+        let mut w0 = [[0i8; L2]; L1];
+        let mut b0 = [0i16; L2];
+        let mut w1 = [[0i8; L3]; L2 * 2];
+        let mut b1 = [0i16; L3];
+        let mut w2 = [0i8; L2 * 2 + L3 * 2];
+
+        for i in 0..L1 {
+            for j in 0..L2 {
+                w0[i][j] = data[off] as i8;
+                off += 1;
+            }
+        }
+        for j in 0..L2 {
+            b0[j] = i16::from_le_bytes([data[off], data[off + 1]]);
+            off += 2;
+        }
+        for i in 0..(L2 * 2) {
+            for j in 0..L3 {
+                w1[i][j] = data[off] as i8;
+                off += 1;
+            }
+        }
+        for j in 0..L3 {
+            b1[j] = i16::from_le_bytes([data[off], data[off + 1]]);
+            off += 2;
+        }
+        for i in 0..(L2 * 2 + L3 * 2) {
+            w2[i] = data[off] as i8;
+            off += 1;
+        }
+        let b2 = i16::from_le_bytes([data[off], data[off + 1]]);
+
+        Ok(Self { w0, b0, w1, b1, w2, b2 })
     }
 }
 
@@ -527,6 +458,11 @@ impl NnueEval {
         } else {
             black_score - white_score
         }
+    }
+
+    pub fn load_from_file(path: &Path) -> Result<Self, io::Error> {
+        let weights = DeterministicWeights::load_from_file(path)?;
+        Ok(Self { weights })
     }
 }
 

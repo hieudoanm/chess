@@ -230,6 +230,7 @@ fn generate_king_moves(position: &Position, from: Square, piece: Piece, moves: &
     generate_castling(position, from, piece, moves);
 }
 
+#[allow(clippy::collapsible_if)]
 fn generate_castling(position: &Position, from: Square, piece: Piece, moves: &mut Vec<Move>) {
     if position.is_in_check(piece.color) {
         return;
@@ -246,35 +247,30 @@ fn generate_castling(position: &Position, from: Square, piece: Piece, moves: &mu
             && position.get_piece(Square::new(7, 0).unwrap())
                 == Some(Piece::new(Color::White, PieceType::Rook))
         {
-            if !position.square_attacks(Square::new(4, 0).unwrap(), Square::new(4, 0).unwrap())
-                && !position.square_attacks(Square::new(5, 0).unwrap(), Square::new(5, 0).unwrap())
-                && !position.square_attacks(Square::new(6, 0).unwrap(), Square::new(6, 0).unwrap())
-            {
-                // Check squares the king passes through and lands on are not attacked by enemy
-                let enemy = Color::Black;
-                let mut attacked = false;
-                for r in 0..8 {
-                    for f in 0..8 {
-                        let sq = Square::new(f, r).unwrap();
-                        if let Some(p) = position.get_piece(sq) {
-                            if p.color == enemy
-                                && (position.square_attacks(sq, Square::new(4, 0).unwrap())
-                                    || position.square_attacks(sq, Square::new(5, 0).unwrap())
-                                    || position.square_attacks(sq, Square::new(6, 0).unwrap()))
-                            {
-                                attacked = true;
-                            }
+            // Check squares the king passes through and lands on are not attacked by enemy
+            let enemy = Color::Black;
+            let mut attacked = false;
+            for r in 0..8 {
+                for f in 0..8 {
+                    let sq = Square::new(f, r).unwrap();
+                    if let Some(p) = position.get_piece(sq) {
+                        if p.color == enemy
+                            && (position.square_attacks(sq, Square::new(4, 0).unwrap())
+                                || position.square_attacks(sq, Square::new(5, 0).unwrap())
+                                || position.square_attacks(sq, Square::new(6, 0).unwrap()))
+                        {
+                            attacked = true;
                         }
                     }
                 }
-                if !attacked {
-                    moves.push(Move {
-                        from,
-                        to: Square::new(6, 0).unwrap(),
-                        promotion: None,
-                        flags: MoveType::CastleKingSide,
-                    });
-                }
+            }
+            if !attacked {
+                moves.push(Move {
+                    from,
+                    to: Square::new(6, 0).unwrap(),
+                    promotion: None,
+                    flags: MoveType::CastleKingSide,
+                });
             }
         }
         // Queen side: e1-c1, rook a1-d1
