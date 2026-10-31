@@ -5,7 +5,7 @@ import subprocess
 import sys
 import time
 
-ENGINE_DEFAULT = "/Users/hieudoan/git/github.com/hieudoanm/chess/target/release/chess"
+ENGINE_DEFAULT = "stockfish"
 STOCKFISH_DEFAULT = "stockfish"
 MAX_PLIES = 100
 

@@ -106,3 +106,24 @@ cargo run -p chess-cli -- play --depth 3
 ```bash
 cargo test
 ```
+
+## Top Chess Engines (CCRL 40/15, Oct 2026)
+
+| Rank | Engine                                                              | CCRL 40/15 | Type       | Licence  | GitHub                                                    | Notes                           |
+| ---- | ------------------------------------------------------------------- | ---------- | ---------- | -------- | --------------------------------------------------------- | ------------------------------- |
+| 1    | [Stockfish 19](https://github.com/official-stockfish/Stockfish)     | 3650       | NNUE       | GPL-3.0  | [GitHub](https://github.com/official-stockfish/Stockfish) | Strongest engine, TCEC champion |
+| 2    | [Reckless 0.9.0](https://github.com/codedeliveryservice/Reckless)   | 3644       | NNUE       | AGPL-3.0 | [GitHub](https://github.com/codedeliveryservice/Reckless) | Written in Rust                 |
+| 3    | [PlentyChess 7.0.0](https://github.com/Yoshie2000/PlentyChess)      | 3642       | NNUE       | GPL-3.0  | [GitHub](https://github.com/Yoshie2000/PlentyChess)       |                                 |
+| 4    | [pawnocchio 2.0.1](https://github.com/JonathanHallstrom/pawnocchio) | 3641       | NNUE       | GPL-3.0  | [GitHub](https://github.com/JonathanHallstrom/pawnocchio) |                                 |
+| 5    | Torch v4d                                                           | 3639       | Neural net | Private  |                                                           | Chess.com                       |
+| 6    | [Coda 0.9.4](https://github.com/adamtwiss/coda)                     | 3638       | NNUE       | GPL-3.0  | [GitHub](https://github.com/adamtwiss/coda)               |                                 |
+| 7    | [Integral v8](https://github.com/aronpetko/integral)                | 3638       | NNUE       | None     | [GitHub](https://github.com/aronpetko/integral)           | Free download                   |
+| 8    | [Cinder 0.6.1](https://github.com/brunocodutra/cinder)              | 3637       | NNUE       | GPL-3.0  | [GitHub](https://github.com/brunocodutra/cinder)          |                                 |
+| 9    | [Obsidian 16.0](https://github.com/gab8192/Obsidian)                | 3636       | NNUE       | GPL-3.0  | [GitHub](https://github.com/gab8192/Obsidian)             |                                 |
+| 10   | [Alexandria 9.0.0](https://github.com/PGG106/Alexandria)            | 3635       | NNUE       | GPL-3.0  | [GitHub](https://github.com/PGG106/Alexandria)            |                                 |
+
+Lc0 (Leela Chess Zero) is also among the strongest, especially with GPU support (CCRL FRC: ~4080 on RTX 5050).
+
+- [Lc0 GitHub](https://github.com/LeelaChessZero/lc0)
+
+Sources: [Rama Chess](https://ramachess.com/best-chess-engines/), [CCI Ratings](https://computer-chess-index.github.io/cci/)
