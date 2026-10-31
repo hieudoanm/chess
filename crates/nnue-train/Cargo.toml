@@ -5,7 +5,7 @@ edition = "2021"
 
 [dependencies]
 chess-core = { path = "../core" }
-anyhow = "1.0"
+anyhow = "=1.0.104"
 
 [[bin]]
 name = "nnue-train"
