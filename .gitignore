@@ -1,0 +1,7 @@
+target/
+
+# macOS
+.DS_Store
+
+# PGN
+crates/games/pgn/**/*.pgn

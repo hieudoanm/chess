@@ -1,0 +1,509 @@
+#![allow(
+    clippy::needless_range_loop,
+    clippy::new_without_default,
+    clippy::unnecessary_cast
+)]
+
+use crate::color::Color;
+use crate::mv::Move;
+use crate::piece::{Piece, PieceType};
+use crate::position::Position;
+use crate::rules::StateInfo;
+use crate::Square;
+use std::fs;
+use std::io;
+use std::path::Path;
+
+pub const L1: usize = 256;
+pub const L2: usize = 32;
+pub const L3: usize = 32;
+pub const OUTPUT_SCALE: i32 = 600;
+
+fn king_bucket(ksq: Square) -> usize {
+    let mut f = ksq.file;
+    if f > 3 {
+        f = 7 - f;
+    }
+    let bucket = match ksq.rank {
+        0 => 0,
+        1 => 4,
+        2 => 8,
+        3 => 12,
+        4 => 16,
+        5 => 20,
+        6 => 24,
+        7 => 28,
+        _ => 0,
+    } + f / 2;
+    bucket.min(31) as usize
+}
+
+fn psq_block(position: &Position, perspective: Color) -> usize {
+    let mut enemy_queens = 0;
+    let mut own_rooks_queens = 0;
+    for rank in 0..8 {
+        for file in 0..8 {
+            let sq = Square::new(file, rank).unwrap();
+            if let Some(piece) = position.get_piece(sq) {
+                if piece.color == perspective.opponent() && piece.piece_type == PieceType::Queen {
+                    enemy_queens += 1;
+                }
+                if piece.color == perspective
+                    && (piece.piece_type == PieceType::Rook || piece.piece_type == PieceType::Queen)
+                {
+                    own_rooks_queens += 1;
+                }
+            }
+        }
+    }
+    if enemy_queens > 0 {
+        2
+    } else if own_rooks_queens > 0 {
+        1
+    } else {
+        0
+    }
+}
+
+fn feature_index(perspective: Color, ksq: Square, block: usize, piece: Piece, sq: Square) -> usize {
+    let rel = if perspective == Color::White {
+        sq
+    } else {
+        Square::new(7 - sq.file, 7 - sq.rank).unwrap()
+    };
+    let rel_ksq = if perspective == Color::White {
+        ksq
+    } else {
+        Square::new(7 - ksq.file, 7 - ksq.rank).unwrap()
+    };
+    let kb = king_bucket(rel_ksq);
+
+    let pt_offset = match piece.piece_type {
+        PieceType::Pawn => 0,
+        PieceType::Knight => 64,
+        PieceType::Bishop => 128,
+        PieceType::Rook => 192,
+        PieceType::Queen => 256,
+        PieceType::King => 320,
+    };
+    let color_offset = if piece.color == perspective { 0 } else { 384 };
+
+    let raw = color_offset + pt_offset + rel.index() + kb * 768 + block * 24576;
+    (raw.wrapping_mul(2654435761) >> 24) % L1
+}
+
+pub struct DeterministicWeights {
+    w0: [[i8; L2]; L1],
+    b0: [i16; L2],
+    w1: [[i8; L3]; L2 * 2],
+    b1: [i16; L3],
+    w2: [i8; L2 * 2 + L3 * 2],
+    b2: i16,
+}
+
+impl DeterministicWeights {
+    fn new() -> Self {
+        let mut seed: u32 = 0x12345678;
+        let mut next = move || {
+            seed = seed.wrapping_mul(1103515245).wrapping_add(12345);
+            ((seed >> 16) & 0x7fff) as i32
+        };
+
+        let mut w0 = [[0i8; L2]; L1];
+
+        // Fill w0 with small random values
+        for i in 0..L1 {
+            for j in 0..L2 {
+                w0[i][j] = ((next() % 9) - 4) as i8;
+            }
+        }
+
+        let mut b0 = [0i16; L2];
+        for j in 0..L2 {
+            b0[j] = ((next() % 41) - 20) as i16;
+        }
+
+        let mut w1 = [[0i8; L3]; L2 * 2];
+        for i in 0..(L2 * 2) {
+            for j in 0..L3 {
+                w1[i][j] = ((next() % 21) - 10) as i8;
+            }
+        }
+
+        let mut b1 = [0i16; L3];
+        for j in 0..L3 {
+            b1[j] = ((next() % 41) - 20) as i16;
+        }
+
+        let mut w2 = [0i8; L2 * 2 + L3 * 2];
+        for i in 0..(L2 * 2 + L3 * 2) {
+            w2[i] = ((next() % 9) - 4) as i8;
+        }
+
+        let b2 = 0i16;
+
+        Self {
+            w0,
+            b0,
+            w1,
+            b1,
+            w2,
+            b2,
+        }
+    }
+
+    pub fn load_from_file(path: &Path) -> Result<Self, io::Error> {
+        let data = fs::read(path)?;
+        let mut off: usize = 0;
+        let mut w0 = [[0i8; L2]; L1];
+        let mut b0 = [0i16; L2];
+        let mut w1 = [[0i8; L3]; L2 * 2];
+        let mut b1 = [0i16; L3];
+        let mut w2 = [0i8; L2 * 2 + L3 * 2];
+
+        for i in 0..L1 {
+            for j in 0..L2 {
+                w0[i][j] = data[off] as i8;
+                off += 1;
+            }
+        }
+        for j in 0..L2 {
+            b0[j] = i16::from_le_bytes([data[off], data[off + 1]]);
+            off += 2;
+        }
+        for i in 0..(L2 * 2) {
+            for j in 0..L3 {
+                w1[i][j] = data[off] as i8;
+                off += 1;
+            }
+        }
+        for j in 0..L3 {
+            b1[j] = i16::from_le_bytes([data[off], data[off + 1]]);
+            off += 2;
+        }
+        for i in 0..(L2 * 2 + L3 * 2) {
+            w2[i] = data[off] as i8;
+            off += 1;
+        }
+        let b2 = i16::from_le_bytes([data[off], data[off + 1]]);
+
+        Ok(Self { w0, b0, w1, b1, w2, b2 })
+    }
+}
+
+pub struct NnueAccumulator {
+    acc: [[i16; L1]; 2],
+    computed: [bool; 2],
+}
+
+impl Clone for NnueAccumulator {
+    fn clone(&self) -> Self {
+        NnueAccumulator {
+            acc: self.acc,
+            computed: self.computed,
+        }
+    }
+}
+
+impl NnueAccumulator {
+    pub fn new() -> Self {
+        NnueAccumulator {
+            acc: [[0; L1]; 2],
+            computed: [false; 2],
+        }
+    }
+
+    pub fn clear(&mut self) {
+        self.acc = [[0; L1]; 2];
+        self.computed = [false; 2];
+    }
+
+    pub fn add_feature(&mut self, perspective: Color, idx: usize) {
+        self.acc[perspective.index()][idx] = self.acc[perspective.index()][idx].wrapping_add(1);
+    }
+
+    pub fn sub_feature(&mut self, perspective: Color, idx: usize) {
+        self.acc[perspective.index()][idx] = self.acc[perspective.index()][idx].wrapping_sub(1);
+    }
+
+    pub fn set_computed(&mut self, perspective: Color) {
+        self.computed[perspective.index()] = true;
+    }
+
+    pub fn clear_computed(&mut self, perspective: Color) {
+        self.computed[perspective.index()] = false;
+    }
+
+    pub fn is_computed(&self, perspective: Color) -> bool {
+        self.computed[perspective.index()]
+    }
+
+    pub fn evaluate(&self, perspective: Color, weights: &DeterministicWeights) -> i32 {
+        let idx = perspective.index();
+        if !self.computed[idx] {
+            return 0;
+        }
+
+        let mut hidden0 = [0i32; L2];
+        for i in 0..L1 {
+            if self.acc[idx][i] != 0 {
+                for j in 0..L2 {
+                    hidden0[j] += self.acc[idx][i] as i32 * weights.w0[i][j] as i32;
+                }
+            }
+        }
+
+        let mut relu0 = [0i32; L2 * 2];
+        for j in 0..L2 {
+            let val = hidden0[j] + weights.b0[j] as i32;
+            let sqr = val * val / 1024;
+            let relu = if val > 0 { val } else { 0 };
+            relu0[j] = relu;
+            relu0[L2 + j] = sqr;
+        }
+
+        let mut hidden1 = [0i32; L3];
+        for i in 0..(L2 * 2) {
+            if relu0[i] != 0 {
+                for j in 0..L3 {
+                    hidden1[j] += relu0[i] as i32 * weights.w1[i][j] as i32;
+                }
+            }
+        }
+
+        let mut relu1 = [0i32; L3 * 2];
+        for j in 0..L3 {
+            let val = hidden1[j] + weights.b1[j] as i32;
+            let sqr = val * val / 1024;
+            let relu = if val > 0 { val } else { 0 };
+            relu1[j] = relu;
+            relu1[L3 + j] = sqr;
+        }
+
+        let mut output = weights.b2 as i32;
+        for i in 0..(L2 * 2) {
+            output += relu0[i] as i32 * weights.w2[i] as i32;
+        }
+        for i in 0..(L3 * 2) {
+            output += relu1[i] as i32 * weights.w2[L2 * 2 + i] as i32;
+        }
+
+        output * OUTPUT_SCALE / 1024
+    }
+}
+
+pub fn compute_features(position: &Position, perspective: Color, accumulator: &mut [i16; L1]) {
+    for v in accumulator.iter_mut() {
+        *v = 0;
+    }
+
+    let Some(ksq) = position.king_square(perspective) else {
+        return;
+    };
+    let block = psq_block(position, perspective);
+
+    for rank in 0..8 {
+        for file in 0..8 {
+            let sq = Square::new(file, rank).unwrap();
+            if let Some(piece) = position.get_piece(sq) {
+                if piece.piece_type != PieceType::King {
+                    let idx = feature_index(perspective, ksq, block, piece, sq);
+                    accumulator[idx] = accumulator[idx].wrapping_add(1);
+                }
+            }
+        }
+    }
+}
+
+pub fn refresh_accumulator(position: &Position, accumulator: &mut NnueAccumulator) {
+    accumulator.clear();
+    compute_features(
+        position,
+        Color::White,
+        &mut accumulator.acc[Color::White.index()],
+    );
+    compute_features(
+        position,
+        Color::Black,
+        &mut accumulator.acc[Color::Black.index()],
+    );
+    accumulator.set_computed(Color::White);
+    accumulator.set_computed(Color::Black);
+}
+
+pub fn apply_move_nnue(position: &Position, m: Move, accumulator: &mut NnueAccumulator) {
+    let perspective = position.side_to_move;
+    let ksq = match position.king_square(perspective) {
+        Some(sq) => sq,
+        None => return,
+    };
+    let block = psq_block(position, perspective);
+
+    let moved = position.get_piece(m.from).unwrap();
+
+    if moved.piece_type != PieceType::King {
+        let idx = feature_index(perspective, ksq, block, moved, m.from);
+        accumulator.sub_feature(perspective, idx);
+    }
+
+    if let Some(captured) = position.get_piece(m.to) {
+        if captured.piece_type != PieceType::King {
+            let opp = perspective.opponent();
+            if let Some(ok_sq) = position.king_square(opp) {
+                let oblock = psq_block(position, opp);
+                let idx = feature_index(opp, ok_sq, oblock, captured, m.to);
+                accumulator.sub_feature(opp, idx);
+            }
+        }
+    }
+
+    accumulator.clear_computed(perspective);
+    accumulator.clear_computed(perspective.opponent());
+}
+
+pub fn apply_move_nnue_post(position: &Position, m: Move, accumulator: &mut NnueAccumulator) {
+    let perspective = position.side_to_move.opponent();
+    let Some(ksq) = position.king_square(perspective) else {
+        return;
+    };
+    let block = psq_block(position, perspective);
+
+    let moved = position.get_piece(m.to).unwrap();
+
+    if moved.piece_type != PieceType::King {
+        let idx = feature_index(perspective, ksq, block, moved, m.to);
+        accumulator.add_feature(perspective, idx);
+    }
+
+    accumulator.set_computed(perspective);
+    accumulator.set_computed(perspective.opponent());
+}
+
+pub fn undo_move_nnue_pre(position: &Position, m: Move, accumulator: &mut NnueAccumulator) {
+    let perspective = position.side_to_move.opponent();
+    let Some(ksq) = position.king_square(perspective) else {
+        return;
+    };
+    let block = psq_block(position, perspective);
+
+    let Some(moved) = position.get_piece(m.to) else {
+        return;
+    };
+
+    if moved.piece_type != PieceType::King {
+        let idx = feature_index(perspective, ksq, block, moved, m.to);
+        accumulator.sub_feature(perspective, idx);
+    }
+
+    accumulator.clear_computed(perspective);
+    accumulator.clear_computed(perspective.opponent());
+}
+
+pub fn undo_move_nnue_post(
+    position: &Position,
+    m: Move,
+    state: &StateInfo,
+    accumulator: &mut NnueAccumulator,
+) {
+    let perspective = position.side_to_move;
+    let Some(ksq) = position.king_square(perspective) else {
+        return;
+    };
+    let block = psq_block(position, perspective);
+
+    let moved = state
+        .captured
+        .unwrap_or_else(|| position.get_piece(m.from).unwrap());
+
+    if moved.piece_type != PieceType::King {
+        let idx = feature_index(perspective, ksq, block, moved, m.from);
+        accumulator.add_feature(perspective, idx);
+    }
+
+    if let Some(captured) = state.captured {
+        if captured.piece_type != PieceType::King {
+            let opp = perspective.opponent();
+            if let Some(ok_sq) = position.king_square(opp) {
+                let oblock = psq_block(position, opp);
+                let idx = feature_index(opp, ok_sq, oblock, captured, m.to);
+                accumulator.add_feature(opp, idx);
+            }
+        }
+    }
+
+    accumulator.set_computed(perspective);
+    accumulator.set_computed(perspective.opponent());
+}
+
+pub struct NnueEval {
+    weights: DeterministicWeights,
+}
+
+impl NnueEval {
+    pub fn new() -> Self {
+        NnueEval {
+            weights: DeterministicWeights::new(),
+        }
+    }
+
+    pub fn evaluate(&self, accumulator: &NnueAccumulator, perspective: Color) -> i32 {
+        accumulator.evaluate(perspective, &self.weights)
+    }
+
+    pub fn evaluate_relative(&self, accumulator: &NnueAccumulator, side_to_move: Color) -> i32 {
+        let white_score = accumulator.evaluate(Color::White, &self.weights);
+        let black_score = accumulator.evaluate(Color::Black, &self.weights);
+        if side_to_move == Color::White {
+            white_score - black_score
+        } else {
+            black_score - white_score
+        }
+    }
+
+    pub fn load_from_file(path: &Path) -> Result<Self, io::Error> {
+        let weights = DeterministicWeights::load_from_file(path)?;
+        Ok(Self { weights })
+    }
+}
+
+impl Default for NnueEval {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_king_bucket_range() {
+        for rank in 0..8 {
+            for file in 0..8 {
+                let sq = Square::new(file, rank).unwrap();
+                let b = king_bucket(sq);
+                assert!(b < 32, "king bucket {} out of range for {:?}", b, sq);
+            }
+        }
+    }
+
+    #[test]
+    fn test_feature_index_range() {
+        let pos = Position::standard();
+        let ksq = pos.king_square(Color::White).unwrap();
+        let block = psq_block(&pos, Color::White);
+        let piece = Piece::new(Color::White, PieceType::Pawn);
+        let sq = Square::new(0, 1).unwrap();
+        let idx = feature_index(Color::White, ksq, block, piece, sq);
+        assert!(idx < L1, "feature index {} out of range", idx);
+    }
+
+    #[test]
+    fn test_accumulator_add_sub() {
+        let mut acc = NnueAccumulator::new();
+        acc.add_feature(Color::White, 5);
+        assert_eq!(acc.acc[0][5], 1);
+        acc.sub_feature(Color::White, 5);
+        assert_eq!(acc.acc[0][5], 0);
+    }
+}
