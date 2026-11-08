@@ -93,7 +93,7 @@ fn main() {
         Some(Commands::Bench) => {
             let pos = Position::standard();
             let depths = [1u32, 2, 3, 4, 5];
-            let expected = [(1, 20u64), (2, 400), (3, 8902), (4, 197282), (5, 4865609)];
+            let expected = [(1, 20u64), (2, 400), (3, 8902), (4, 197281), (5, 4865609)];
             let mut total_nodes = 0u64;
             let mut total_time = std::time::Duration::ZERO;
             for (d, exp) in depths.iter().zip(expected.iter()) {

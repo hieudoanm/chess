@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hieudoanm.github.io/chess/sitemap.xml
