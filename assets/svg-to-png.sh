@@ -1,60 +1,56 @@
 #!/usr/bin/env bash
-set -uo pipefail
+# Convert every SVG under assets/**/svg/ to a sibling PNG under assets/**/png/.
+# Output keeps each SVG's intrinsic size and aspect ratio.
+#
+# Usage: assets/svg-to-png.sh
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-SVG_DIR="$ROOT/assets/svg"
-PNG_DIR="$ROOT/assets/png"
-MAX_DIM=512
+set -euo pipefail
+
+ASSETS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+JOBS="${JOBS:-4}"
 
 command -v rsvg-convert >/dev/null 2>&1 || {
   echo "rsvg-convert is required but not installed" >&2
+  echo "  macOS:  brew install librsvg" >&2
+  echo "  Debian: sudo apt-get install librsvg2-bin" >&2
+  echo "  Arch:   sudo pacman -S librsvg" >&2
   exit 1
 }
 
-svg_dim() {
-  local svg="$1" attr="$2" tag
-  tag="$(grep -o '<svg[^>]*>' "$svg" | head -1)"
-  printf '%s' "$tag" | sed -n "s/.*${attr}=\"\\([0-9.]*\\)[^\"]*\".*/\\1/p"
-}
+pids=()
+count=0
+while IFS= read -r -d '' svg; do
+  (
+    png="$(dirname "$svg" | sed 's|/svg$|/png|')/$(basename "${svg%.svg}").png"
 
-mkdir -p "$PNG_DIR"
+    if [ ! -s "$svg" ]; then
+      echo "skip (empty): $svg" >&2
+      exit 0
+    fi
 
-find "$SVG_DIR" -type f -name '*.svg' | while IFS= read -r svg; do
-  if [ ! -s "$svg" ]; then
-    echo "skip (empty): $svg" >&2
-    continue
+    mkdir -p "$(dirname "$png")"
+    if rsvg-convert -o "$png" "$svg"; then
+      echo "converted $svg -> $png"
+    else
+      echo "failed: $svg" >&2
+      exit 1
+    fi
+  ) &
+  pids+=("$!")
+  count=$((count + 1))
+  if [ "${#pids[@]}" -ge "$JOBS" ]; then
+    wait "${pids[0]}" || true
+    pids=("${pids[@]:1}")
   fi
-  rel="${svg#$SVG_DIR/}"
-  rel="${rel%.svg}"
-  png="$PNG_DIR/$rel.png"
-  mkdir -p "$(dirname "$png")"
+done < <(find "$ASSETS_DIR" -type f -path '*/svg/*.svg' -print0)
 
-  w="$(svg_dim "$svg" width)"
-  h="$(svg_dim "$svg" height)"
-  if [ -z "$w" ] || [ -z "$h" ]; then
-    vb="$(grep -o '<svg[^>]*>' "$svg" | head -1 | sed -n 's/.*viewBox="[^"]* [^"]* \([0-9.]*\) \([0-9.]*\)".*/\1 \2/p')"
-    w="${vb%% *}"
-    h="${vb##* }"
-  fi
-  if [ -z "$w" ] || [ -z "$h" ]; then
-    echo "skip (no dimensions): $svg" >&2
-    continue
-  fi
-
-  dims="$(awk -v w="$w" -v h="$h" -v m="$MAX_DIM" '
-    BEGIN {
-      if (w >= h) { nw = m; nh = int(m * h / w + 0.5) }
-      else        { nh = m; nw = int(m * w / h + 0.5) }
-      if (nw < 1) nw = 1
-      if (nh < 1) nh = 1
-      print nw, nh
-    }')"
-  nw="${dims%% *}"
-  nh="${dims##* }"
-
-  if rsvg-convert -w "$nw" -h "$nh" -o "$png" "$svg"; then
-    echo "converted $svg -> $png (${nw}x${nh})"
-  else
-    echo "failed: $svg" >&2
-  fi
+status=0
+for pid in "${pids[@]}"; do
+  wait "$pid" || status=1
 done
+
+if [ "$count" -eq 0 ]; then
+  echo "no svg files found under $ASSETS_DIR/*/svg" >&2
+fi
+
+exit "$status"
