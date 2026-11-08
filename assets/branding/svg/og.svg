@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 640" width="1280" height="640">
+  <rect width="1280" height="640" fill="#ffffff" />
+  <defs>
+    <pattern id="grid" width="16" height="16" patternUnits="userSpaceOnUse">
+      <path d="M16 0H0V16" fill="none" stroke="#e5e7eb" stroke-width="1" />
+    </pattern>
+  </defs>
+  <rect width="1280" height="640" fill="url(#grid)" />
+
+  <text x="64" y="64" font-family="ui-monospace, Menlo, monospace" font-size="32" font-weight="700" fill="#111827">Chess</text>
+  <text x="1216" y="64" text-anchor="end" font-family="ui-monospace, Menlo, monospace" font-size="24" fill="#6b7280">hieudoanm.github.io/chess</text>
+
+  <g transform="translate(64 192) scale(0.6667) translate(-64 -64)">
+    <rect x="128" y="152" width="256" height="288" />
+    <rect x="128" y="72" width="64" height="80" />
+    <rect x="224" y="72" width="64" height="80" />
+    <rect x="320" y="72" width="64" height="80" />
+  </g>
+
+  <text x="384" y="240" font-family="ui-monospace, Menlo, monospace" font-size="32" fill="#6b7280">RUST GAME ENGINE</text>
+  <text x="384" y="320" font-family="ui-monospace, Menlo, monospace" font-size="64" font-weight="700" fill="#111827">Chess</text>
+  <text x="384" y="376" font-family="ui-monospace, Menlo, monospace" font-size="24" fill="#6b7280">A multi-crate Rust chess engine with CLI interface.</text>
+  <text x="384" y="420" font-family="ui-monospace, Menlo, monospace" font-size="20" fill="#9ca3af">rust · chess · uci · alpha-beta · cli</text>
+
+  <text x="1216" y="592" text-anchor="end" font-family="ui-monospace, Menlo, monospace" font-size="24" fill="#6b7280">github.com/hieudoanm/chess</text>
+</svg>
