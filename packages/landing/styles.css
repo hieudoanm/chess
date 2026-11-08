@@ -143,14 +143,22 @@ section { scroll-margin-top: 4.5rem; }
 
 .hero { padding: 5rem 0 4rem; }
 
-.hero-inner { max-width: 52rem; text-align: center; }
+.hero-inner {
+  max-width: 72rem;
+  display: grid;
+  gap: 3rem;
+  align-items: center;
+  text-align: left;
+}
+@media (min-width: 64rem) {
+  .hero-inner { grid-template-columns: 1.05fr 1fr; }
+}
 
 .lede {
   margin-top: 1.5rem;
   font-size: 1.1875rem;
   color: var(--text-muted);
-  max-width: 42rem;
-  margin-inline: auto;
+  max-width: 36rem;
 }
 
 .cta-row {
@@ -160,9 +168,10 @@ section { scroll-margin-top: 4.5rem; }
   justify-content: center;
   gap: 0.75rem;
 }
+.hero-inner .cta-row { justify-content: flex-start; }
 
 .stats {
-  margin: 3.5rem 0 0;
+  margin: 2.5rem 0 0;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
