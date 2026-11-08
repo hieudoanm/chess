@@ -1,131 +1,249 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>chess — a chess engine in one Rust binary</title>
-    <meta name="description" content="chess is a UCI-compatible engine with alpha-beta search, NNUE evaluation, and perft-tested move generation — plus an MCP server so AI assistants can play and analyze games." />
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>chess — a chess engine in one Rust binary</title>
+    <meta
+      name="description"
+      content="chess is a UCI-compatible engine with alpha-beta search, NNUE evaluation, and perft-tested move generation — plus an MCP server so AI assistants can play and analyze games." />
     <link rel="canonical" href="https://hieudoanm.github.io/chess/" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="chess" />
-    <meta property="og:title" content="chess — a chess engine in one Rust binary" />
-    <meta property="og:description" content="chess is a UCI-compatible engine with alpha-beta search, NNUE evaluation, and perft-tested move generation — plus an MCP server so AI assistants can play and analyze games." />
+    <meta
+      property="og:title"
+      content="chess — a chess engine in one Rust binary" />
+    <meta
+      property="og:description"
+      content="chess is a UCI-compatible engine with alpha-beta search, NNUE evaluation, and perft-tested move generation — plus an MCP server so AI assistants can play and analyze games." />
     <meta property="og:url" content="https://hieudoanm.github.io/chess/" />
-    <meta property="og:image" content="https://hieudoanm.github.io/chess/og-image.png" />
+    <meta
+      property="og:image"
+      content="https://hieudoanm.github.io/chess/og-image.png" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="chess — a chess engine in one Rust binary" />
-    <meta name="twitter:description" content="chess is a UCI-compatible engine with alpha-beta search, NNUE evaluation, and perft-tested move generation — plus an MCP server so AI assistants can play and analyze games." />
-    <meta name="twitter:image" content="https://hieudoanm.github.io/chess/og-image.png" />
+    <meta
+      name="twitter:title"
+      content="chess — a chess engine in one Rust binary" />
+    <meta
+      name="twitter:description"
+      content="chess is a UCI-compatible engine with alpha-beta search, NNUE evaluation, and perft-tested move generation — plus an MCP server so AI assistants can play and analyze games." />
+    <meta
+      name="twitter:image"
+      content="https://hieudoanm.github.io/chess/og-image.png" />
     <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href="favicon.ico" sizes="any" />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 
-<link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <header class="nav">
-    <div class="container nav-inner">
-      <a class="brand" href="#top">
-        <img src="logo.svg" alt="" width="28" height="28" />
-        <span>chess</span>
-      </a>
-      <nav class="nav-links">
-        <a href="#features">Features</a>
-        <a href="#demo">Demo</a>
-        <a href="#how-it-works">How it works</a>
-        <a href="#install">Install</a>
-      </nav>
-      <a class="btn btn-primary btn-sm" href="https://github.com/hieudoanm/chess" target="_blank" rel="noreferrer">GitHub</a>
-    </div>
-  </header>
-
-  <main id="top">
-    <section class="hero">
-      <div class="container hero-inner">
-        <h1>Checkmate, computed locally.</h1>
-        <p class="lede">
-          chess is a UCI-compatible engine with negamax alpha-beta search,
-          incremental NNUE evaluation, and a transposition table — plus an MCP
-          server so AI assistants can play and analyze games. One Rust binary,
-          no runtime dependencies.
-        </p>
-        <div class="cta-row">
-          <a class="btn btn-primary btn-lg" href="#install">Get started</a>
-          <a class="btn btn-ghost btn-lg" href="#demo">See it in action</a>
-        </div>
-        <dl class="stats">
-          <div><dt>~9M</dt><dd>nodes searched per second</dd></div>
-          <div><dt>UCI + MCP</dt><dd>GUI and agent interfaces</dd></div>
-          <div><dt>perft-tested</dt><dd>verified move generation</dd></div>
-        </dl>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="nav">
+      <div class="container nav-inner">
+        <a class="brand" href="#top">
+          <img src="logo.svg" alt="" width="28" height="28" />
+          <span>chess</span>
+        </a>
+        <nav class="nav-links">
+          <a href="#features">Features</a>
+          <a href="#demo">Demo</a>
+          <a href="#how-it-works">How it works</a>
+          <a href="#install">Install</a>
+        </nav>
+        <a
+          class="btn btn-primary btn-sm"
+          href="https://github.com/hieudoanm/chess"
+          target="_blank"
+          rel="noreferrer"
+          >GitHub</a
+        >
       </div>
-    </section>
+    </header>
 
-    <section id="features" class="section">
-      <div class="container">
-        <div class="section-head">
-          <h2>Features</h2>
-          <p>A complete engine in a single binary — search, evaluation, and
-          interfaces, all local and deterministic.</p>
-        </div>
-        <div class="grid grid-3">
-          <article class="card">
-            <div class="card-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    <main id="top">
+      <section class="hero">
+        <div class="container hero-inner">
+          <div class="hero-content">
+            <h1>Checkmate, computed locally.</h1>
+            <p class="lede">
+              chess is a UCI-compatible engine with negamax alpha-beta search,
+              incremental NNUE evaluation, and a transposition table — plus an
+              MCP server so AI assistants can play and analyze games. One Rust
+              binary, no runtime dependencies.
+            </p>
+            <div class="cta-row">
+              <a class="btn btn-primary btn-lg" href="#install">Get started</a>
+              <a class="btn btn-ghost btn-lg" href="#demo">See it in action</a>
             </div>
-            <h3>UCI compatible</h3>
-            <p>Speaks the standard UCI protocol — plug it into any GUI or GUI-compatible tool. Supports position setup from FEN or move lists, depth and time controls, and ponder.</p>
-          </article>
-          <article class="card">
-            <div class="card-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            </div>
-            <h3>Alpha-beta search</h3>
-            <p>Negamax with alpha-beta pruning and a transposition table — iterative deepening over a fully legal move generator.</p>
-          </article>
-          <article class="card">
-            <div class="card-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/></svg>
-            </div>
-            <h3>NNUE evaluation</h3>
-            <p>Neural network evaluation with an incrementally updated accumulator — refreshed only for the pieces that moved, not the whole board.</p>
-          </article>
-          <article class="card">
-            <div class="card-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            </div>
-            <h3>MCP server</h3>
-            <p>Built-in Model Context Protocol server over stdio JSON-RPC — tools for new games, board state, legal moves, and best-move queries for AI agents.</p>
-          </article>
-          <article class="card">
-            <div class="card-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-            </div>
-            <h3>Scriptable CLI</h3>
-            <p>chess play for interactive games, chess moves and chess board for position inspection, chess bench for perft benchmarks, chess fen for FEN export.</p>
-          </article>
-          <article class="card">
-            <div class="card-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-            </div>
-            <h3>Fast &amp; lean</h3>
-            <p>No runtime dependencies, no daemon, no account. A single static binary that searches millions of nodes per second.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="demo" class="section section-alt">
-      <div class="container">
-        <div class="section-head">
-          <h2>See it in action</h2>
-          <p>Drive the engine over UCI, inspect positions from the shell, or
-          benchmark move generation with perft.</p>
-        </div>
-        <div class="grid grid-demo">
-          <figure class="terminal terminal-wide">
+            <dl class="stats">
+              <div>
+                <dt>~9M</dt>
+                <dd>nodes searched per second</dd>
+              </div>
+              <div>
+                <dt>UCI + MCP</dt>
+                <dd>GUI and agent interfaces</dd>
+              </div>
+              <div>
+                <dt>perft-tested</dt>
+                <dd>verified move generation</dd>
+              </div>
+            </dl>
+          </div>
+          <figure class="terminal hero-demo">
             <figcaption>UCI session</figcaption>
             <pre><code><span class="prompt">$</span> chess uci
+<span class="out">id name chess</span>
+<span class="out">uciok</span>
+<span class="prompt">position startpos moves e2e4 e7e5</span>
+<span class="prompt">go depth 3</span>
+<span class="out">bestmove g1f3</span></code></pre>
+          </figure>
+        </div>
+      </section>
+
+      <section id="features" class="section">
+        <div class="container">
+          <div class="section-head">
+            <h2>Features</h2>
+            <p>
+              A complete engine in a single binary — search, evaluation, and
+              interfaces, all local and deterministic.
+            </p>
+          </div>
+          <div class="grid grid-3">
+            <article class="card">
+              <div class="card-icon" aria-hidden="true">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                </svg>
+              </div>
+              <h3>UCI compatible</h3>
+              <p>
+                Speaks the standard UCI protocol — plug it into any GUI or
+                GUI-compatible tool. Supports position setup from FEN or move
+                lists, depth and time controls, and ponder.
+              </p>
+            </article>
+            <article class="card">
+              <div class="card-icon" aria-hidden="true">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M12 6v6l4 2" />
+                </svg>
+              </div>
+              <h3>Alpha-beta search</h3>
+              <p>
+                Negamax with alpha-beta pruning and a transposition table —
+                iterative deepening over a fully legal move generator.
+              </p>
+            </article>
+            <article class="card">
+              <div class="card-icon" aria-hidden="true">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <rect x="4" y="4" width="16" height="16" rx="2" />
+                  <rect x="9" y="9" width="6" height="6" />
+                </svg>
+              </div>
+              <h3>NNUE evaluation</h3>
+              <p>
+                Neural network evaluation with an incrementally updated
+                accumulator — refreshed only for the pieces that moved, not the
+                whole board.
+              </p>
+            </article>
+            <article class="card">
+              <div class="card-icon" aria-hidden="true">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path
+                    d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                </svg>
+              </div>
+              <h3>MCP server</h3>
+              <p>
+                Built-in Model Context Protocol server over stdio JSON-RPC —
+                tools for new games, board state, legal moves, and best-move
+                queries for AI agents.
+              </p>
+            </article>
+            <article class="card">
+              <div class="card-icon" aria-hidden="true">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <polyline points="4 17 10 11 4 5" />
+                  <line x1="12" y1="19" x2="20" y2="19" />
+                </svg>
+              </div>
+              <h3>Scriptable CLI</h3>
+              <p>
+                chess play for interactive games, chess moves and chess board
+                for position inspection, chess bench for perft benchmarks, chess
+                fen for FEN export.
+              </p>
+            </article>
+            <article class="card">
+              <div class="card-icon" aria-hidden="true">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                </svg>
+              </div>
+              <h3>Fast &amp; lean</h3>
+              <p>
+                No runtime dependencies, no daemon, no account. A single static
+                binary that searches millions of nodes per second.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="demo" class="section section-alt">
+        <div class="container">
+          <div class="section-head">
+            <h2>See it in action</h2>
+            <p>
+              Drive the engine over UCI, inspect positions from the shell, or
+              benchmark move generation with perft.
+            </p>
+          </div>
+          <div class="grid grid-demo">
+            <figure class="terminal terminal-wide">
+              <figcaption>UCI session</figcaption>
+              <pre><code><span class="prompt">$</span> chess uci
 <span class="prompt">uci</span>
 <span class="out">id name chess</span>
 <span class="out">id author Kilo</span>
@@ -133,99 +251,153 @@
 <span class="prompt">position startpos moves e2e4 e7e5</span>
 <span class="prompt">go depth 3</span>
 <span class="out">bestmove g1f3</span></code></pre>
-          </figure>
-          <figure class="terminal">
-            <figcaption>Inspect the position</figcaption>
-            <pre><code><span class="prompt">$</span> chess board
+            </figure>
+            <figure class="terminal">
+              <figcaption>Inspect the position</figcaption>
+              <pre><code><span class="prompt">$</span> chess board
 <span class="out">rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1</span>
 <span class="prompt">$</span> chess moves | head -4
 <span class="out">b1c3</span>
 <span class="out">b1a3</span>
 <span class="out">g1h3</span>
 <span class="out">g1f3</span></code></pre>
-          </figure>
-          <figure class="terminal">
-            <figcaption>Benchmark move generation</figcaption>
-            <pre><code><span class="prompt">$</span> chess bench
+            </figure>
+            <figure class="terminal">
+              <figcaption>Benchmark move generation</figcaption>
+              <pre><code><span class="prompt">$</span> chess bench
 <span class="out">depth 1: 20 nodes (1506.25 ns/node) OK (expected 20)</span>
 <span class="out">depth 2: 400 nodes (200.52 ns/node) OK (expected 400)</span>
 <span class="out">depth 3: 8902 nodes (129.37 ns/node) OK (expected 8902)</span>
 <span class="out">depth 4: 197281 nodes (181.92 ns/node) OK (expected 197281)</span>
 <span class="out">depth 5: 4865609 nodes (111.67 ns/node) OK (expected 4865609)</span>
 <span class="out">total: 5072212 nodes in 0.58s = 8737744 nps</span></code></pre>
-          </figure>
+            </figure>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section id="how-it-works" class="section">
-      <div class="container">
-        <div class="section-head">
-          <h2>How it works</h2>
-          <p>Generate, evaluate, search — a tight loop over a fully legal move
-          generator, with NNUE doing the positional heavy lifting.</p>
+      <section id="how-it-works" class="section">
+        <div class="container">
+          <div class="section-head">
+            <h2>How it works</h2>
+            <p>
+              Generate, evaluate, search — a tight loop over a fully legal move
+              generator, with NNUE doing the positional heavy lifting.
+            </p>
+          </div>
+          <div class="grid grid-3">
+            <article class="card step">
+              <span class="step-num">01</span>
+              <h3>Generate</h3>
+              <p>
+                chess-core produces every pseudo-legal move — including
+                castling, en passant, and promotions — then filters out any move
+                that leaves its own king in check.
+              </p>
+              <code class="snippet">chess moves</code>
+            </article>
+            <article class="card step">
+              <span class="step-num">02</span>
+              <h3>Evaluate</h3>
+              <p>
+                chess-core's NNUE network scores positions through an
+                incrementally maintained accumulator — only changed feature
+                weights are refreshed per move.
+              </p>
+              <code class="snippet">nnue_weights.bin</code>
+            </article>
+            <article class="card step">
+              <span class="step-num">03</span>
+              <h3>Search</h3>
+              <p>
+                chess-engine runs negamax with alpha-beta pruning and a
+                transposition table, returning the best move over UCI or the
+                interactive CLI.
+              </p>
+              <code class="snippet">chess uci → bestmove g1f3</code>
+            </article>
+          </div>
         </div>
-        <div class="grid grid-3">
-          <article class="card step">
-            <span class="step-num">01</span>
-            <h3>Generate</h3>
-            <p>chess-core produces every pseudo-legal move — including castling, en passant, and promotions — then filters out any move that leaves its own king in check.</p>
-            <code class="snippet">chess moves</code>
-          </article>
-          <article class="card step">
-            <span class="step-num">02</span>
-            <h3>Evaluate</h3>
-            <p>chess-core's NNUE network scores positions through an incrementally maintained accumulator — only changed feature weights are refreshed per move.</p>
-            <code class="snippet">nnue_weights.bin</code>
-          </article>
-          <article class="card step">
-            <span class="step-num">03</span>
-            <h3>Search</h3>
-            <p>chess-engine runs negamax with alpha-beta pruning and a transposition table, returning the best move over UCI or the interactive CLI.</p>
-            <code class="snippet">chess uci → bestmove g1f3</code>
-          </article>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <section id="install" class="section section-alt">
-      <div class="container container-narrow">
-        <div class="section-head">
-          <h2>Get started</h2>
-          <p>Install a prebuilt binary or build from source with Cargo. Rust
-          stable is the only requirement — no runtime dependencies.</p>
-        </div>
-        <figure class="terminal">
-          <figcaption>Install</figcaption>
-          <pre><code><span class="prompt">$</span> ./scripts/install.sh
+      <section id="install" class="section section-alt">
+        <div class="container container-narrow">
+          <div class="section-head">
+            <h2>Get started</h2>
+            <p>
+              Install a prebuilt binary or build from source with Cargo. Rust
+              stable is the only requirement — no runtime dependencies.
+            </p>
+          </div>
+          <figure class="terminal">
+            <figcaption>Install</figcaption>
+            <pre><code><span class="prompt">$</span> ./scripts/install.sh
 <span class="out">chess installed to ~/.local/bin/chess</span>
 <span class="prompt">$</span> chess uci
 <span class="out">id name chess</span>
 <span class="out">uciok</span>
 <span class="prompt">$</span> chess bench
 <span class="out">total: 5072212 nodes in 0.58s = 8737744 nps</span></code></pre>
-        </figure>
-        <p class="install-note">Or build from your checkout: <code>./scripts/install-local.sh</code> — see the <a href="https://github.com/hieudoanm/chess/blob/master/README.md" target="_blank" rel="noreferrer">README</a> for details.</p>
-        <div class="cta-row">
-          <a class="btn btn-primary btn-lg" href="https://github.com/hieudoanm/chess" target="_blank" rel="noreferrer">View on GitHub</a>
+          </figure>
+          <p class="install-note">
+            Or build from your checkout:
+            <code>./scripts/install-local.sh</code> — see the
+            <a
+              href="https://github.com/hieudoanm/chess/blob/master/README.md"
+              target="_blank"
+              rel="noreferrer"
+              >README</a
+            >
+            for details.
+          </p>
+          <div class="cta-row">
+            <a
+              class="btn btn-primary btn-lg"
+              href="https://github.com/hieudoanm/chess"
+              target="_blank"
+              rel="noreferrer"
+              >View on GitHub</a
+            >
+          </div>
         </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <span>© <span id="year">2026</span> chess</span>
+        <span>Local chess engine · MIT licensed</span>
+        <nav>
+          <a
+            href="https://github.com/hieudoanm/chess"
+            target="_blank"
+            rel="noreferrer"
+            >GitHub</a
+          >
+          <a
+            href="https://github.com/hieudoanm/chess/blob/master/README.md"
+            target="_blank"
+            rel="noreferrer"
+            >README</a
+          >
+          <a
+            href="https://github.com/hieudoanm/chess/blob/master/AGENTS.md"
+            target="_blank"
+            rel="noreferrer"
+            >Spec</a
+          >
+          <a
+            href="https://github.com/hieudoanm/chess/blob/master/LICENSE"
+            target="_blank"
+            rel="noreferrer"
+            >License</a
+          >
+        </nav>
       </div>
-    </section>
-  </main>
+    </footer>
 
-  <footer class="footer">
-    <div class="container footer-inner">
-      <span>© <span id="year">2026</span> chess</span>
-      <span>Local chess engine · MIT licensed</span>
-      <nav>
-        <a href="https://github.com/hieudoanm/chess" target="_blank" rel="noreferrer">GitHub</a>
-        <a href="https://github.com/hieudoanm/chess/blob/master/README.md" target="_blank" rel="noreferrer">README</a>
-        <a href="https://github.com/hieudoanm/chess/blob/master/AGENTS.md" target="_blank" rel="noreferrer">Spec</a>
-        <a href="https://github.com/hieudoanm/chess/blob/master/LICENSE" target="_blank" rel="noreferrer">License</a>
-      </nav>
-    </div>
-  </footer>
-
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
-</body>
+    <script>
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+  </body>
 </html>
