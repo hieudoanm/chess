@@ -1,7 +1,9 @@
 /* TEAM */
-Project: chess — UCI chess engine in Rust
-Role: Alpha-beta search, incremental NNUE evaluation, MCP server
-Repository: https://github.com/hieudoanm/chess
+Project: chess — a chess engine in one Rust binary
+Site: https://hieudoanm.github.io/chess/
+Source: https://github.com/hieudoanm/chess
 
-/* THANKS */
-Built with HTML, CSS, and Rust.
+/* SITE */
+Last update: 2026/11/08
+Language: English
+Doctype: HTML5
