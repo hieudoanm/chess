@@ -1,6 +1,5 @@
 use games::ChessComClient;
 use rusqlite::Connection;
-use std::fs;
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
 use tokio::sync::Semaphore;
@@ -86,22 +85,42 @@ async fn main() -> anyhow::Result<()> {
     let players = load_players_from_db()?;
 
     println!("Loaded {} players from DB", players.len());
-    println!("Starting download with {} concurrent downloads", MAX_CONCURRENT_DOWNLOADS);
+    println!(
+        "Starting download with {} concurrent downloads",
+        MAX_CONCURRENT_DOWNLOADS
+    );
 
     for (pidx, player) in players.iter().enumerate() {
         let output_dir = output_dir_for(player);
         std::fs::create_dir_all(&output_dir)?;
 
-        println!("\n[Player {}/{}] Fetching game archives for {}", pidx + 1, players.len(), player);
+        println!(
+            "\n[Player {}/{}] Fetching game archives for {}",
+            pidx + 1,
+            players.len(),
+            player
+        );
         let archives = match client.get_game_archives(player).await {
             Ok(a) => a,
             Err(e) => {
-                eprintln!("[Player {}/{}] Skipping {}: {}", pidx + 1, players.len(), player, e);
+                eprintln!(
+                    "[Player {}/{}] Skipping {}: {}",
+                    pidx + 1,
+                    players.len(),
+                    player,
+                    e
+                );
                 continue;
             }
         };
 
-        println!("[Player {}/{}] Found {} archives for {}", pidx + 1, players.len(), archives.len(), player);
+        println!(
+            "[Player {}/{}] Found {} archives for {}",
+            pidx + 1,
+            players.len(),
+            archives.len(),
+            player
+        );
 
         let archive_urls: Vec<String> = archives.to_vec();
         let total = archive_urls.len();
@@ -123,7 +142,12 @@ async fn main() -> anyhow::Result<()> {
             }
         }
 
-        println!("[Player {}/{}] Done. PGN files saved to {:?}", pidx + 1, players.len(), output_dir);
+        println!(
+            "[Player {}/{}] Done. PGN files saved to {:?}",
+            pidx + 1,
+            players.len(),
+            output_dir
+        );
     }
 
     println!("\nAll done!");

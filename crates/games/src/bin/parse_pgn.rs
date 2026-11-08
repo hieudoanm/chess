@@ -17,7 +17,11 @@ fn main() -> Result<()> {
         let content = fs::read_to_string(&path)?;
         let mut count = 0;
         for game in content.split("\n\n[").filter(|s| !s.trim().is_empty()) {
-            let game = if game.starts_with('[') { game.to_string() } else { format!("[{}", game) };
+            let game = if game.starts_with('[') {
+                game.to_string()
+            } else {
+                format!("[{}", game)
+            };
             // parse tags
             let mut tags = std::collections::BTreeMap::new();
             for cap in regex::Regex::new(r#"\[(\w+)\s+"([^"]*)"\]"#)?.captures_iter(&game) {
@@ -63,14 +67,24 @@ fn main() -> Result<()> {
     use std::io::Write;
     let mut f = fs::File::create("database/games.csv")?;
     let mut stmt = conn.prepare("SELECT id,file,event,site,date,round,white,black,result,time_control,white_elo,black_elo FROM games")?;
-    let cols = stmt.column_names();
+    let cols: Vec<String> = stmt.column_names().map(|c| c.to_string()).collect();
     writeln!(f, "{}", cols.join(","))?;
     let rows = stmt.query_map([], |row| {
-        Ok((0..12).map(|i| row.get::<_, Option<String>>(i).unwrap_or(None).unwrap_or_default()).collect::<Vec<_>>())
+        Ok((0..12)
+            .map(|i| {
+                row.get::<_, Option<String>>(i)
+                    .unwrap_or(None)
+                    .unwrap_or_default()
+            })
+            .collect::<Vec<_>>())
     })?;
     for row in rows {
         let r = row?;
-        let line = r.iter().map(|s| format!("\"{}\"", s.replace('"', "\"\""))).collect::<Vec<_>>().join(",");
+        let line = r
+            .iter()
+            .map(|s| format!("\"{}\"", s.replace('"', "\"\"")))
+            .collect::<Vec<_>>()
+            .join(",");
         writeln!(f, "{}", line)?;
     }
     Ok(())

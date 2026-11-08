@@ -31,13 +31,21 @@ struct PlayerProfile {
 async fn main() -> anyhow::Result<()> {
     let client = Arc::new(ChessComClient::new()?);
     let semaphore = Arc::new(Semaphore::new(MAX_CONCURRENT));
-    
-    let players_path = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("players").join("titled_players.txt");
-    let db_path = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("players").join("titled_players.sqlite");
-    
+
+    let players_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("players")
+        .join("titled_players.txt");
+    let db_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("players")
+        .join("titled_players.sqlite");
+
     let content = fs::read_to_string(&players_path)?;
-    let all_players: Vec<String> = content.lines().filter(|l| !l.trim().is_empty()).map(|l| l.trim().to_string()).collect();
-    
+    let all_players: Vec<String> = content
+        .lines()
+        .filter(|l| !l.trim().is_empty())
+        .map(|l| l.trim().to_string())
+        .collect();
+
     let conn = Connection::open(&db_path)?;
     conn.execute("CREATE TABLE IF NOT EXISTS players (
         player_id INTEGER PRIMARY KEY, username TEXT UNIQUE, title TEXT, name TEXT, country TEXT, location TEXT,
@@ -48,15 +56,24 @@ async fn main() -> anyhow::Result<()> {
         chess_bullet_last_rating INTEGER, chess_bullet_best_rating INTEGER, chess_bullet_win INTEGER, chess_bullet_draw INTEGER, chess_bullet_loss INTEGER,
         updated_at INTEGER DEFAULT (strftime('%s','now'))
     )", [])?;
-    
+
     let mut stmt = conn.prepare("SELECT username FROM players")?;
-    let existing: HashSet<String> = stmt.query_map([], |row| row.get::<_, String>(0))?.collect::<Result<_, _>>()?;
+    let existing: HashSet<String> = stmt
+        .query_map([], |row| row.get::<_, String>(0))?
+        .collect::<Result<_, _>>()?;
     drop(stmt);
     drop(conn);
-    
-    let players: Vec<String> = all_players.into_iter().filter(|p| !existing.contains(p)).collect();
-    println!("Fetching details for {} players ({} already exist)", players.len(), existing.len());
-    
+
+    let players: Vec<String> = all_players
+        .into_iter()
+        .filter(|p| !existing.contains(p))
+        .collect();
+    println!(
+        "Fetching details for {} players ({} already exist)",
+        players.len(),
+        existing.len()
+    );
+
     let mut handles = Vec::new();
     let total = players.len();
     for (idx, player) in players.into_iter().enumerate() {
@@ -65,11 +82,11 @@ async fn main() -> anyhow::Result<()> {
         let db_path = db_path.clone();
         handles.push(tokio::spawn(async move {
             let _permit = semaphore.acquire().await.ok()?;
-            println!("[{}/{}] Fetching {}", idx + 1, total, &player);
+            println!("[{}/{}] Fetching {}", idx + 1, total, player);
             if let Err(e) = fetch_and_save(&client, &db_path, &player).await {
-                eprintln!("[{}/{}] Failed {}: {}", idx + 1, total, &player, e);
+                eprintln!("[{}/{}] Failed {}: {}", idx + 1, total, player, e);
             } else {
-                println!("[{}/{}] Saved {}", idx + 1, total, &player);
+                println!("[{}/{}] Saved {}", idx + 1, total, player);
             }
             Some(())
         }));
@@ -78,11 +95,13 @@ async fn main() -> anyhow::Result<()> {
         let _ = handle.await;
     }
     println!("Done");
-    
-    let csv_path = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("players").join("titled_players.csv");
+
+    let csv_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("players")
+        .join("titled_players.csv");
     let conn_out = Connection::open(&db_path)?;
     let mut stmt_out = conn_out.prepare("SELECT * FROM players")?;
-    let cols: Vec<String> = stmt_out.column_names().iter().map(|c| c.to_string()).collect();
+    let cols: Vec<String> = stmt_out.column_names().map(|c| c.to_string()).collect();
     let mut wtr = std::io::BufWriter::new(fs::File::create(&csv_path)?);
     writeln!(wtr, "{}", cols.join(","))?;
     let mut rows = stmt_out.query([])?;
@@ -112,21 +131,93 @@ async fn main() -> anyhow::Result<()> {
     Ok(())
 }
 
-async fn fetch_and_save(client: &ChessComClient, db_path: &PathBuf, username: &str) -> anyhow::Result<()> {
+async fn fetch_and_save(
+    client: &ChessComClient,
+    db_path: &PathBuf,
+    username: &str,
+) -> anyhow::Result<()> {
     let profile_url = format!("https://api.chess.com/pub/player/{}", username);
     let stats_url = format!("https://api.chess.com/pub/player/{}/stats", username);
-    let profile: PlayerProfile = client.http.get(&profile_url).send().await?.error_for_status()?.json().await?;
-    let stats: Option<serde_json::Value> = if let Ok(resp) = client.http.get(&stats_url).send().await {
-        if resp.status().is_success() { resp.json().await.ok() } else { None }
-    } else { None };
+    let profile: PlayerProfile = client
+        .http
+        .get(&profile_url)
+        .send()
+        .await?
+        .error_for_status()?
+        .json()
+        .await?;
+    let stats: Option<serde_json::Value> =
+        if let Ok(resp) = client.http.get(&stats_url).send().await {
+            if resp.status().is_success() {
+                resp.json().await.ok()
+            } else {
+                None
+            }
+        } else {
+            None
+        };
     let conn = Connection::open(db_path)?;
-    let mut rr_last=None;let mut rr_best=None;let mut rr_w=None;let mut rr_d=None;let mut rr_l=None;
-    let mut rb_last=None;let mut rb_best=None;let mut rb_w=None;let mut rb_d=None;let mut rb_l=None;
-    let mut bu_last=None;let mut bu_best=None;let mut bu_w=None;let mut bu_d=None;let mut bu_l=None;
-    if let Some(s)=&stats {
-        if let Some(v)=s.get("chess_rapid"){rr_last=v.get("last").and_then(|x|x.get("rating")).and_then(|x|x.as_i64());rr_best=v.get("best").and_then(|x|x.get("rating")).and_then(|x|x.as_i64());if let Some(r)=v.get("record"){rr_w=r.get("win").and_then(|x|x.as_i64());rr_d=r.get("draw").and_then(|x|x.as_i64());rr_l=r.get("loss").and_then(|x|x.as_i64());}}
-        if let Some(v)=s.get("chess_blitz"){rb_last=v.get("last").and_then(|x|x.get("rating")).and_then(|x|x.as_i64());rb_best=v.get("best").and_then(|x|x.get("rating")).and_then(|x|x.as_i64());if let Some(r)=v.get("record"){rb_w=r.get("win").and_then(|x|x.as_i64());rb_d=r.get("draw").and_then(|x|x.as_i64());rb_l=r.get("loss").and_then(|x|x.as_i64());}}
-        if let Some(v)=s.get("chess_bullet"){bu_last=v.get("last").and_then(|x|x.get("rating")).and_then(|x|x.as_i64());bu_best=v.get("best").and_then(|x|x.get("rating")).and_then(|x|x.as_i64());if let Some(r)=v.get("record"){bu_w=r.get("win").and_then(|x|x.as_i64());bu_d=r.get("draw").and_then(|x|x.as_i64());bu_l=r.get("loss").and_then(|x|x.as_i64());}}
+    let mut rr_last = None;
+    let mut rr_best = None;
+    let mut rr_w = None;
+    let mut rr_d = None;
+    let mut rr_l = None;
+    let mut rb_last = None;
+    let mut rb_best = None;
+    let mut rb_w = None;
+    let mut rb_d = None;
+    let mut rb_l = None;
+    let mut bu_last = None;
+    let mut bu_best = None;
+    let mut bu_w = None;
+    let mut bu_d = None;
+    let mut bu_l = None;
+    if let Some(s) = &stats {
+        if let Some(v) = s.get("chess_rapid") {
+            rr_last = v
+                .get("last")
+                .and_then(|x| x.get("rating"))
+                .and_then(|x| x.as_i64());
+            rr_best = v
+                .get("best")
+                .and_then(|x| x.get("rating"))
+                .and_then(|x| x.as_i64());
+            if let Some(r) = v.get("record") {
+                rr_w = r.get("win").and_then(|x| x.as_i64());
+                rr_d = r.get("draw").and_then(|x| x.as_i64());
+                rr_l = r.get("loss").and_then(|x| x.as_i64());
+            }
+        }
+        if let Some(v) = s.get("chess_blitz") {
+            rb_last = v
+                .get("last")
+                .and_then(|x| x.get("rating"))
+                .and_then(|x| x.as_i64());
+            rb_best = v
+                .get("best")
+                .and_then(|x| x.get("rating"))
+                .and_then(|x| x.as_i64());
+            if let Some(r) = v.get("record") {
+                rb_w = r.get("win").and_then(|x| x.as_i64());
+                rb_d = r.get("draw").and_then(|x| x.as_i64());
+                rb_l = r.get("loss").and_then(|x| x.as_i64());
+            }
+        }
+        if let Some(v) = s.get("chess_bullet") {
+            bu_last = v
+                .get("last")
+                .and_then(|x| x.get("rating"))
+                .and_then(|x| x.as_i64());
+            bu_best = v
+                .get("best")
+                .and_then(|x| x.get("rating"))
+                .and_then(|x| x.as_i64());
+            if let Some(r) = v.get("record") {
+                bu_w = r.get("win").and_then(|x| x.as_i64());
+                bu_d = r.get("draw").and_then(|x| x.as_i64());
+                bu_l = r.get("loss").and_then(|x| x.as_i64());
+            }
+        }
     }
     conn.execute("INSERT OR REPLACE INTO players (player_id,username,title,name,country,location,followers,joined,last_online,status,is_streamer,verified,league,url,chess_rapid_last_rating,chess_rapid_best_rating,chess_rapid_win,chess_rapid_draw,chess_rapid_loss,chess_blitz_last_rating,chess_blitz_best_rating,chess_blitz_win,chess_blitz_draw,chess_blitz_loss,chess_bullet_last_rating,chess_bullet_best_rating,chess_bullet_win,chess_bullet_draw,chess_bullet_loss) VALUES (?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12,?13,?14,?15,?16,?17,?18,?19,?20,?21,?22,?23,?24,?25,?26,?27,?28,?29)", params![profile.player_id.or(profile.id), username, profile.title, profile.name, profile.country, profile.location, profile.followers, profile.joined, profile.last_online, profile.status, profile.is_streamer.map(|b| if b {1} else {0}), profile.verified.map(|b| if b {1} else {0}), profile.league, profile.url, rr_last,rr_best,rr_w,rr_d,rr_l,rb_last,rb_best,rb_w,rb_d,rb_l,bu_last,bu_best,bu_w,bu_d,bu_l])?;
     Ok(())

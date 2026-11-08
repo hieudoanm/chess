@@ -38,7 +38,7 @@ impl Weights {
             ((seed >> 16) & 0x7fff) as i32
         };
 
-let mut w0 = [[0i8; L2]; L1];
+        let mut w0 = [[0i8; L2]; L1];
 
         // Fill w0 with small random values (no PST seeding to avoid saturated initial outputs)
         for i in 0..L1 {
@@ -71,7 +71,14 @@ let mut w0 = [[0i8; L2]; L1];
 
         let b2 = 0i16;
 
-        Self { w0, b0, w1, b1, w2, b2 }
+        Self {
+            w0,
+            b0,
+            w1,
+            b1,
+            w2,
+            b2,
+        }
     }
 
     pub fn load(path: &Path) -> Result<Self> {
@@ -109,7 +116,14 @@ let mut w0 = [[0i8; L2]; L1];
         }
         let b2 = i16::from_le_bytes([data[off], data[off + 1]]);
 
-        Ok(Weights { w0, b0, w1, b1, w2, b2 })
+        Ok(Weights {
+            w0,
+            b0,
+            w1,
+            b1,
+            w2,
+            b2,
+        })
     }
 
     pub fn save(&self, path: &Path) -> Result<()> {
@@ -265,13 +279,7 @@ fn psq_block(position: &Position, perspective: Color) -> usize {
     }
 }
 
-fn feature_index(
-    perspective: Color,
-    ksq: Square,
-    block: usize,
-    piece: Piece,
-    sq: Square,
-) -> usize {
+fn feature_index(perspective: Color, ksq: Square, block: usize, piece: Piece, sq: Square) -> usize {
     let rel = if perspective == Color::White {
         sq
     } else {
@@ -664,9 +672,7 @@ pub fn parse_pgn_file(path: &Path) -> Result<Vec<PgnGame>> {
                 }
                 move_text.push_str(trimmed);
             }
-            if trimmed.ends_with("1-0")
-                || trimmed.ends_with("0-1")
-                || trimmed.ends_with("1/2-1/2")
+            if trimmed.ends_with("1-0") || trimmed.ends_with("0-1") || trimmed.ends_with("1/2-1/2")
             {
                 let san_moves = parse_pgn_moves(&move_text);
                 let result_token = trimmed
@@ -715,117 +721,116 @@ pub fn san_to_move(position: &Position, san: &str) -> Option<Move> {
     let side = position.side_to_move;
     let is_pawn_san = !san.starts_with(|c: char| matches!(c, 'K' | 'Q' | 'R' | 'B' | 'N'));
 
-    let (piece_type, file_hint, rank_hint, is_capture, dest_sq, promotion) =
-        if is_pawn_san {
-            let bytes = san.as_bytes();
-            let file_char = bytes[0] as char;
-            let file = (file_char as u8 - b'a') as usize;
-            let mut idx = 1;
-            let mut is_capture = false;
-            let mut dest_file = file;
-            if idx < bytes.len() && bytes[idx] as char == 'x' {
+    let (piece_type, file_hint, rank_hint, is_capture, dest_sq, promotion) = if is_pawn_san {
+        let bytes = san.as_bytes();
+        let file_char = bytes[0] as char;
+        let file = (file_char as u8 - b'a') as usize;
+        let mut idx = 1;
+        let mut is_capture = false;
+        let mut dest_file = file;
+        if idx < bytes.len() && bytes[idx] as char == 'x' {
+            is_capture = true;
+            idx += 1;
+            if idx < bytes.len() {
+                dest_file = (bytes[idx] as u8 - b'a') as usize;
+                idx += 1;
+            }
+        }
+        let mut dest_rank = None;
+        if idx < bytes.len() && bytes[idx].is_ascii_digit() {
+            dest_rank = Some((bytes[idx] as u8 - b'1') as usize);
+            idx += 1;
+        }
+        let mut promotion = None;
+        if idx < bytes.len() {
+            let c = bytes[idx] as char;
+            if matches!(c, 'q' | 'r' | 'b' | 'n' | 'Q' | 'R' | 'B' | 'N') {
+                promotion = match c {
+                    'q' | 'Q' => Some(PieceType::Queen),
+                    'r' | 'R' => Some(PieceType::Rook),
+                    'b' | 'B' => Some(PieceType::Bishop),
+                    'n' | 'N' => Some(PieceType::Knight),
+                    _ => None,
+                };
+            }
+        }
+        let dest_rank = dest_rank.map(|r| r as u8);
+        let dest = Square::new(dest_file as u8, dest_rank?)?;
+        (
+            PieceType::Pawn,
+            Some(file),
+            None,
+            is_capture,
+            dest,
+            promotion,
+        )
+    } else {
+        let bytes = san.as_bytes();
+        let pt = match bytes[0] as char {
+            'K' => PieceType::King,
+            'Q' => PieceType::Queen,
+            'R' => PieceType::Rook,
+            'B' => PieceType::Bishop,
+            'N' => PieceType::Knight,
+            _ => return None,
+        };
+
+        // Find end of meaningful SAN (strip trailing +, #, ++)
+        let mut end = bytes.len();
+        while end > 0 {
+            let c = bytes[end - 1] as char;
+            if c == '+' || c == '#' {
+                end -= 1;
+            } else {
+                break;
+            }
+        }
+
+        // Destination is always the last 2 characters before suffix
+        let mut idx = 1;
+        if end < idx + 2 {
+            return None;
+        }
+        let dest_file = (bytes[end - 2] as u8 - b'a') as usize;
+        let dest_rank = (bytes[end - 1] as u8 - b'1') as usize;
+        let dest = Square::new(dest_file as u8, dest_rank as u8)?;
+
+        // Everything between piece (idx=1) and destination (end-2) is disambiguation
+        let mut file_hint = None;
+        let mut rank_hint = None;
+        let mut is_capture = false;
+        while idx < end - 2 {
+            let c = bytes[idx] as char;
+            if c == 'x' {
                 is_capture = true;
                 idx += 1;
-                if idx < bytes.len() {
-                    dest_file = (bytes[idx] as u8 - b'a') as usize;
-                    idx += 1;
-                }
-            }
-            let mut dest_rank = None;
-            if idx < bytes.len() && bytes[idx].is_ascii_digit() {
-                dest_rank = Some((bytes[idx] as u8 - b'1') as usize);
+            } else if c.is_ascii_alphabetic() && c != 'x' {
+                file_hint = Some((c as u8 - b'a') as usize);
+                idx += 1;
+            } else if c.is_ascii_digit() {
+                rank_hint = Some((c as u8 - b'1') as usize);
+                idx += 1;
+            } else {
                 idx += 1;
             }
-            let mut promotion = None;
-            if idx < bytes.len() {
-                let c = bytes[idx] as char;
-                if matches!(c, 'q' | 'r' | 'b' | 'n' | 'Q' | 'R' | 'B' | 'N') {
-                    promotion = match c {
-                        'q' | 'Q' => Some(PieceType::Queen),
-                        'r' | 'R' => Some(PieceType::Rook),
-                        'b' | 'B' => Some(PieceType::Bishop),
-                        'n' | 'N' => Some(PieceType::Knight),
-                        _ => None,
-                    };
-                }
-            }
-            let dest_rank = dest_rank.map(|r| r as u8);
-            let dest = Square::new(dest_file as u8, dest_rank?)?;
-            (
-                PieceType::Pawn,
-                Some(file),
-                None,
-                is_capture,
-                dest,
-                promotion,
-            )
-        } else {
-            let bytes = san.as_bytes();
-            let pt = match bytes[0] as char {
-                'K' => PieceType::King,
-                'Q' => PieceType::Queen,
-                'R' => PieceType::Rook,
-                'B' => PieceType::Bishop,
-                'N' => PieceType::Knight,
-                _ => return None,
-            };
+        }
 
-            // Find end of meaningful SAN (strip trailing +, #, ++)
-            let mut end = bytes.len();
-            while end > 0 {
-                let c = bytes[end - 1] as char;
-                if c == '+' || c == '#' {
-                    end -= 1;
-                } else {
-                    break;
-                }
+        let mut promotion = None;
+        if end < bytes.len() && bytes[end] as char == '=' {
+            let pc_idx = end + 1;
+            if pc_idx < bytes.len() {
+                let pc = bytes[pc_idx] as char;
+                promotion = match pc {
+                    'Q' => Some(PieceType::Queen),
+                    'R' => Some(PieceType::Rook),
+                    'B' => Some(PieceType::Bishop),
+                    'N' => Some(PieceType::Knight),
+                    _ => None,
+                };
             }
-
-            // Destination is always the last 2 characters before suffix
-            let mut idx = 1;
-            if end < idx + 2 {
-                return None;
-            }
-            let dest_file = (bytes[end - 2] as u8 - b'a') as usize;
-            let dest_rank = (bytes[end - 1] as u8 - b'1') as usize;
-            let dest = Square::new(dest_file as u8, dest_rank as u8)?;
-
-            // Everything between piece (idx=1) and destination (end-2) is disambiguation
-            let mut file_hint = None;
-            let mut rank_hint = None;
-            let mut is_capture = false;
-            while idx < end - 2 {
-                let c = bytes[idx] as char;
-                if c == 'x' {
-                    is_capture = true;
-                    idx += 1;
-                } else if c.is_ascii_alphabetic() && c != 'x' {
-                    file_hint = Some((c as u8 - b'a') as usize);
-                    idx += 1;
-                } else if c.is_ascii_digit() {
-                    rank_hint = Some((c as u8 - b'1') as usize);
-                    idx += 1;
-                } else {
-                    idx += 1;
-                }
-            }
-
-            let mut promotion = None;
-            if end < bytes.len() && bytes[end] as char == '=' {
-                let pc_idx = end + 1;
-                if pc_idx < bytes.len() {
-                    let pc = bytes[pc_idx] as char;
-                    promotion = match pc {
-                        'Q' => Some(PieceType::Queen),
-                        'R' => Some(PieceType::Rook),
-                        'B' => Some(PieceType::Bishop),
-                        'N' => Some(PieceType::Knight),
-                        _ => None,
-                    };
-                }
-            }
-            (pt, file_hint, rank_hint, is_capture, dest, promotion)
-        };
+        }
+        (pt, file_hint, rank_hint, is_capture, dest, promotion)
+    };
 
     for m in &moves {
         let piece = match position.get_piece(m.from) {
@@ -838,8 +843,8 @@ pub fn san_to_move(position: &Position, san: &str) -> Option<Move> {
         if m.to != dest_sq {
             continue;
         }
-        let actual_capture = position.get_piece(m.to).is_some()
-            || matches!(m.flags, MoveType::EnPassant);
+        let actual_capture =
+            position.get_piece(m.to).is_some() || matches!(m.flags, MoveType::EnPassant);
         if is_capture != actual_capture {
             continue;
         }
@@ -901,7 +906,11 @@ pub struct TrainingExample {
 
 pub fn replay_game(game: &PgnGame) -> Result<Vec<TrainingExample>> {
     // Skip Chess960 variants (CastlingRights doesn't support file-based castling)
-    if game.headers.get("Variant").map_or(false, |v| v.contains("Chess960")) {
+    if game
+        .headers
+        .get("Variant")
+        .map_or(false, |v| v.contains("Chess960"))
+    {
         return Ok(Vec::new());
     }
     let mut pos = if game.headers.get("SetUp") == Some(&"1".to_string()) {
@@ -935,10 +944,18 @@ pub fn replay_game(game: &PgnGame) -> Result<Vec<TrainingExample>> {
         };
         let target = match game.result {
             GameResult::WhiteWins => {
-                if side_idx == 0 { 1.0 } else { 0.0 }
+                if side_idx == 0 {
+                    1.0
+                } else {
+                    0.0
+                }
             }
             GameResult::BlackWins => {
-                if side_idx == 1 { 1.0 } else { 0.0 }
+                if side_idx == 1 {
+                    1.0
+                } else {
+                    0.0
+                }
             }
             GameResult::Draw => 0.5,
             GameResult::Ongoing => 0.5,
@@ -984,7 +1001,11 @@ pub fn collect_examples(pgn_dir: &Path, max_games: Option<usize>) -> Result<Vec<
                     all_examples.extend(exs);
                     game_count += 1;
                     if game_count % 1000 == 0 {
-                        println!("  Collected {} examples from {} games...", all_examples.len(), game_count);
+                        println!(
+                            "  Collected {} examples from {} games...",
+                            all_examples.len(),
+                            game_count
+                        );
                     }
                 }
                 Err(e) => {
@@ -1036,7 +1057,12 @@ mod tests {
         let moves = generate_moves(&pos);
         let castle_moves: Vec<_> = moves
             .iter()
-            .filter(|m| matches!(m.flags, MoveType::CastleKingSide | MoveType::CastleQueenSide))
+            .filter(|m| {
+                matches!(
+                    m.flags,
+                    MoveType::CastleKingSide | MoveType::CastleQueenSide
+                )
+            })
             .collect();
         assert!(!castle_moves.is_empty(), "No castling moves generated");
         let m = san_to_move(&pos, "O-O").unwrap_or_else(|| panic!("O-O should parse"));
