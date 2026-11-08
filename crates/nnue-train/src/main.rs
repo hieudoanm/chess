@@ -1,9 +1,7 @@
 use anyhow::Result;
 use chess_core::Color;
 mod nnue;
-use nnue::{
-    backward_f32, collect_examples, evaluate_f32, tanh_output, F32WeightGrads, F32Weights,
-};
+use nnue::{backward_f32, collect_examples, evaluate_f32, tanh_output, F32WeightGrads, F32Weights};
 use std::path::Path;
 
 const LEARNING_RATE: f32 = 0.02;
@@ -71,10 +69,7 @@ fn train(examples: &[nnue::TrainingExample], weights: &mut F32Weights) -> f32 {
         }
 
         epoch_loss /= n as f32;
-        println!(
-            "Epoch {}: loss={:.4} ({} examples)",
-            epoch, epoch_loss, n
-        );
+        println!("Epoch {}: loss={:.4} ({} examples)", epoch, epoch_loss, n);
         total_loss = epoch_loss;
 
         let i8_weights = weights.to_i8();
@@ -90,9 +85,7 @@ fn main() -> Result<()> {
         .nth(1)
         .unwrap_or_else(|| "../crates/games/pgn".to_string());
 
-    let max_games: Option<usize> = std::env::args()
-        .nth(2)
-        .and_then(|s| s.parse().ok());
+    let max_games: Option<usize> = std::env::args().nth(2).and_then(|s| s.parse().ok());
 
     let pgn_path = Path::new(&pgn_dir);
     if !pgn_path.exists() {

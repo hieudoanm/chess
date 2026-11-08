@@ -187,7 +187,14 @@ impl DeterministicWeights {
         }
         let b2 = i16::from_le_bytes([data[off], data[off + 1]]);
 
-        Ok(Self { w0, b0, w1, b1, w2, b2 })
+        Ok(Self {
+            w0,
+            b0,
+            w1,
+            b1,
+            w2,
+            b2,
+        })
     }
 }
 
