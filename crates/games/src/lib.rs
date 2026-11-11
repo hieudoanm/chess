@@ -1,3 +1,8 @@
+pub mod db;
+pub mod explorer;
+pub mod lichess;
+pub mod stats;
+
 use anyhow::{Context, Result};
 use reqwest::Client;
 use serde::Deserialize;

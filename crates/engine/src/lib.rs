@@ -1,9 +1,15 @@
 use chess_core::{
-    apply_move, apply_move_nnue, apply_move_nnue_post, game_result, generate_captures,
-    generate_moves, refresh_accumulator, see_ge, undo_move, undo_move_nnue_post,
-    undo_move_nnue_pre, GameResult, Move, NnueAccumulator, NnueEval, PieceType, Position,
+    apply_move, evaluate as material_eval, game_result, generate_captures, generate_moves, see_ge,
+    undo_move, Color, GameResult, Move, PieceType, Position,
 };
-use std::path::Path;
+use std::time::{Duration, Instant};
+
+#[derive(Debug, Clone, Copy, Default)]
+pub struct SearchLimits {
+    pub max_depth: Option<u32>,
+    pub movetime: Option<Duration>,
+    pub nodes: Option<u64>,
+}
 
 const TT_SIZE: usize = 1 << 20;
 const KILLER_MOVES: usize = 2;
@@ -149,13 +155,13 @@ impl CaptureHistory {
 // ContinuationHistory[prev_move_index][piece_type][to_square] for quiet ordering
 // 5 tables indexed by how many plies back the previous move was
 struct ContinuationHistory {
-    tables: Box<[[[[i32; 64]; 6]; 5]; 4096]>,
+    tables: Box<[[[[i32; 64]; 6]; 5]]>,
 }
 
 impl ContinuationHistory {
     fn new() -> Self {
         ContinuationHistory {
-            tables: Box::new([[[[0; 64]; 6]; 5]; 4096]),
+            tables: vec![[[[0i32; 64]; 6]; 5]; 4096].into_boxed_slice(),
         }
     }
 
@@ -202,8 +208,33 @@ struct SearchCtx<'a> {
     history: &'a mut HistoryTable,
     capture_history: &'a mut CaptureHistory,
     continuation_history: &'a mut ContinuationHistory,
-    nnue_eval: &'a mut NnueEval,
     pv_table: &'a mut [[Option<Move>; 128]; 128],
+    deadline: Option<Instant>,
+    node_limit: u64,
+    stopped: bool,
+}
+
+impl SearchCtx<'_> {
+    fn check_stop(&mut self, nodes: u64) -> bool {
+        if self.stopped {
+            return true;
+        }
+        if self.deadline.map(|d| Instant::now() >= d).unwrap_or(false)
+            || (self.node_limit > 0 && nodes >= self.node_limit)
+        {
+            self.stopped = true;
+            return true;
+        }
+        false
+    }
+}
+
+#[derive(Debug, Clone)]
+pub struct SearchInfo {
+    pub depth: u32,
+    pub score: i32,
+    pub nodes: u64,
+    pub pv: Vec<Move>,
 }
 
 pub struct SearchResult {
@@ -212,6 +243,13 @@ pub struct SearchResult {
     pub nodes: u64,
     pub tt_hits: u64,
     pub tt_probes: u64,
+    pub infos: Vec<SearchInfo>,
+}
+
+pub struct SearchLine {
+    pub mv: Move,
+    pub score: i32,
+    pub pv: Vec<Move>,
 }
 
 pub struct Engine {
@@ -221,15 +259,11 @@ pub struct Engine {
     history: HistoryTable,
     capture_history: CaptureHistory,
     continuation_history: ContinuationHistory,
-    nnue_eval: NnueEval,
-    nnue_accumulator: NnueAccumulator,
     pv_table: [[Option<Move>; 128]; 128],
 }
 
 impl Engine {
     pub fn new() -> Self {
-        let nnue_eval = NnueEval::load_from_file(Path::new("nnue_weights.bin"))
-            .unwrap_or_else(|_| NnueEval::new());
         Engine {
             position: Position::standard(),
             tt: TranspositionTable::new(),
@@ -237,38 +271,51 @@ impl Engine {
             history: HistoryTable::new(),
             capture_history: CaptureHistory::new(),
             continuation_history: ContinuationHistory::new(),
-            nnue_eval,
-            nnue_accumulator: NnueAccumulator::new(),
             pv_table: [[None; 128]; 128],
         }
     }
 
     pub fn search(&mut self, depth: u32) -> SearchResult {
+        self.search_limited(SearchLimits {
+            max_depth: Some(depth),
+            ..SearchLimits::default()
+        })
+    }
+
+    pub fn search_limited(&mut self, limits: SearchLimits) -> SearchResult {
         self.tt.clear();
         self.killers = KillerMoves::new();
         self.history = HistoryTable::new();
         self.capture_history = CaptureHistory::new();
         self.continuation_history = ContinuationHistory::new();
-        self.nnue_accumulator = NnueAccumulator::new();
         self.pv_table = [[None; 128]; 128];
         let mut nodes = 0;
         let mut best_move = None;
         let mut best_score = i32::MIN;
 
-        refresh_accumulator(&self.position, &mut self.nnue_accumulator);
+        let deadline = limits.movetime.map(|d| Instant::now() + d);
+        let max_depth = limits.max_depth.unwrap_or(u32::MAX);
+        let node_limit = limits.nodes.unwrap_or(0);
 
-        for d in 1..=depth {
+        let mut ctx = SearchCtx {
+            tt: &mut self.tt,
+            killers: &mut self.killers,
+            history: &mut self.history,
+            capture_history: &mut self.capture_history,
+            continuation_history: &mut self.continuation_history,
+            pv_table: &mut self.pv_table,
+            deadline,
+            node_limit,
+            stopped: false,
+        };
+
+        let mut d = 1;
+        let mut infos = Vec::new();
+        while d <= max_depth {
+            if ctx.check_stop(nodes) {
+                break;
+            }
             let mut pos_copy = self.position.clone();
-            let mut acc_copy = self.nnue_accumulator.clone();
-            let mut ctx = SearchCtx {
-                tt: &mut self.tt,
-                killers: &mut self.killers,
-                history: &mut self.history,
-                capture_history: &mut self.capture_history,
-                continuation_history: &mut self.continuation_history,
-                nnue_eval: &mut self.nnue_eval,
-                pv_table: &mut self.pv_table,
-            };
             let (score, mv) = negamax_root(
                 &mut pos_copy,
                 d,
@@ -276,10 +323,26 @@ impl Engine {
                 i32::MAX,
                 &mut nodes,
                 &mut ctx,
-                &mut acc_copy,
             );
+            if ctx.stopped && best_move.is_some() {
+                break;
+            }
             best_score = score;
             best_move = mv;
+            let mut pv = Vec::new();
+            for i in 0..127 {
+                match ctx.pv_table[0][i] {
+                    Some(pv_m) => pv.push(pv_m),
+                    None => break,
+                }
+            }
+            infos.push(SearchInfo {
+                depth: d,
+                score,
+                nodes,
+                pv,
+            });
+            d += 1;
         }
 
         SearchResult {
@@ -288,17 +351,98 @@ impl Engine {
             nodes,
             tt_hits: self.tt.hits,
             tt_probes: self.tt.probes,
+            infos,
         }
     }
 
+    /// MultiPV search: scores every root move with a full window at the
+    /// target depth and returns the top `n` lines (best first).
+    /// Slower than `search_limited` — intended for analysis, not play.
+    pub fn search_multi(&mut self, limits: SearchLimits, n: usize) -> Vec<SearchLine> {
+        self.tt.clear();
+        self.killers = KillerMoves::new();
+        self.history = HistoryTable::new();
+        self.capture_history = CaptureHistory::new();
+        self.continuation_history = ContinuationHistory::new();
+        self.pv_table = [[None; 128]; 128];
+
+        let deadline = limits.movetime.map(|d| Instant::now() + d);
+        let depth = limits.max_depth.unwrap_or(4);
+        let node_limit = limits.nodes.unwrap_or(0);
+        let mut nodes = 0u64;
+
+        let mut pos_copy = self.position.clone();
+        let mut ctx = SearchCtx {
+            tt: &mut self.tt,
+            killers: &mut self.killers,
+            history: &mut self.history,
+            capture_history: &mut self.capture_history,
+            continuation_history: &mut self.continuation_history,
+            pv_table: &mut self.pv_table,
+            deadline,
+            node_limit,
+            stopped: false,
+        };
+
+        let root_moves = generate_moves(&pos_copy);
+        let root_hash = pos_copy.zobrist_hash();
+        let mut lines = Vec::new();
+
+        for m in root_moves {
+            if ctx.check_stop(nodes) {
+                break;
+            }
+            let state = apply_move(&mut pos_copy, m);
+
+            let mut repetition = vec![root_hash];
+            let (child_score, _) = negamax(
+                &mut pos_copy,
+                depth.saturating_sub(1),
+                i32::MIN + 1,
+                i32::MAX,
+                false,
+                &mut nodes,
+                &mut ctx,
+                1,
+                &mut repetition,
+            );
+
+            undo_move(&mut pos_copy, m, state);
+
+            let mut pv = vec![m];
+            for i in 0..127 {
+                match ctx.pv_table[1][i] {
+                    Some(pv_m) => pv.push(pv_m),
+                    None => break,
+                }
+            }
+            lines.push(SearchLine {
+                mv: m,
+                score: if child_score == i32::MIN {
+                    i32::MIN / 2
+                } else {
+                    -child_score
+                },
+                pv,
+            });
+        }
+
+        lines.sort_by_key(|l| std::cmp::Reverse(l.score));
+        lines.truncate(n.max(1));
+        lines
+    }
+
     pub fn apply(&mut self, m: Move) {
-        apply_move_nnue(&self.position, m, &mut self.nnue_accumulator);
         apply_move(&mut self.position, m);
-        apply_move_nnue_post(&self.position, m, &mut self.nnue_accumulator);
     }
 
     pub fn result(&self) -> GameResult {
         game_result(&self.position)
+    }
+
+    /// Static evaluation in centipawns, side-to-move perspective.
+    pub fn static_eval(&self) -> i32 {
+        static_eval(&self.position)
     }
 }
 
@@ -309,9 +453,11 @@ fn negamax_root(
     beta: i32,
     nodes: &mut u64,
     ctx: &mut SearchCtx,
-    nnue_accumulator: &mut NnueAccumulator,
 ) -> (i32, Option<Move>) {
     *nodes += 1;
+    if ctx.check_stop(*nodes) {
+        return (0, None);
+    }
 
     let moves = generate_moves(position);
     if moves.is_empty() {
@@ -346,9 +492,11 @@ fn negamax_root(
     let mut repetition = vec![tt_hash];
 
     for m in ordered {
-        apply_move_nnue(position, m, nnue_accumulator);
+        if ctx.stopped {
+            break;
+        }
+
         let state = apply_move(position, m);
-        apply_move_nnue_post(position, m, nnue_accumulator);
 
         let score = if depth >= 3 && !position.is_in_check(position.side_to_move) {
             let saved_side = position.side_to_move;
@@ -363,7 +511,6 @@ fn negamax_root(
                 ctx,
                 1,
                 &mut repetition,
-                nnue_accumulator,
             );
             position.side_to_move = saved_side;
             -null_score
@@ -384,14 +531,11 @@ fn negamax_root(
                 ctx,
                 1,
                 &mut repetition,
-                nnue_accumulator,
             );
             -child_score
         };
 
-        undo_move_nnue_pre(position, m, nnue_accumulator);
         undo_move(position, m, state);
-        undo_move_nnue_post(position, m, &state, nnue_accumulator);
 
         if score > best_score {
             best_score = score;
@@ -424,7 +568,11 @@ fn negamax_root(
     ctx.tt
         .store(tt_hash, depth as i16, best_score, flag, best_move);
 
-    (best_score, best_move)
+    if best_score == i32::MIN {
+        (0, best_move)
+    } else {
+        (best_score, best_move)
+    }
 }
 
 #[allow(clippy::too_many_arguments)]
@@ -438,21 +586,14 @@ fn negamax(
     ctx: &mut SearchCtx,
     ply: usize,
     repetition: &mut Vec<u64>,
-    nnue_accumulator: &mut NnueAccumulator,
 ) -> (i32, Option<Move>) {
     *nodes += 1;
+    if ctx.check_stop(*nodes) {
+        return (0, None);
+    }
 
     if depth == 0 {
-        return quiesce(
-            position,
-            alpha,
-            beta,
-            nodes,
-            ctx,
-            ply,
-            repetition,
-            nnue_accumulator,
-        );
+        return quiesce(position, alpha, beta, nodes, ctx, ply, repetition);
     }
 
     // Check extension: extend search when in check at low depth
@@ -464,13 +605,10 @@ fn negamax(
 
     let tt_hash = position.zobrist_hash();
 
-    // Static evaluation for futility pruning using NNUE
+    // Static evaluation for futility pruning
     let in_check = position.is_in_check(position.side_to_move);
     let static_eval = if !in_check {
-        Some(
-            ctx.nnue_eval
-                .evaluate(nnue_accumulator, position.side_to_move),
-        )
+        Some(static_eval(position))
     } else {
         None
     };
@@ -527,9 +665,11 @@ fn negamax(
     repetition.push(tt_hash);
 
     for (idx, m) in ordered.iter().enumerate() {
-        apply_move_nnue(position, *m, nnue_accumulator);
+        if ctx.stopped {
+            break;
+        }
+
         let state = apply_move(position, *m);
-        apply_move_nnue_post(position, *m, nnue_accumulator);
 
         // Late Move Reductions
         let reduced_depth =
@@ -553,7 +693,6 @@ fn negamax(
                 ctx,
                 ply + 1,
                 repetition,
-                nnue_accumulator,
             );
             position.side_to_move = saved_side;
             -null_score
@@ -574,7 +713,6 @@ fn negamax(
                 ctx,
                 ply + 1,
                 repetition,
-                nnue_accumulator,
             );
             -child_score
         } else {
@@ -588,7 +726,6 @@ fn negamax(
                 ctx,
                 ply + 1,
                 repetition,
-                nnue_accumulator,
             );
             let score = -child_score;
             if score > alpha && score < beta {
@@ -602,7 +739,6 @@ fn negamax(
                     ctx,
                     ply + 1,
                     repetition,
-                    nnue_accumulator,
                 );
                 -child_score
             } else {
@@ -610,9 +746,7 @@ fn negamax(
             }
         };
 
-        undo_move_nnue_pre(position, *m, nnue_accumulator);
         undo_move(position, *m, state);
-        undo_move_nnue_post(position, *m, &state, nnue_accumulator);
 
         if score > best_score {
             best_score = score;
@@ -676,7 +810,11 @@ fn negamax(
     ctx.tt
         .store(tt_hash, depth as i16, best_score, flag, best_move);
 
-    (best_score, best_move)
+    if best_score == i32::MIN {
+        (0, best_move)
+    } else {
+        (best_score, best_move)
+    }
 }
 
 #[allow(clippy::too_many_arguments)]
@@ -688,13 +826,13 @@ fn quiesce(
     ctx: &mut SearchCtx,
     _ply: usize,
     repetition: &mut Vec<u64>,
-    nnue_accumulator: &mut NnueAccumulator,
 ) -> (i32, Option<Move>) {
     *nodes += 1;
+    if ctx.check_stop(*nodes) {
+        return (0, None);
+    }
 
-    let stand_pat = ctx
-        .nnue_eval
-        .evaluate(nnue_accumulator, position.side_to_move);
+    let stand_pat = static_eval(position);
     if stand_pat >= beta {
         return (beta, None);
     }
@@ -753,35 +891,23 @@ fn quiesce(
             continue;
         }
 
-        apply_move_nnue(position, m, nnue_accumulator);
         let state = apply_move(position, m);
-        apply_move_nnue_post(position, m, nnue_accumulator);
 
         // Repetition detection
         let hash = position.zobrist_hash();
         let count = repetition.iter().filter(|&&h| h == hash).count();
         if count >= 2 {
-            undo_move_nnue_pre(position, m, nnue_accumulator);
             undo_move(position, m, state);
-            undo_move_nnue_post(position, m, &state, nnue_accumulator);
+
             continue;
         }
 
         repetition.push(hash);
-        let (score, _) = quiesce(
-            position,
-            -beta,
-            -alpha,
-            nodes,
-            ctx,
-            0,
-            repetition,
-            nnue_accumulator,
-        );
+        let (score, _) = quiesce(position, -beta, -alpha, nodes, ctx, 0, repetition);
         repetition.pop();
-        undo_move_nnue_pre(position, m, nnue_accumulator);
+
         undo_move(position, m, state);
-        undo_move_nnue_post(position, m, &state, nnue_accumulator);
+
         let score = -score;
 
         if score > best_score {
@@ -905,6 +1031,16 @@ fn score_move(
         }
     }
     score
+}
+
+/// Material/PST evaluation in centipawns, side-to-move perspective.
+fn static_eval(position: &Position) -> i32 {
+    let score = material_eval(position);
+    if position.side_to_move == Color::Black {
+        -score
+    } else {
+        score
+    }
 }
 
 fn piece_value(pt: PieceType) -> i32 {
