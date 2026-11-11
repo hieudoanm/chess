@@ -1,5 +1,8 @@
 # Chess Engine
 
+[![CI](https://github.com/hieudoanm/chess/actions/workflows/ci.yaml/badge.svg?branch=master)](https://github.com/hieudoanm/chess/actions/workflows/ci.yaml?branch=master)  [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+
 A multi-crate Rust chess engine with CLI interface.
 
 ## Structure
