@@ -36,8 +36,68 @@ jobs:
         run: cargo clippy --all-targets -- -D warnings
       - name: Run tests
         run: cargo test --all-targets
-      - name: Build release
-        run: cargo build --release
+
+  cli-build:
+    name: CLI build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Cache cargo
+        uses: Swatinem/rust-cache@v2.9.3
+      - name: Build release binary
+        run: cargo build --release -p chess-cli
+      - name: Rename binary for release
+        shell: bash
+        run: |
+          case "${{ matrix.os }}" in
+            ubuntu-latest) mv target/release/chess chess-x86_64-unknown-linux-gnu ;;
+            macos-latest) mv target/release/chess chess-aarch64-apple-darwin ;;
+            windows-latest) mv target/release/chess.exe chess-x86_64-pc-windows-msvc.exe ;;
+          esac
+      - name: Upload CLI binary
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: chess-cli-${{ matrix.os }}
+          path: chess-*
+          if-no-files-found: error
+          retention-days: 7
+
+  release:
+    name: Release
+    needs: [cli-build]
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+      - name: Download all artifacts
+        uses: actions/download-artifact@v8.0.2
+        with:
+          path: dist
+          pattern: chess-cli-*
+          merge-multiple: true
+      - name: Delete existing latest release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release delete latest --yes --cleanup-tag || true
+          git push origin :refs/tags/latest || true
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v3.0.4
+        with:
+          tag_name: latest
+          name: Chess (latest)
+          body_path: README.md
+          files: dist/*
 
   landing-build:
     name: Landing - Build
