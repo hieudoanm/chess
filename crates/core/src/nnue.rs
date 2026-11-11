@@ -251,51 +251,51 @@ impl NnueAccumulator {
             return 0;
         }
 
-        let mut hidden0 = [0i32; L2];
+        let mut hidden0 = [0i64; L2];
         for i in 0..L1 {
             if self.acc[idx][i] != 0 {
                 for j in 0..L2 {
-                    hidden0[j] += self.acc[idx][i] as i32 * weights.w0[i][j] as i32;
+                    hidden0[j] += self.acc[idx][i] as i64 * weights.w0[i][j] as i64;
                 }
             }
         }
 
-        let mut relu0 = [0i32; L2 * 2];
+        let mut relu0 = [0i64; L2 * 2];
         for j in 0..L2 {
-            let val = hidden0[j] + weights.b0[j] as i32;
+            let val = hidden0[j] + weights.b0[j] as i64;
             let sqr = val * val / 1024;
             let relu = if val > 0 { val } else { 0 };
             relu0[j] = relu;
             relu0[L2 + j] = sqr;
         }
 
-        let mut hidden1 = [0i32; L3];
+        let mut hidden1 = [0i64; L3];
         for i in 0..(L2 * 2) {
             if relu0[i] != 0 {
                 for j in 0..L3 {
-                    hidden1[j] += relu0[i] as i32 * weights.w1[i][j] as i32;
+                    hidden1[j] += relu0[i] * weights.w1[i][j] as i64;
                 }
             }
         }
 
-        let mut relu1 = [0i32; L3 * 2];
+        let mut relu1 = [0i64; L3 * 2];
         for j in 0..L3 {
-            let val = hidden1[j] + weights.b1[j] as i32;
+            let val = hidden1[j] + weights.b1[j] as i64;
             let sqr = val * val / 1024;
             let relu = if val > 0 { val } else { 0 };
             relu1[j] = relu;
             relu1[L3 + j] = sqr;
         }
 
-        let mut output = weights.b2 as i32;
+        let mut output = weights.b2 as i64;
         for i in 0..(L2 * 2) {
-            output += relu0[i] as i32 * weights.w2[i] as i32;
+            output += relu0[i] * weights.w2[i] as i64;
         }
         for i in 0..(L3 * 2) {
-            output += relu1[i] as i32 * weights.w2[L2 * 2 + i] as i32;
+            output += relu1[i] * weights.w2[L2 * 2 + i] as i64;
         }
 
-        output * OUTPUT_SCALE / 1024
+        ((output * OUTPUT_SCALE as i64) / 1024).clamp(-(1i64 << 20), (1i64 << 20) - 1) as i32
     }
 }
 

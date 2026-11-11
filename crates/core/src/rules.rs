@@ -421,6 +421,29 @@ fn king_attack_bonus(position: &Position, color: Color) -> i32 {
 }
 
 pub fn game_result(position: &Position) -> GameResult {
+    match position.variant {
+        crate::Variant::ThreeCheck => {
+            if position.checks[0] >= 3 {
+                return GameResult::BlackWins;
+            }
+            if position.checks[1] >= 3 {
+                return GameResult::WhiteWins;
+            }
+        }
+        crate::Variant::Horde => {
+            let white_has_pieces = (0..8).any(|rank| {
+                (0..8).any(|file| {
+                    position.board[rank][file]
+                        .map(|p| p.color == Color::White)
+                        .unwrap_or(false)
+                })
+            });
+            if !white_has_pieces {
+                return GameResult::BlackWins;
+            }
+        }
+        _ => {}
+    }
     let moves = crate::move_gen::generate_moves(position);
     if moves.is_empty() {
         if position.is_in_check(position.side_to_move) {
@@ -509,9 +532,39 @@ pub struct StateInfo {
     pub en_passant: Option<Square>,
     pub halfmove_clock: u32,
     pub fullmove_number: u32,
+    pub pockets: [[u8; 5]; 2],
+    pub checks: [u8; 2],
 }
 
 pub fn apply_move(position: &mut Position, m: Move) -> StateInfo {
+    let pockets = position.pockets;
+    let checks = position.checks;
+
+    if let Some(pt) = m.drop {
+        let mover = position.side_to_move;
+        let castling = position.castling;
+        let en_passant = position.en_passant;
+        let halfmove_clock = position.halfmove_clock;
+        let fullmove_number = position.fullmove_number;
+        position.pockets[mover.index()][pt as usize] -= 1;
+        position.set_piece(m.to, Some(Piece::new(mover, pt)));
+        position.side_to_move = mover.opponent();
+        position.en_passant = None;
+        position.halfmove_clock += 1;
+        if position.side_to_move == Color::White {
+            position.fullmove_number += 1;
+        }
+        return StateInfo {
+            captured: None,
+            castling,
+            en_passant,
+            halfmove_clock,
+            fullmove_number,
+            pockets,
+            checks,
+        };
+    }
+
     let piece = position.get_piece(m.from).unwrap();
     let mut captured = position.get_piece(m.to);
     let castling = position.castling;
@@ -519,8 +572,10 @@ pub fn apply_move(position: &mut Position, m: Move) -> StateInfo {
     let halfmove_clock = position.halfmove_clock;
     let fullmove_number = position.fullmove_number;
 
-    position.set_piece(m.to, Some(piece));
-    position.set_piece(m.from, None);
+    if m.from != m.to {
+        position.set_piece(m.to, Some(piece));
+        position.set_piece(m.from, None);
+    }
 
     match m.flags {
         MoveType::PawnPromotionQueen | MoveType::PawnCapturePromotionQueen => {
@@ -535,34 +590,34 @@ pub fn apply_move(position: &mut Position, m: Move) -> StateInfo {
         MoveType::PawnPromotionKnight | MoveType::PawnCapturePromotionKnight => {
             position.set_piece(m.to, Some(Piece::new(piece.color, PieceType::Knight)));
         }
-        MoveType::CastleKingSide => {
-            if piece.color == Color::White {
-                position.set_piece(
-                    Square::new(5, 0).unwrap(),
-                    Some(Piece::new(Color::White, PieceType::Rook)),
-                );
-                position.set_piece(Square::new(7, 0).unwrap(), None);
+        MoveType::CastleKingSide | MoveType::CastleQueenSide => {
+            let kingside = m.flags == MoveType::CastleKingSide;
+            let home_rank = if piece.color == Color::White { 0 } else { 7 };
+            let rook_file = if piece.color == Color::White {
+                if kingside {
+                    castling.white_king_rook_file
+                } else {
+                    castling.white_queen_rook_file
+                }
+            } else if kingside {
+                castling.black_king_rook_file
             } else {
-                position.set_piece(
-                    Square::new(5, 7).unwrap(),
-                    Some(Piece::new(Color::Black, PieceType::Rook)),
-                );
-                position.set_piece(Square::new(7, 7).unwrap(), None);
-            }
-        }
-        MoveType::CastleQueenSide => {
-            if piece.color == Color::White {
-                position.set_piece(
-                    Square::new(3, 0).unwrap(),
-                    Some(Piece::new(Color::White, PieceType::Rook)),
-                );
-                position.set_piece(Square::new(0, 0).unwrap(), None);
-            } else {
-                position.set_piece(
-                    Square::new(3, 7).unwrap(),
-                    Some(Piece::new(Color::Black, PieceType::Rook)),
-                );
-                position.set_piece(Square::new(0, 7).unwrap(), None);
+                castling.black_queen_rook_file
+            };
+            let rook_to_file: u8 = if kingside { 5 } else { 3 };
+            if let (Some(rook_from), Some(rook_to)) = (
+                Square::new(rook_file, home_rank),
+                Square::new(rook_to_file, home_rank),
+            ) {
+                if rook_from != rook_to {
+                    position.set_piece(
+                        rook_to,
+                        position
+                            .get_piece(rook_from)
+                            .or(Some(Piece::new(piece.color, PieceType::Rook))),
+                    );
+                    position.set_piece(rook_from, None);
+                }
             }
         }
         MoveType::EnPassant => {
@@ -581,6 +636,17 @@ pub fn apply_move(position: &mut Position, m: Move) -> StateInfo {
     position.side_to_move = position.side_to_move.opponent();
     if position.side_to_move == Color::White {
         position.fullmove_number += 1;
+    }
+    if position.variant == crate::Variant::ThreeCheck && position.is_in_check(position.side_to_move)
+    {
+        position.checks[piece.color.index()] += 1;
+    }
+    if position.variant == crate::Variant::Crazyhouse {
+        if let Some(cap) = captured {
+            if cap.piece_type != PieceType::Pawn && cap.piece_type != PieceType::King {
+                position.pockets[piece.color.index()][cap.piece_type as usize] += 1;
+            }
+        }
     }
 
     // Update en passant square: set after double pawn push, clear otherwise
@@ -612,37 +678,63 @@ pub fn apply_move(position: &mut Position, m: Move) -> StateInfo {
             }
         }
         PieceType::Rook => {
-            if piece.color == Color::White {
-                match m.from {
-                    Square { file: 0, rank: 0 } => position.castling.white_queen_side = false,
-                    Square { file: 7, rank: 0 } => position.castling.white_king_side = false,
-                    _ => {}
-                }
-            } else {
-                match m.from {
-                    Square { file: 0, rank: 7 } => position.castling.black_queen_side = false,
-                    Square { file: 7, rank: 7 } => position.castling.black_king_side = false,
-                    _ => {}
+            let home_rank = if piece.color == Color::White { 0 } else { 7 };
+            if m.from.rank == home_rank {
+                if piece.color == Color::White {
+                    if position.castling.white_king_side
+                        && m.from.file == position.castling.white_king_rook_file
+                    {
+                        position.castling.white_king_side = false;
+                    }
+                    if position.castling.white_queen_side
+                        && m.from.file == position.castling.white_queen_rook_file
+                    {
+                        position.castling.white_queen_side = false;
+                    }
+                } else {
+                    if position.castling.black_king_side
+                        && m.from.file == position.castling.black_king_rook_file
+                    {
+                        position.castling.black_king_side = false;
+                    }
+                    if position.castling.black_queen_side
+                        && m.from.file == position.castling.black_queen_rook_file
+                    {
+                        position.castling.black_queen_side = false;
+                    }
                 }
             }
         }
         _ => {}
     }
 
-    // If a rook was captured on its starting square, remove that side's castling right
+    // If a rook was captured on its home rank, remove that side's castling right
     if let Some(cap) = captured {
         if cap.piece_type == PieceType::Rook {
-            if cap.color == Color::White {
-                match m.to {
-                    Square { file: 0, rank: 0 } => position.castling.white_queen_side = false,
-                    Square { file: 7, rank: 0 } => position.castling.white_king_side = false,
-                    _ => {}
-                }
-            } else {
-                match m.to {
-                    Square { file: 0, rank: 7 } => position.castling.black_queen_side = false,
-                    Square { file: 7, rank: 7 } => position.castling.black_king_side = false,
-                    _ => {}
+            let home_rank = if cap.color == Color::White { 0 } else { 7 };
+            if m.to.rank == home_rank {
+                if cap.color == Color::White {
+                    if position.castling.white_king_side
+                        && m.to.file == position.castling.white_king_rook_file
+                    {
+                        position.castling.white_king_side = false;
+                    }
+                    if position.castling.white_queen_side
+                        && m.to.file == position.castling.white_queen_rook_file
+                    {
+                        position.castling.white_queen_side = false;
+                    }
+                } else {
+                    if position.castling.black_king_side
+                        && m.to.file == position.castling.black_king_rook_file
+                    {
+                        position.castling.black_king_side = false;
+                    }
+                    if position.castling.black_queen_side
+                        && m.to.file == position.castling.black_queen_rook_file
+                    {
+                        position.castling.black_queen_side = false;
+                    }
                 }
             }
         }
@@ -654,10 +746,24 @@ pub fn apply_move(position: &mut Position, m: Move) -> StateInfo {
         en_passant,
         halfmove_clock,
         fullmove_number,
+        pockets,
+        checks,
     }
 }
 
 pub fn undo_move(position: &mut Position, m: Move, state: StateInfo) {
+    if m.drop.is_some() {
+        position.set_piece(m.to, None);
+        position.pockets = state.pockets;
+        position.checks = state.checks;
+        position.castling = state.castling;
+        position.en_passant = state.en_passant;
+        position.halfmove_clock = state.halfmove_clock;
+        position.fullmove_number = state.fullmove_number;
+        position.side_to_move = position.side_to_move.opponent();
+        return;
+    }
+
     let piece = position.get_piece(m.to).unwrap();
 
     let from_piece = match m.flags {
@@ -676,34 +782,34 @@ pub fn undo_move(position: &mut Position, m: Move, state: StateInfo) {
     position.set_piece(m.from, Some(from_piece));
 
     match m.flags {
-        MoveType::CastleKingSide => {
-            if piece.color == Color::White {
-                position.set_piece(
-                    Square::new(7, 0).unwrap(),
-                    Some(Piece::new(Color::White, PieceType::Rook)),
-                );
-                position.set_piece(Square::new(5, 0).unwrap(), None);
+        MoveType::CastleKingSide | MoveType::CastleQueenSide => {
+            let kingside = m.flags == MoveType::CastleKingSide;
+            let home_rank = if piece.color == Color::White { 0 } else { 7 };
+            let rook_file = if piece.color == Color::White {
+                if kingside {
+                    state.castling.white_king_rook_file
+                } else {
+                    state.castling.white_queen_rook_file
+                }
+            } else if kingside {
+                state.castling.black_king_rook_file
             } else {
-                position.set_piece(
-                    Square::new(7, 7).unwrap(),
-                    Some(Piece::new(Color::Black, PieceType::Rook)),
-                );
-                position.set_piece(Square::new(5, 7).unwrap(), None);
-            }
-        }
-        MoveType::CastleQueenSide => {
-            if piece.color == Color::White {
-                position.set_piece(
-                    Square::new(0, 0).unwrap(),
-                    Some(Piece::new(Color::White, PieceType::Rook)),
-                );
-                position.set_piece(Square::new(3, 0).unwrap(), None);
-            } else {
-                position.set_piece(
-                    Square::new(0, 7).unwrap(),
-                    Some(Piece::new(Color::Black, PieceType::Rook)),
-                );
-                position.set_piece(Square::new(3, 7).unwrap(), None);
+                state.castling.black_queen_rook_file
+            };
+            let rook_to_file: u8 = if kingside { 5 } else { 3 };
+            if let (Some(rook_from), Some(rook_to)) = (
+                Square::new(rook_file, home_rank),
+                Square::new(rook_to_file, home_rank),
+            ) {
+                if rook_from != rook_to {
+                    position.set_piece(
+                        rook_from,
+                        position
+                            .get_piece(rook_to)
+                            .or(Some(Piece::new(piece.color, PieceType::Rook))),
+                    );
+                    position.set_piece(rook_to, None);
+                }
             }
         }
         MoveType::EnPassant => {
@@ -728,6 +834,8 @@ pub fn undo_move(position: &mut Position, m: Move, state: StateInfo) {
     position.en_passant = state.en_passant;
     position.halfmove_clock = state.halfmove_clock;
     position.fullmove_number = state.fullmove_number;
+    position.pockets = state.pockets;
+    position.checks = state.checks;
 
     position.side_to_move = position.side_to_move.opponent();
 }

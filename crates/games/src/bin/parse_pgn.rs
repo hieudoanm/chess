@@ -7,9 +7,10 @@ fn main() -> Result<()> {
     fs::create_dir_all("database")?;
     let conn = Connection::open("database/games.sqlite")?;
     conn.execute(
-        "CREATE TABLE IF NOT EXISTS games (id TEXT PRIMARY KEY, file TEXT, event TEXT, site TEXT, date TEXT, round TEXT, white TEXT, black TEXT, result TEXT, time_control TEXT, white_elo TEXT, black_elo TEXT, pgn TEXT)",
+        "CREATE TABLE IF NOT EXISTS games (id TEXT PRIMARY KEY, file TEXT, event TEXT, site TEXT, date TEXT, round TEXT, white TEXT, black TEXT, result TEXT, time_control TEXT, white_elo TEXT, black_elo TEXT, pgn TEXT, san_moves TEXT)",
         [],
     )?;
+    conn.execute_batch("CREATE INDEX IF NOT EXISTS idx_games_san_moves ON games(san_moves)")?;
 
     for entry in glob::glob("pgn/**/*.pgn")? {
         let path = entry?;
@@ -41,8 +42,9 @@ fn main() -> Result<()> {
                 game.hash(&mut h);
                 format!("{:x}", h.finish())
             };
+            let san_moves = games::explorer::movetext_sans(&game).join(" ");
             conn.execute(
-                "INSERT OR REPLACE INTO games (id,file,event,site,date,round,white,black,result,time_control,white_elo,black_elo,pgn) VALUES (?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12,?13)",
+                "INSERT OR REPLACE INTO games (id,file,event,site,date,round,white,black,result,time_control,white_elo,black_elo,pgn,san_moves) VALUES (?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12,?13,?14)",
                 rusqlite::params![
                     id,
                     path.to_string_lossy(),
@@ -56,7 +58,8 @@ fn main() -> Result<()> {
                     tags.get("TimeControl"),
                     tags.get("WhiteElo"),
                     tags.get("BlackElo"),
-                    game.trim()
+                    game.trim(),
+                    san_moves
                 ],
             )?;
             count += 1;

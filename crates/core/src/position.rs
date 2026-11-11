@@ -8,6 +8,10 @@ pub struct CastlingRights {
     pub white_queen_side: bool,
     pub black_king_side: bool,
     pub black_queen_side: bool,
+    pub white_king_rook_file: u8,
+    pub white_queen_rook_file: u8,
+    pub black_king_rook_file: u8,
+    pub black_queen_rook_file: u8,
 }
 
 impl CastlingRights {
@@ -17,6 +21,10 @@ impl CastlingRights {
             white_queen_side: false,
             black_king_side: false,
             black_queen_side: false,
+            white_king_rook_file: 7,
+            white_queen_rook_file: 0,
+            black_king_rook_file: 7,
+            black_queen_rook_file: 0,
         }
     }
 
@@ -26,6 +34,10 @@ impl CastlingRights {
             white_queen_side: true,
             black_king_side: true,
             black_queen_side: true,
+            white_king_rook_file: 7,
+            white_queen_rook_file: 0,
+            black_king_rook_file: 7,
+            black_queen_rook_file: 0,
         }
     }
 }
@@ -33,6 +45,36 @@ impl CastlingRights {
 impl Default for CastlingRights {
     fn default() -> Self {
         CastlingRights::all()
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
+pub enum Variant {
+    #[default]
+    Standard,
+    ThreeCheck,
+    Horde,
+    Crazyhouse,
+}
+
+impl Variant {
+    pub fn parse(s: &str) -> Option<Self> {
+        match s.to_ascii_lowercase().replace(['-', '_', ' '], "").as_str() {
+            "standard" | "chess" => Some(Variant::Standard),
+            "threecheck" => Some(Variant::ThreeCheck),
+            "horde" => Some(Variant::Horde),
+            "crazyhouse" => Some(Variant::Crazyhouse),
+            _ => None,
+        }
+    }
+
+    pub fn name(self) -> &'static str {
+        match self {
+            Variant::Standard => "Standard",
+            Variant::ThreeCheck => "Three-check",
+            Variant::Horde => "Horde",
+            Variant::Crazyhouse => "Crazyhouse",
+        }
     }
 }
 
@@ -44,6 +86,9 @@ pub struct Position {
     pub en_passant: Option<Square>,
     pub halfmove_clock: u32,
     pub fullmove_number: u32,
+    pub variant: Variant,
+    pub checks: [u8; 2],
+    pub pockets: [[u8; 5]; 2],
 }
 
 impl Position {
@@ -84,6 +129,9 @@ impl Position {
             en_passant: None,
             halfmove_clock: 0,
             fullmove_number: 1,
+            variant: Variant::Standard,
+            checks: [0, 0],
+            pockets: [[0; 5]; 2],
         }
     }
 
@@ -95,8 +143,29 @@ impl Position {
 
         let mut board = [[None; 8]; 8];
 
-        // Parse piece placement
-        let rows: Vec<&str> = parts[0].split('/').collect();
+        // Parse piece placement (crazyhouse FEN may carry a [PNBRQpnbrq] pocket suffix)
+        let (placement, pocket_str) = match parts[0].split_once('[') {
+            Some((p, rest)) => (p, rest.strip_suffix(']')),
+            None => (parts[0], None),
+        };
+        let mut pockets = [[0u8; 5]; 2];
+        let mut variant = Variant::Standard;
+        if let Some(pocket) = pocket_str {
+            variant = Variant::Crazyhouse;
+            for ch in pocket.chars() {
+                let color = if ch.is_ascii_uppercase() { 0 } else { 1 };
+                let slot = match ch.to_ascii_uppercase() {
+                    'P' => 0,
+                    'N' => 1,
+                    'B' => 2,
+                    'R' => 3,
+                    'Q' => 4,
+                    _ => continue,
+                };
+                pockets[color][slot] += 1;
+            }
+        }
+        let rows: Vec<&str> = placement.split('/').collect();
         if rows.len() != 8 {
             return None;
         }
@@ -133,6 +202,7 @@ impl Position {
         let mut en_passant = None;
         let mut halfmove_clock = 0u32;
         let mut fullmove_number = 1u32;
+        let mut checks = [0u8; 2];
 
         if parts.len() > 1 {
             side_to_move = match parts[1] {
@@ -144,10 +214,50 @@ impl Position {
         if parts.len() > 2 {
             for ch in parts[2].chars() {
                 match ch {
-                    'K' => castling.white_king_side = true,
-                    'Q' => castling.white_queen_side = true,
-                    'k' => castling.black_king_side = true,
-                    'q' => castling.black_queen_side = true,
+                    'K' => {
+                        castling.white_king_side = true;
+                        castling.white_king_rook_file = 7;
+                    }
+                    'Q' => {
+                        castling.white_queen_side = true;
+                        castling.white_queen_rook_file = 0;
+                    }
+                    'k' => {
+                        castling.black_king_side = true;
+                        castling.black_king_rook_file = 7;
+                    }
+                    'q' => {
+                        castling.black_queen_side = true;
+                        castling.black_queen_rook_file = 0;
+                    }
+                    'a'..='h' | 'A'..='H' => {
+                        let file = ch.to_ascii_lowercase() as u8 - b'a';
+                        let is_white = ch.is_ascii_uppercase();
+                        let king_file = if is_white {
+                            king_file_on_rank(&board, Color::White, 0)
+                        } else {
+                            king_file_on_rank(&board, Color::Black, 7)
+                        };
+                        let kingside = match king_file {
+                            Some(kf) => file > kf,
+                            None => file >= 4,
+                        };
+                        if is_white {
+                            if kingside {
+                                castling.white_king_side = true;
+                                castling.white_king_rook_file = file;
+                            } else {
+                                castling.white_queen_side = true;
+                                castling.white_queen_rook_file = file;
+                            }
+                        } else if kingside {
+                            castling.black_king_side = true;
+                            castling.black_king_rook_file = file;
+                        } else {
+                            castling.black_queen_side = true;
+                            castling.black_queen_rook_file = file;
+                        }
+                    }
                     '-' => {}
                     _ => return None,
                 }
@@ -157,7 +267,12 @@ impl Position {
             en_passant = Square::from_san(parts[3]);
         }
         if parts.len() > 4 {
-            halfmove_clock = parts[4].parse().ok()?;
+            if let Some((w, b)) = parts[4].split_once('+') {
+                checks = [w.parse().unwrap_or(0), b.parse().unwrap_or(0)];
+                variant = Variant::ThreeCheck;
+            } else {
+                halfmove_clock = parts[4].parse().ok()?;
+            }
         }
         if parts.len() > 5 {
             fullmove_number = parts[5].parse().ok()?;
@@ -170,6 +285,9 @@ impl Position {
             en_passant,
             halfmove_clock,
             fullmove_number,
+            variant,
+            checks,
+            pockets,
         })
     }
 
@@ -179,6 +297,10 @@ impl Position {
 
     pub fn set_piece(&mut self, square: Square, piece: Option<Piece>) {
         self.board[square.rank as usize][square.file as usize] = piece;
+    }
+
+    pub fn king_file_on_rank(&self, color: Color, rank: u8) -> Option<u8> {
+        king_file_on_rank(&self.board, color, rank)
     }
 
     pub fn king_square(&self, color: Color) -> Option<Square> {
@@ -263,6 +385,17 @@ impl Position {
     }
 }
 
+fn king_file_on_rank(board: &[[Option<Piece>; 8]; 8], color: Color, rank: u8) -> Option<u8> {
+    for file in 0..8 {
+        if let Some(piece) = board[rank as usize][file as usize] {
+            if piece.color == color && piece.piece_type == PieceType::King {
+                return Some(file as u8);
+            }
+        }
+    }
+    None
+}
+
 impl Default for Position {
     fn default() -> Self {
         Position::new()
@@ -340,17 +473,17 @@ impl Position {
             h ^= z.side;
         }
 
-        if self.castling.white_king_side {
-            h ^= z.castling[0];
-        }
-        if self.castling.white_queen_side {
-            h ^= z.castling[1];
-        }
-        if self.castling.black_king_side {
-            h ^= z.castling[2];
-        }
-        if self.castling.black_queen_side {
-            h ^= z.castling[3];
+        let cr = &self.castling;
+        let castle_entries = [
+            (cr.white_king_side, cr.white_king_rook_file, 0usize),
+            (cr.white_queen_side, cr.white_queen_rook_file, 1),
+            (cr.black_king_side, cr.black_king_rook_file, 2),
+            (cr.black_queen_side, cr.black_queen_rook_file, 3),
+        ];
+        for (right, rook_file, i) in castle_entries {
+            if right {
+                h ^= z.castling[i] ^ (rook_file as u64).wrapping_mul(0x9E37_79B9_7F4A_7C15);
+            }
         }
 
         if let Some(ep) = self.en_passant {

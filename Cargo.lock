@@ -163,9 +163,12 @@ dependencies = [
 name = "chess-cli"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
+ "arena",
  "chess-core",
  "chess-engine",
  "clap",
+ "games",
  "serde",
  "serde_json",
  "tokio",
@@ -424,6 +427,7 @@ name = "games"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "chess-core",
  "glob",
  "regex",
  "reqwest",

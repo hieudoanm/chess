@@ -148,29 +148,86 @@ fn handle_position(
     moves_so_far.clone()
 }
 
+fn format_score(score: i32) -> String {
+    if score > 90000 {
+        format!("mate {}", (100000 - score + 1) / 2)
+    } else if score < -90000 {
+        format!("mate -{}", (100000 + score + 1) / 2)
+    } else {
+        format!("cp {}", score)
+    }
+}
+
 fn handle_go(
     engine: &mut Engine,
     args: &[&str],
     out: &mut io::StdoutLock,
     moves_so_far: &[String],
 ) {
-    let mut depth: u32 = 3;
+    let mut depth: Option<u32> = None;
+    let mut movetime_ms: Option<u64> = None;
+    let mut nodes: Option<u64> = None;
+    let mut mate: Option<u32> = None;
+    let mut wtime = 0u64;
+    let mut btime = 0u64;
+    let mut winc = 0u64;
+    let mut binc = 0u64;
+    let mut movestogo: Option<u32> = None;
+    let mut multipv: u32 = 1;
+    let mut infinite = false;
 
     let mut i = 0;
     while i < args.len() {
+        let val = args.get(i + 1).and_then(|s| s.parse::<u64>().ok());
         match args[i] {
-            "depth" if i + 1 < args.len() => {
-                depth = args[i + 1].parse().unwrap_or(3);
+            "depth" => {
+                depth = val.map(|v| v as u32);
                 i += 2;
-                continue;
             }
-            "wtime" | "btime" | "winc" | "binc" | "nodes" | "mate" | "infinite" => {
+            "movetime" => {
+                movetime_ms = val;
                 i += 2;
-                continue;
             }
-            _ => {}
+            "nodes" => {
+                nodes = val;
+                i += 2;
+            }
+            "mate" => {
+                mate = val.map(|v| v as u32);
+                i += 2;
+            }
+            "wtime" => {
+                wtime = val.unwrap_or(0);
+                i += 2;
+            }
+            "btime" => {
+                btime = val.unwrap_or(0);
+                i += 2;
+            }
+            "winc" => {
+                winc = val.unwrap_or(0);
+                i += 2;
+            }
+            "binc" => {
+                binc = val.unwrap_or(0);
+                i += 2;
+            }
+            "movestogo" => {
+                movestogo = val.map(|v| v as u32);
+                i += 2;
+            }
+            "multipv" => {
+                multipv = val.unwrap_or(1) as u32;
+                i += 2;
+            }
+            "infinite" => {
+                infinite = true;
+                i += 1;
+            }
+            _ => {
+                i += 1;
+            }
         }
-        i += 1;
     }
 
     let side = if engine.position.side_to_move == chess_core::Color::White {
@@ -180,16 +237,92 @@ fn handle_go(
     };
     let moves_refs: Vec<&str> = moves_so_far.iter().map(|s| s.as_str()).collect();
 
-    if let Some(book_move) = opening_book_move(&engine.position, side, &moves_refs) {
-        if let Some(bm) = find_move_from_uci(&engine.position, &book_move) {
-            apply_move(&mut engine.position, bm);
-            writeln!(out, "bestmove {}", book_move).unwrap();
-            out.flush().unwrap();
-            return;
+    if multipv == 1 {
+        if let Some(book_move) = opening_book_move(&engine.position, side, &moves_refs) {
+            if let Some(bm) = find_move_from_uci(&engine.position, &book_move) {
+                apply_move(&mut engine.position, bm);
+                writeln!(out, "bestmove {}", book_move).unwrap();
+                out.flush().unwrap();
+                return;
+            }
         }
     }
 
-    let search = engine.search(depth);
+    // Derive a movetime budget from clock + increment + movestogo when present.
+    if movetime_ms.is_none() && (wtime > 0 || btime > 0) {
+        let (time, inc) = if engine.position.side_to_move == chess_core::Color::White {
+            (wtime, winc)
+        } else {
+            (btime, binc)
+        };
+        if time > 0 {
+            let moves_left = movestogo.unwrap_or(30).max(1) as u64;
+            movetime_ms = Some((time / moves_left).saturating_add(inc));
+        }
+    }
+
+    let limits = chess_engine::SearchLimits {
+        max_depth: mate.map(|m| (m * 2).min(128)).or(depth),
+        movetime: movetime_ms.map(std::time::Duration::from_millis),
+        nodes,
+    };
+    let limits = if infinite && limits.max_depth.is_none() && limits.movetime.is_none() {
+        chess_engine::SearchLimits {
+            movetime: Some(std::time::Duration::from_secs(30)),
+            ..limits
+        }
+    } else {
+        limits
+    };
+    let limits =
+        if limits.max_depth.is_none() && limits.movetime.is_none() && limits.nodes.is_none() {
+            chess_engine::SearchLimits {
+                max_depth: Some(3),
+                ..limits
+            }
+        } else {
+            limits
+        };
+
+    if multipv > 1 {
+        let lines = engine.search_multi(limits, multipv as usize);
+        let depth_label = limits.max_depth.unwrap_or(4);
+        for (k, line) in lines.iter().enumerate() {
+            let pv: Vec<String> = line.pv.iter().map(|m| m.to_uci()).collect();
+            writeln!(
+                out,
+                "info depth {} multipv {} score {} pv {}",
+                depth_label,
+                k + 1,
+                format_score(line.score),
+                pv.join(" ")
+            )
+            .unwrap();
+        }
+        match lines.first() {
+            Some(line) => {
+                apply_move(&mut engine.position, line.mv);
+                writeln!(out, "bestmove {}", line.mv.to_uci()).unwrap();
+            }
+            None => writeln!(out, "bestmove 0000").unwrap(),
+        }
+        out.flush().unwrap();
+        return;
+    }
+
+    let search = engine.search_limited(limits);
+    for info in &search.infos {
+        let pv: Vec<String> = info.pv.iter().map(|m| m.to_uci()).collect();
+        writeln!(
+            out,
+            "info depth {} score {} nodes {} pv {}",
+            info.depth,
+            format_score(info.score),
+            info.nodes,
+            pv.join(" ")
+        )
+        .unwrap();
+    }
     if let Some(bm) = search.best_move {
         apply_move(&mut engine.position, bm);
         writeln!(out, "bestmove {}", search.best_move.unwrap().to_uci()).unwrap();
