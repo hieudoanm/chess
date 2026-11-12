@@ -201,7 +201,20 @@ fn parse_position(fen: Option<&str>) -> Position {
         .unwrap_or_else(Position::standard)
 }
 
+const VERSION: &str = concat!(
+    "chess v",
+    env!("CARGO_PKG_VERSION"),
+    " (build ",
+    env!("BUILD_STAMP"),
+    ")"
+);
+
 fn main() {
+    let raw_args: Vec<String> = std::env::args().collect();
+    if raw_args.len() == 2 && matches!(raw_args[1].as_str(), "-V" | "--version") {
+        println!("{}", VERSION);
+        return;
+    }
     let cli = Cli::parse();
 
     match cli.command {

@@ -1,8 +1,8 @@
 [package]
 name = "chess-cli"
 description = "Command-line interface for the chess engine"
-version = "0.1.0"
-edition = "2021"
+version.workspace = true
+edition.workspace = true
 
 [dependencies]
 chess-core = { path = "../core" }

@@ -327,9 +327,9 @@ pub fn to_fen(position: &Position) -> String {
     }
     if position.variant == crate::Variant::Crazyhouse {
         fen.push('[');
-        for color in 0..2 {
+        for (color, pocket) in position.pockets.iter().enumerate() {
             for (slot, ch) in ['P', 'N', 'B', 'R', 'Q'].iter().enumerate() {
-                for _ in 0..position.pockets[color][slot] {
+                for _ in 0..pocket[slot] {
                     fen.push(if color == 0 {
                         *ch
                     } else {

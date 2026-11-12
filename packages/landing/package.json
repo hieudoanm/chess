@@ -13,6 +13,7 @@
     "build": "next build"
   },
   "dependencies": {
+    "@tailwindcss/typography": "0.5.20",
     "daisyui": "5.7.50",
     "next": "16.4.6",
     "react": "19.3.1",
@@ -21,6 +22,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "4.3.5",
+    "@tailwindcss/turbopack": "4.3.5",
     "@types/node": "26.6.6",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
