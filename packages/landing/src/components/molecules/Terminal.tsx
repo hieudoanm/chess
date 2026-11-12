@@ -12,19 +12,19 @@ const Terminal: FC<TerminalProps> = ({ caption, lines, className = '' }) => (
     <figcaption className="border-base-300 text-base-content/50 border-b px-4 py-2.5 text-xs font-semibold tracking-wide uppercase">
       {caption}
     </figcaption>
-    <pre className="m-0 overflow-x-auto px-5 py-4 font-mono text-xs leading-relaxed whitespace-pre">
+    <div className="mockup-code rounded-none">
       {lines.map((line, i) =>
         line.startsWith('$ ') ? (
-          <span key={i} className="block">
-            <span className="text-accent">$</span> {line.slice(2)}
-          </span>
+          <pre key={i} data-prefix="$">
+            <code>{line.slice(2)}</code>
+          </pre>
         ) : (
-          <span key={i} className="text-neutral-content/80 block">
-            {line}
-          </span>
+          <pre key={i}>
+            <code>{line}</code>
+          </pre>
         )
       )}
-    </pre>
+    </div>
   </figure>
 );
 
