@@ -154,7 +154,7 @@ const HomePage: NextPage = () => (
         { value: 'UCI + MCP', label: 'GUI and agent interfaces' },
         { value: 'perft-tested', label: 'verified move generation' },
       ]}>
-      <Terminal caption="UCI session" lines={HERO_LINES} />
+      <Terminal lines={HERO_LINES} />
     </Hero>
 
     <Features
@@ -173,7 +173,6 @@ const HomePage: NextPage = () => (
           {DEMO_TERMINALS.map((t) => (
             <Terminal
               key={t.caption}
-              caption={t.caption}
               lines={t.lines}
               className={t.wide ? 'lg:col-span-2' : ''}
             />
@@ -202,7 +201,7 @@ const HomePage: NextPage = () => (
           title="Get started"
           description="Install a prebuilt binary or build from source with Cargo. Rust stable is the only requirement — no runtime dependencies."
         />
-        <Terminal caption="Install" lines={INSTALL_LINES} />
+        <Terminal lines={INSTALL_LINES} />
         <p className="text-base-content/60 mt-6 text-center text-sm">
           Or build from your checkout:{' '}
           <code className="bg-base-300 rounded px-1.5 py-0.5 font-mono text-xs">
