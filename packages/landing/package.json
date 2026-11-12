@@ -7,7 +7,9 @@
     "format": "prettier --write .",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
+    "predev": "kill-port 3000",
     "dev": "next dev",
+    "prebuild": "rimraf .next out",
     "build": "next build"
   },
   "dependencies": {
@@ -24,8 +26,10 @@
     "@types/react-dom": "19.3.0",
     "eslint": "10.14.0",
     "eslint-config-next": "16.4.6",
+    "kill-port": "2.0.1",
     "prettier": "3.10.1",
     "prettier-plugin-tailwindcss": "0.8.1",
+    "rimraf": "6.1.4",
     "tailwindcss": "4.3.5",
     "typescript": "6.0.3"
   }
