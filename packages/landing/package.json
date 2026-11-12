@@ -1,0 +1,32 @@
+{
+  "name": "chess-landing",
+  "version": "0.0.1",
+  "private": true,
+  "packageManager": "pnpm@12.18.0",
+  "scripts": {
+    "format": "prettier --write .",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "dev": "next dev",
+    "build": "next build"
+  },
+  "dependencies": {
+    "daisyui": "5.7.50",
+    "next": "16.4.6",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "react-icons": "5.7.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "4.3.5",
+    "@types/node": "26.6.6",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "eslint": "10.14.0",
+    "eslint-config-next": "16.4.6",
+    "prettier": "3.10.1",
+    "prettier-plugin-tailwindcss": "0.8.1",
+    "tailwindcss": "4.3.5",
+    "typescript": "6.0.3"
+  }
+}
