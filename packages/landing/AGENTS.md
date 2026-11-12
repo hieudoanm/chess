@@ -38,3 +38,11 @@ repo name, dynamic year via `<span id="year">` + the year script), a
 one-line tagline/license descriptor, and a right-aligned `<nav
 aria-label="Footer">` with exactly two links — `GitHub` (repo root) and
 `README` (`<repo>#readme`), both `target="_blank" rel="noreferrer"`.
+
+## Features & CTA sections
+
+`#features` and `#install` follow the shared template: centered
+`.section-head` (h2 + one supporting paragraph), a `.grid-3` card grid
+(`article.card` = `.card-icon` + h3 + p), and a closing CTA section on the
+alt background (`.section-alt`, `.container-narrow`) ending in a
+`.cta-row` with a primary `btn-lg` action plus at most one ghost button.
