@@ -5,3 +5,5 @@ target/
 
 # PGN
 crates/games/pgn/**/*.pgn
+
+node_modules/
