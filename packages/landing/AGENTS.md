@@ -8,6 +8,8 @@ year-injection snippet. Deployed to GitHub Pages as-is.
 
 ## Conventions
 
+- **Fonts:** Inter (sans) loaded via the Google Fonts `<link>` in `index.html`; mono stack `ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace`. Tokens: `--font-sans` / `--font-mono`. Do not add other typefaces.
+
 - Keep it dependency-free: edit `index.html`/`styles.css` directly.
 - Asset URLs are relative (`logo.svg`, `favicon.svg`, `og-image.png`) so the
   page works under the `/chess/` Pages base path and from `file://`.
