@@ -109,11 +109,40 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7.0.1
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v6.1.1
+        with:
+          version: 12.18.0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+          cache-dependency-path: packages/landing/pnpm-lock.yaml
+
+      - name: Install landing dependencies
+        working-directory: packages/landing
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck landing
+        working-directory: packages/landing
+        run: pnpm run typecheck
+
+      - name: Lint landing
+        working-directory: packages/landing
+        run: pnpm run lint
+
+      - name: Build landing (Next.js static export)
+        working-directory: packages/landing
+        run: pnpm run build
+
       - name: Upload Pages artifact
         if: github.ref == 'refs/heads/master'
         uses: actions/upload-pages-artifact@v5.0.0
         with:
-          path: packages/landing
+          path: packages/landing/out
 
   landing-deploy:
     name: Landing - Deploy
