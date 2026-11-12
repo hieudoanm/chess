@@ -329,11 +329,7 @@ impl Engine {
             }
             best_score = score;
             best_move = mv;
-            let pv: Vec<Move> = ctx.pv_table[0]
-                .iter()
-                .take(127)
-                .map_while(|x| *x)
-                .collect();
+            let pv: Vec<Move> = ctx.pv_table[0].iter().take(127).map_while(|x| *x).collect();
             infos.push(SearchInfo {
                 depth: d,
                 score,
@@ -407,11 +403,7 @@ impl Engine {
 
             undo_move(&mut pos_copy, m, state);
 
-            let mut pv: Vec<Move> = ctx.pv_table[1]
-                .iter()
-                .take(127)
-                .map_while(|x| *x)
-                .collect();
+            let mut pv: Vec<Move> = ctx.pv_table[1].iter().take(127).map_while(|x| *x).collect();
             pv.insert(0, m);
             lines.push(SearchLine {
                 mv: m,
