@@ -18,8 +18,8 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  ci:
-    name: ci
+  cli-check:
+    name: CLI check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -40,6 +40,10 @@ jobs:
   cli-build:
     name: CLI build (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
+    # Release binaries are only needed for the master-branch release job;
+    # PRs are covered by the `cli-check` job.
+    if: github.event_name != 'pull_request'
+    needs: cli-check
     strategy:
       fail-fast: false
       matrix:
