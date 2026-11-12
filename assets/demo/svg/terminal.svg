@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img">
+  <rect width="1280" height="640" fill="#0b0b0b"/>
+  <rect x="12" y="12" width="1256" height="616" rx="28" fill="#141414" stroke="#2e2e2e" stroke-width="2"/>
+  <path d="M12 68V40a28 28 0 0 1 28-28h1200a28 28 0 0 1 28 28v28H12Z" fill="#1c1c1c"/>
+  <circle cx="56" cy="40" r="8" fill="#ff5f57"/>
+  <circle cx="84" cy="40" r="8" fill="#febc2e"/>
+  <circle cx="112" cy="40" r="8" fill="#28c840"/>
+  <text x="640" y="47" text-anchor="middle" font-family="Menlo, monospace" font-size="17" fill="#8a8a8a">chess — zsh</text>
+  <g font-family="Menlo, monospace" font-size="20"><text x="44" y="126"><tspan fill="#ff8a5c">$</tspan> <tspan fill="#e5e5e5">chess --version</tspan></text>  <text x="44" y="158" fill="#9ca3af">chess 0.1.0</text>  </g>  <g font-family="Menlo, monospace" font-size="20"><text x="44" y="190"><tspan fill="#ff8a5c">$</tspan> <tspan fill="#e5e5e5">chess bench</tspan></text>  <text x="44" y="222" fill="#9ca3af">perft(1): 20 nodes · 0.3ms</text>  <text x="44" y="254" fill="#9ca3af">perft(2): 400 nodes · 1.1ms</text>  <text x="44" y="286" fill="#9ca3af">perft(3): 8902 nodes · 18.4ms</text>  </g>  <g font-family="Menlo, monospace" font-size="20"><text x="44" y="318"><tspan fill="#ff8a5c">$</tspan> <tspan fill="#e5e5e5">chess play --depth 4</tspan></text>  <text x="44" y="350" fill="#e5e5e5">  1. e4 e5  2. Nf3 Nc6</text>  <text x="44" y="382" fill="#9ca3af">depth 4 · 1.2M nps</text>  <text x="44" y="414" fill="#7dd3a8">bestmove g1f3 · score +0.35</text>  </g>  <g font-family="Menlo, monospace" font-size="20"><text x="44" y="446"><tspan fill="#ff8a5c">$</tspan> <tspan fill="#e5e5e5">chess uci</tspan></text>  <text x="44" y="478" fill="#9ca3af">uci</text>  <text x="44" y="510" fill="#9ca3af">readyok</text>  <text x="44" y="542" fill="#9ca3af">position startpos</text>  <text x="44" y="574" fill="#7dd3a8">bestmove e2e4</text>  </g></svg>

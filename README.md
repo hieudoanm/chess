@@ -2,12 +2,18 @@
 
 [![CI](https://github.com/hieudoanm/chess/actions/workflows/ci.yaml/badge.svg?branch=master)](https://github.com/hieudoanm/chess/actions/workflows/ci.yaml?branch=master)  [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
+keywords: `chess`, `chess-engine`, `rust`, `uci`, `cli`
+
 
 A multi-crate Rust chess engine with CLI interface.
 
 <p align="center">
   <img src="assets/branding/png/og.png" alt="chess — a multi-crate Rust chess engine" width="720">
 </p>
+
+**Live demo:** <https://hieudoanm.github.io/chess/>
+
+![chess demo](assets/demo/gif/demo.gif)
 
 ## Structure
 
@@ -91,6 +97,20 @@ cargo run -p chess-cli -- bench
 Reports node counts at depths 1-5, ns/node, and total nodes/second. Depths 1-3 match the published perft values for the initial position (20, 400, 8902).
 
 Supported UCI commands: `uci`, `isready`, `ucinewgame`, `position` (startpos/fen + moves), `go` (depth, wtime, btime, winc, binc, nodes, mate, infinite), `stop`, `quit`.
+
+## Get Started
+
+One-command install (prebuilt binary, or builds from source via cargo):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/hieudoanm/chess/master/scripts/install.sh | sh
+```
+
+Or build from source:
+
+```bash
+cargo build --release
+```
 
 ## Usage
 
