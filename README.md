@@ -1,9 +1,13 @@
-# Chess Engine
+# chess
 
 [![CI](https://github.com/hieudoanm/chess/actions/workflows/ci.yaml/badge.svg?branch=master)](https://github.com/hieudoanm/chess/actions/workflows/ci.yaml?branch=master)  [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 
 A multi-crate Rust chess engine with CLI interface.
+
+<p align="center">
+  <img src="assets/branding/png/og.png" alt="chess — a multi-crate Rust chess engine" width="720">
+</p>
 
 ## Structure
 
@@ -130,3 +134,7 @@ Lc0 (Leela Chess Zero) is also among the strongest, especially with GPU support 
 - [Lc0 GitHub](https://github.com/LeelaChessZero/lc0)
 
 Sources: [Rama Chess](https://ramachess.com/best-chess-engines/), [CCI Ratings](https://computer-chess-index.github.io/cci/)
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
