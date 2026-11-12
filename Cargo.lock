@@ -69,7 +69,7 @@ checksum = "330a5ed07fa54e4702c9d6c4174f74427fc0ef6e214bbd677ae50a5099946470"
 
 [[package]]
 name = "arena"
-version = "0.1.0"
+version = "0.0.1"
 
 [[package]]
 name = "atomic-waker"
@@ -161,7 +161,7 @@ dependencies = [
 
 [[package]]
 name = "chess-cli"
-version = "0.1.0"
+version = "0.0.1"
 dependencies = [
  "anyhow",
  "arena",
@@ -176,11 +176,11 @@ dependencies = [
 
 [[package]]
 name = "chess-core"
-version = "0.1.0"
+version = "0.0.1"
 
 [[package]]
 name = "chess-engine"
-version = "0.1.0"
+version = "0.0.1"
 dependencies = [
  "chess-core",
 ]
@@ -424,7 +424,7 @@ dependencies = [
 
 [[package]]
 name = "games"
-version = "0.1.0"
+version = "0.0.1"
 dependencies = [
  "anyhow",
  "chess-core",
@@ -891,7 +891,7 @@ checksum = "743fb55ba31b18fb1ecef6bdc9aa2743314978ac084044301a7eee33fb99a20d"
 
 [[package]]
 name = "nnue-train"
-version = "0.1.0"
+version = "0.0.1"
 dependencies = [
  "anyhow",
  "chess-core",
