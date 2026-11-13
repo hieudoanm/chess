@@ -7,9 +7,7 @@ Topics: `chess`, `chess-engine`, `rust`, `uci`, `cli`
 
 A multi-crate Rust chess engine with CLI interface.
 
-<p align="center">
-  <img src="assets/branding/png/og.png" alt="chess — a multi-crate Rust chess engine" width="720">
-</p>
+![chess — a multi-crate Rust chess engine](assets/branding/png/og.png)
 
 **Live demo:** <https://hieudoanm.github.io/chess/>
 
@@ -17,7 +15,7 @@ A multi-crate Rust chess engine with CLI interface.
 
 ## Structure
 
-```
+```text
 chess/
   Cargo.toml          # Workspace root
   crates/
@@ -29,7 +27,9 @@ chess/
 ## Crates
 
 ### chess-core
+
 Core chess types and logic:
+
 - `Board` - Board representation with FEN support
 - `Position` - Game state (side to move, castling rights, en passant, clocks)
 - `Piece` / `PieceType` / `Color` - Chess piece types and colors
@@ -39,7 +39,9 @@ Core chess types and logic:
 - Check detection, checkmate, stalemate detection
 
 ### chess-engine
+
 Engine search:
+
 - Negamax algorithm with alpha-beta pruning
 - Material-based evaluation
 - Configurable search depth
@@ -55,7 +57,7 @@ Command-line interface:
 
 The engine speaks the standard UCI protocol. Run `chess uci` and send commands:
 
-```
+```text
 uci
 isready
 position startpos moves e2e4 e7e5
@@ -68,8 +70,11 @@ quit
 
 The engine exposes an MCP (Model Context Protocol) server over stdio JSON-RPC, built into the `chess` binary:
 
-```
+```bash
 cargo run -p chess-cli -- mcp
+```
+
+```jsonl
 # then send MCP messages to stdin, e.g.:
 {"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}
 {"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}
@@ -77,6 +82,7 @@ cargo run -p chess-cli -- mcp
 ```
 
 Available MCP tools:
+
 - `new_game` - Start a new game
 - `get_board` - Get current board (ASCII + FEN)
 - `get_legal_moves` - List legal moves (UCI)
@@ -84,13 +90,14 @@ Available MCP tools:
 - `get_best_move` - Engine's best move at a depth
 
 Available MCP resources:
+
 - `chess://board` - Current board state
 
 ### Benchmark
 
 Run `cargo run -p chess-cli -- bench` to benchmark move generation (perft) from the starting position:
 
-```
+```bash
 cargo run -p chess-cli -- bench
 ```
 

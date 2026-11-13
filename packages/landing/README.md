@@ -4,7 +4,7 @@ Static landing page for chess — plain HTML + CSS, no build step.
 
 ## Structure
 
-```
+```text
 index.html    # single-page site (nav, hero, features, demo, how it works, install, footer)
 404.html      # GitHub Pages 404 page
 styles.css    # all styles; light page, dark terminals
