@@ -2,7 +2,7 @@
   "name": "chess-landing",
   "version": "0.0.1",
   "private": true,
-  "packageManager": "pnpm@12.18.0",
+  "packageManager": "pnpm@12.21.0",
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint .",
