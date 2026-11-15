@@ -24,7 +24,13 @@ export const generateMetadata = async ({
 }: DocsPageProps): Promise<Metadata> => {
   const { slug = [] } = await params;
   const doc = findDoc(slug);
-  return { title: doc ? doc.title : 'Docs' };
+  const canonical = slug.length ? `/docs/${slug.join('/')}/` : '/docs/';
+  const description = doc?.text.replace(/\s+/g, ' ').trim().slice(0, 160);
+  return {
+    title: doc ? doc.title : 'Docs',
+    description,
+    alternates: { canonical },
+  };
 };
 
 const DocsPage = async ({ params }: DocsPageProps): Promise<JSX.Element> => {
