@@ -100,7 +100,7 @@ jobs:
         with:
           tag_name: latest
           name: Chess (latest)
-          body_path: README.md
+          body_path: RELEASE.md
           files: dist/*
 
   landing-build:
