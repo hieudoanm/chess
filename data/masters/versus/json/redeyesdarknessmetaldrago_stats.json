@@ -1,0 +1,3907 @@
+{
+  "username": "redeyesdarknessmetaldrago",
+  "player": {
+    "name": "Hieu Doan",
+    "country": "https://api.chess.com/pub/country/VN",
+    "joined": 1634110916,
+    "last_online": 1794768832,
+    "status": "basic",
+    "url": "https://www.chess.com/member/RedEyesDarknessMetalDrago",
+    "avatar": "https://images.chesscomfiles.com/uploads/v1/user/157862729.a9e5db29.200x200o.8b1ec1213e25.jpg"
+  },
+  "generated_at": "2026-11-15T19:11:34+00:00",
+  "totals": {
+    "games": 178,
+    "wins": 90,
+    "draws": 18,
+    "losses": 70,
+    "score": 0.5562
+  },
+  "by_speed": {
+    "bullet": {
+      "games": 144,
+      "wins": 75,
+      "draws": 15,
+      "losses": 54,
+      "score": 0.5729
+    },
+    "blitz": {
+      "games": 34,
+      "wins": 15,
+      "draws": 3,
+      "losses": 16,
+      "score": 0.4853
+    },
+    "rapid": {
+      "games": 0,
+      "wins": 0,
+      "draws": 0,
+      "losses": 0,
+      "score": 0.0
+    },
+    "-": {
+      "games": 0,
+      "wins": 0,
+      "draws": 0,
+      "losses": 0,
+      "score": 0.0
+    }
+  },
+  "by_title": [
+    {
+      "games": 4,
+      "wins": 0,
+      "draws": 0,
+      "losses": 4,
+      "score": 0.0,
+      "title": "GM",
+      "players": 2,
+      "usernames": [
+        "homayoontofighi",
+        "vica56"
+      ],
+      "by_speed": {
+        "bullet": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0,
+          "losses": 0,
+          "score": 0.0
+        },
+        "blitz": {
+          "games": 4,
+          "wins": 0,
+          "draws": 0,
+          "losses": 4,
+          "score": 0.0
+        },
+        "rapid": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0,
+          "losses": 0,
+          "score": 0.0
+        },
+        "-": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0,
+          "losses": 0,
+          "score": 0.0
+        }
+      }
+    },
+    {
+      "games": 4,
+      "wins": 3,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.75,
+      "title": "IM",
+      "players": 3,
+      "usernames": [
+        "dragonb70",
+        "roman_2112",
+        "vlad_akselrod"
+      ],
+      "by_speed": {
+        "bullet": {
+          "games": 3,
+          "wins": 3,
+          "draws": 0,
+          "losses": 0,
+          "score": 1.0
+        },
+        "blitz": {
+          "games": 1,
+          "wins": 0,
+          "draws": 0,
+          "losses": 1,
+          "score": 0.0
+        },
+        "rapid": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0,
+          "losses": 0,
+          "score": 0.0
+        },
+        "-": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0,
+          "losses": 0,
+          "score": 0.0
+        }
+      }
+    },
+    {
+      "games": 39,
+      "wins": 20,
+      "draws": 2,
+      "losses": 17,
+      "score": 0.5385,
+      "title": "FM",
+      "players": 26,
+      "usernames": [
+        "adwilhans",
+        "boydgary",
+        "boydia",
+        "c3d2",
+        "carrotsandpizza",
+        "chessarchitect64",
+        "chessczar11",
+        "dinevmk",
+        "drstephenstrange",
+        "efrenramos1",
+        "fredymatsuura",
+        "funbettor",
+        "gliga",
+        "highlama",
+        "hsskoo",
+        "jardy79",
+        "kyrie-eleven",
+        "leykunmesfin",
+        "maestroyodita",
+        "mimihh",
+        "optimus_prime120",
+        "puricfm",
+        "rashad_zeynalli",
+        "serverbusyc",
+        "tagliata",
+        "yoelpolanco"
+      ],
+      "by_speed": {
+        "bullet": {
+          "games": 32,
+          "wins": 16,
+          "draws": 2,
+          "losses": 14,
+          "score": 0.5312
+        },
+        "blitz": {
+          "games": 7,
+          "wins": 4,
+          "draws": 0,
+          "losses": 3,
+          "score": 0.5714
+        },
+        "rapid": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0,
+          "losses": 0,
+          "score": 0.0
+        },
+        "-": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0,
+          "losses": 0,
+          "score": 0.0
+        }
+      }
+    },
+    {
+      "games": 40,
+      "wins": 18,
+      "draws": 6,
+      "losses": 16,
+      "score": 0.525,
+      "title": "CM",
+      "players": 29,
+      "usernames": [
+        "21jamal",
+        "albertopierce",
+        "alexandercs432",
+        "avri_goat",
+        "backtothebeginning",
+        "berlin_wa11",
+        "buenamor1972",
+        "chanchakman",
+        "chessmayhem1",
+        "chesstacticalsv",
+        "clint_og",
+        "cm_kino",
+        "dzuffin",
+        "esojaque",
+        "fortknight11",
+        "freeeeeeeeeeeeeeeeee",
+        "harveyzhang1",
+        "hrvojezagreb",
+        "jaquetriple",
+        "krokofant",
+        "okin2817",
+        "optimusprimebr",
+        "sebazzano",
+        "squishey",
+        "tardnof17",
+        "thegreatauk",
+        "vagoff",
+        "vaibhav2026",
+        "vozlo"
+      ],
+      "by_speed": {
+        "bullet": {
+          "games": 38,
+          "wins": 17,
+          "draws": 6,
+          "losses": 15,
+          "score": 0.5263
+        },
+        "blitz": {
+          "games": 2,
+          "wins": 1,
+          "draws": 0,
+          "losses": 1,
+          "score": 0.5
+        },
+        "rapid": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0,
+          "losses": 0,
+          "score": 0.0
+        },
+        "-": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0,
+          "losses": 0,
+          "score": 0.0
+        }
+      }
+    },
+    {
+      "games": 59,
+      "wins": 33,
+      "draws": 4,
+      "losses": 22,
+      "score": 0.5932,
+      "title": "NM",
+      "players": 39,
+      "usernames": [
+        "1assen",
+        "94hawkeye",
+        "certai",
+        "chessdeep2017",
+        "coachric",
+        "davidforthoffer",
+        "davidlibano",
+        "dres1",
+        "dsanchez1973",
+        "exiledsaint",
+        "fernando1279",
+        "fpawn",
+        "fytnob",
+        "imhotep_0",
+        "irk7890",
+        "israelfillip",
+        "jawschess1955",
+        "joaog2004",
+        "joaolizak",
+        "joshuacao",
+        "kallerotmg",
+        "karpovian123",
+        "kranthikumar1993",
+        "mammothcricket",
+        "mcguima49",
+        "mikesailer",
+        "nagobe",
+        "nmchess2impress",
+        "pawnn",
+        "piekarski64",
+        "rouven1977",
+        "rynos0411",
+        "samirsen",
+        "sesleria",
+        "snowbore",
+        "titomagno_64",
+        "tk_z",
+        "valdenicio",
+        "zmeusor"
+      ],
+      "by_speed": {
+        "bullet": {
+          "games": 43,
+          "wins": 24,
+          "draws": 2,
+          "losses": 17,
+          "score": 0.5814
+        },
+        "blitz": {
+          "games": 16,
+          "wins": 9,
+          "draws": 2,
+          "losses": 5,
+          "score": 0.625
+        },
+        "rapid": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0,
+          "losses": 0,
+          "score": 0.0
+        },
+        "-": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0,
+          "losses": 0,
+          "score": 0.0
+        }
+      }
+    },
+    {
+      "games": 0,
+      "wins": 0,
+      "draws": 0,
+      "losses": 0,
+      "score": 0.0,
+      "title": "WGM",
+      "players": 0,
+      "usernames": [],
+      "by_speed": {
+        "bullet": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0,
+          "losses": 0,
+          "score": 0.0
+        },
+        "blitz": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0,
+          "losses": 0,
+          "score": 0.0
+        },
+        "rapid": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0,
+          "losses": 0,
+          "score": 0.0
+        },
+        "-": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0,
+          "losses": 0,
+          "score": 0.0
+        }
+      }
+    },
+    {
+      "games": 5,
+      "wins": 3,
+      "draws": 2,
+      "losses": 0,
+      "score": 0.8,
+      "title": "WIM",
+      "players": 4,
+      "usernames": [
+        "caissanyx",
+        "neri_gaite",
+        "regolita",
+        "sonnyzc"
+      ],
+      "by_speed": {
+        "bullet": {
+          "games": 4,
+          "wins": 2,
+          "draws": 2,
+          "losses": 0,
+          "score": 0.75
+        },
+        "blitz": {
+          "games": 1,
+          "wins": 1,
+          "draws": 0,
+          "losses": 0,
+          "score": 1.0
+        },
+        "rapid": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0,
+          "losses": 0,
+          "score": 0.0
+        },
+        "-": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0,
+          "losses": 0,
+          "score": 0.0
+        }
+      }
+    },
+    {
+      "games": 9,
+      "wins": 6,
+      "draws": 1,
+      "losses": 2,
+      "score": 0.7222,
+      "title": "WFM",
+      "players": 9,
+      "usernames": [
+        "asmafant06",
+        "aufeve",
+        "badouuu",
+        "katchesskat",
+        "leslymontufar",
+        "luibov_an",
+        "murugapotri",
+        "nasrin_babayeva",
+        "pattycastillo"
+      ],
+      "by_speed": {
+        "bullet": {
+          "games": 7,
+          "wins": 6,
+          "draws": 0,
+          "losses": 1,
+          "score": 0.8571
+        },
+        "blitz": {
+          "games": 2,
+          "wins": 0,
+          "draws": 1,
+          "losses": 1,
+          "score": 0.25
+        },
+        "rapid": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0,
+          "losses": 0,
+          "score": 0.0
+        },
+        "-": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0,
+          "losses": 0,
+          "score": 0.0
+        }
+      }
+    },
+    {
+      "games": 17,
+      "wins": 7,
+      "draws": 3,
+      "losses": 7,
+      "score": 0.5,
+      "title": "WCM",
+      "players": 10,
+      "usernames": [
+        "aaradhya_das-03",
+        "aglo_2012",
+        "hayzilayni",
+        "hwangrara",
+        "kritipatel",
+        "lilyrishu",
+        "mirzano31",
+        "sveta_13",
+        "thox_xo",
+        "tq2005"
+      ],
+      "by_speed": {
+        "bullet": {
+          "games": 17,
+          "wins": 7,
+          "draws": 3,
+          "losses": 7,
+          "score": 0.5
+        },
+        "blitz": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0,
+          "losses": 0,
+          "score": 0.0
+        },
+        "rapid": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0,
+          "losses": 0,
+          "score": 0.0
+        },
+        "-": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0,
+          "losses": 0,
+          "score": 0.0
+        }
+      }
+    },
+    {
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0,
+      "title": "WNM",
+      "players": 1,
+      "usernames": [
+        "jehubner"
+      ],
+      "by_speed": {
+        "bullet": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0,
+          "losses": 0,
+          "score": 0.0
+        },
+        "blitz": {
+          "games": 1,
+          "wins": 0,
+          "draws": 0,
+          "losses": 1,
+          "score": 0.0
+        },
+        "rapid": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0,
+          "losses": 0,
+          "score": 0.0
+        },
+        "-": {
+          "games": 0,
+          "wins": 0,
+          "draws": 0,
+          "losses": 0,
+          "score": 0.0
+        }
+      }
+    }
+  ],
+  "by_eco": [
+    {
+      "eco": "A01",
+      "games": 71,
+      "wins": 40,
+      "draws": 5,
+      "losses": 26,
+      "score": 0.5986
+    },
+    {
+      "eco": "B06",
+      "games": 43,
+      "wins": 20,
+      "draws": 4,
+      "losses": 19,
+      "score": 0.5116
+    },
+    {
+      "eco": "A40",
+      "games": 18,
+      "wins": 12,
+      "draws": 2,
+      "losses": 4,
+      "score": 0.7222
+    },
+    {
+      "eco": "A04",
+      "games": 9,
+      "wins": 4,
+      "draws": 1,
+      "losses": 4,
+      "score": 0.5
+    },
+    {
+      "eco": "A06",
+      "games": 8,
+      "wins": 1,
+      "draws": 3,
+      "losses": 4,
+      "score": 0.3125
+    },
+    {
+      "eco": "A10",
+      "games": 6,
+      "wins": 5,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.8333
+    },
+    {
+      "eco": "A00",
+      "games": 3,
+      "wins": 3,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0
+    },
+    {
+      "eco": "A07",
+      "games": 3,
+      "wins": 2,
+      "draws": 1,
+      "losses": 0,
+      "score": 0.8333
+    },
+    {
+      "eco": "A05",
+      "games": 2,
+      "wins": 1,
+      "draws": 1,
+      "losses": 0,
+      "score": 0.75
+    },
+    {
+      "eco": "B50",
+      "games": 2,
+      "wins": 0,
+      "draws": 0,
+      "losses": 2,
+      "score": 0.0
+    },
+    {
+      "eco": "A02",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0
+    },
+    {
+      "eco": "A15",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0
+    },
+    {
+      "eco": "A45",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0
+    },
+    {
+      "eco": "A48",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0
+    },
+    {
+      "eco": "B00",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0
+    },
+    {
+      "eco": "B01",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0
+    },
+    {
+      "eco": "B08",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0
+    },
+    {
+      "eco": "B20",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0
+    },
+    {
+      "eco": "B22",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0
+    },
+    {
+      "eco": "C01",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0
+    },
+    {
+      "eco": "C50",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0
+    },
+    {
+      "eco": "C70",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0
+    },
+    {
+      "eco": "D00",
+      "games": 1,
+      "wins": 0,
+      "draws": 1,
+      "losses": 0,
+      "score": 0.5
+    }
+  ],
+  "opponents": [
+    {
+      "opponent": "fpawn",
+      "title": "NM",
+      "games": 8,
+      "wins": 6,
+      "draws": 1,
+      "losses": 1,
+      "score": 0.8125,
+      "first_date": "2026.06.13",
+      "last_date": "2026.08.08"
+    },
+    {
+      "opponent": "coachric",
+      "title": "NM",
+      "games": 5,
+      "wins": 4,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.8,
+      "first_date": "2025.08.22",
+      "last_date": "2026.05.04"
+    },
+    {
+      "opponent": "backtothebeginning",
+      "title": "CM",
+      "games": 4,
+      "wins": 0,
+      "draws": 1,
+      "losses": 3,
+      "score": 0.125,
+      "first_date": "2025.04.11",
+      "last_date": "2026.06.20"
+    },
+    {
+      "opponent": "leykunmesfin",
+      "title": "FM",
+      "games": 4,
+      "wins": 3,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.75,
+      "first_date": "2025.02.17",
+      "last_date": "2025.07.25"
+    },
+    {
+      "opponent": "lilyrishu",
+      "title": "WCM",
+      "games": 4,
+      "wins": 2,
+      "draws": 0,
+      "losses": 2,
+      "score": 0.5,
+      "first_date": "2026.04.16",
+      "last_date": "2026.09.15"
+    },
+    {
+      "opponent": "optimus_prime120",
+      "title": "FM",
+      "games": 4,
+      "wins": 2,
+      "draws": 0,
+      "losses": 2,
+      "score": 0.5,
+      "first_date": "2025.11.10",
+      "last_date": "2026.03.15"
+    },
+    {
+      "opponent": "carrotsandpizza",
+      "title": "FM",
+      "games": 3,
+      "wins": 0,
+      "draws": 0,
+      "losses": 3,
+      "score": 0.0,
+      "first_date": "2025.11.23",
+      "last_date": "2026.10.17"
+    },
+    {
+      "opponent": "chessmayhem1",
+      "title": "CM",
+      "games": 3,
+      "wins": 0,
+      "draws": 0,
+      "losses": 3,
+      "score": 0.0,
+      "first_date": "2025.10.24",
+      "last_date": "2026.08.06"
+    },
+    {
+      "opponent": "dinevmk",
+      "title": "FM",
+      "games": 3,
+      "wins": 1,
+      "draws": 0,
+      "losses": 2,
+      "score": 0.3333,
+      "first_date": "2026.07.26",
+      "last_date": "2026.10.14"
+    },
+    {
+      "opponent": "homayoontofighi",
+      "title": "GM",
+      "games": 3,
+      "wins": 0,
+      "draws": 0,
+      "losses": 3,
+      "score": 0.0,
+      "first_date": "2021.12.24",
+      "last_date": "2021.12.25"
+    },
+    {
+      "opponent": "jawschess1955",
+      "title": "NM",
+      "games": 3,
+      "wins": 1,
+      "draws": 1,
+      "losses": 1,
+      "score": 0.5,
+      "first_date": "2023.01.03",
+      "last_date": "2025.02.20"
+    },
+    {
+      "opponent": "94hawkeye",
+      "title": "NM",
+      "games": 2,
+      "wins": 0,
+      "draws": 0,
+      "losses": 2,
+      "score": 0.0,
+      "first_date": "2022.05.09",
+      "last_date": "2022.06.12"
+    },
+    {
+      "opponent": "albertopierce",
+      "title": "CM",
+      "games": 2,
+      "wins": 1,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.5,
+      "first_date": "2026.02.12",
+      "last_date": "2026.05.10"
+    },
+    {
+      "opponent": "avri_goat",
+      "title": "CM",
+      "games": 2,
+      "wins": 1,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.5,
+      "first_date": "2026.07.24",
+      "last_date": "2026.07.24"
+    },
+    {
+      "opponent": "boydgary",
+      "title": "FM",
+      "games": 2,
+      "wins": 2,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2025.11.23",
+      "last_date": "2026.07.06"
+    },
+    {
+      "opponent": "c3d2",
+      "title": "FM",
+      "games": 2,
+      "wins": 0,
+      "draws": 1,
+      "losses": 1,
+      "score": 0.25,
+      "first_date": "2024.07.24",
+      "last_date": "2026.02.19"
+    },
+    {
+      "opponent": "caissanyx",
+      "title": "WIM",
+      "games": 2,
+      "wins": 0,
+      "draws": 2,
+      "losses": 0,
+      "score": 0.5,
+      "first_date": "2026.06.28",
+      "last_date": "2026.09.26"
+    },
+    {
+      "opponent": "chessarchitect64",
+      "title": "FM",
+      "games": 2,
+      "wins": 2,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2024.01.01",
+      "last_date": "2024.01.01"
+    },
+    {
+      "opponent": "chessdeep2017",
+      "title": "NM",
+      "games": 2,
+      "wins": 1,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.5,
+      "first_date": "2026.04.15",
+      "last_date": "2026.07.07"
+    },
+    {
+      "opponent": "cm_kino",
+      "title": "CM",
+      "games": 2,
+      "wins": 0,
+      "draws": 0,
+      "losses": 2,
+      "score": 0.0,
+      "first_date": "2026.08.15",
+      "last_date": "2026.08.15"
+    },
+    {
+      "opponent": "hayzilayni",
+      "title": "WCM",
+      "games": 2,
+      "wins": 0,
+      "draws": 1,
+      "losses": 1,
+      "score": 0.25,
+      "first_date": "2026.09.23",
+      "last_date": "2026.11.12"
+    },
+    {
+      "opponent": "irk7890",
+      "title": "NM",
+      "games": 2,
+      "wins": 1,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.5,
+      "first_date": "2026.07.07",
+      "last_date": "2026.07.07"
+    },
+    {
+      "opponent": "jaquetriple",
+      "title": "CM",
+      "games": 2,
+      "wins": 1,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.5,
+      "first_date": "2026.04.27",
+      "last_date": "2026.04.27"
+    },
+    {
+      "opponent": "joaolizak",
+      "title": "NM",
+      "games": 2,
+      "wins": 2,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2025.03.23",
+      "last_date": "2025.03.23"
+    },
+    {
+      "opponent": "krokofant",
+      "title": "CM",
+      "games": 2,
+      "wins": 0,
+      "draws": 2,
+      "losses": 0,
+      "score": 0.5,
+      "first_date": "2026.04.24",
+      "last_date": "2026.10.01"
+    },
+    {
+      "opponent": "mikesailer",
+      "title": "NM",
+      "games": 2,
+      "wins": 0,
+      "draws": 1,
+      "losses": 1,
+      "score": 0.25,
+      "first_date": "2023.12.25",
+      "last_date": "2026.01.05"
+    },
+    {
+      "opponent": "roman_2112",
+      "title": "IM",
+      "games": 2,
+      "wins": 2,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2025.11.10",
+      "last_date": "2026.02.17"
+    },
+    {
+      "opponent": "rouven1977",
+      "title": "NM",
+      "games": 2,
+      "wins": 1,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.5,
+      "first_date": "2024.01.01",
+      "last_date": "2026.06.25"
+    },
+    {
+      "opponent": "squishey",
+      "title": "CM",
+      "games": 2,
+      "wins": 1,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.5,
+      "first_date": "2026.05.22",
+      "last_date": "2026.05.22"
+    },
+    {
+      "opponent": "sveta_13",
+      "title": "WCM",
+      "games": 2,
+      "wins": 1,
+      "draws": 1,
+      "losses": 0,
+      "score": 0.75,
+      "first_date": "2025.11.25",
+      "last_date": "2025.12.15"
+    },
+    {
+      "opponent": "thox_xo",
+      "title": "WCM",
+      "games": 2,
+      "wins": 0,
+      "draws": 0,
+      "losses": 2,
+      "score": 0.0,
+      "first_date": "2025.11.10",
+      "last_date": "2026.01.28"
+    },
+    {
+      "opponent": "tk_z",
+      "title": "NM",
+      "games": 2,
+      "wins": 1,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.5,
+      "first_date": "2026.02.17",
+      "last_date": "2026.02.17"
+    },
+    {
+      "opponent": "tq2005",
+      "title": "WCM",
+      "games": 2,
+      "wins": 0,
+      "draws": 0,
+      "losses": 2,
+      "score": 0.0,
+      "first_date": "2023.12.06",
+      "last_date": "2025.08.29"
+    },
+    {
+      "opponent": "1assen",
+      "title": "NM",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0,
+      "first_date": "2025.03.21",
+      "last_date": "2025.03.21"
+    },
+    {
+      "opponent": "21jamal",
+      "title": "CM",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0,
+      "first_date": "2026.08.03",
+      "last_date": "2026.08.03"
+    },
+    {
+      "opponent": "aaradhya_das-03",
+      "title": "WCM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2022.06.26",
+      "last_date": "2022.06.26"
+    },
+    {
+      "opponent": "adwilhans",
+      "title": "FM",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0,
+      "first_date": "2026.10.11",
+      "last_date": "2026.10.11"
+    },
+    {
+      "opponent": "aglo_2012",
+      "title": "WCM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2026.11.14",
+      "last_date": "2026.11.14"
+    },
+    {
+      "opponent": "alexandercs432",
+      "title": "CM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2025.07.31",
+      "last_date": "2025.07.31"
+    },
+    {
+      "opponent": "asmafant06",
+      "title": "WFM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2025.08.28",
+      "last_date": "2025.08.28"
+    },
+    {
+      "opponent": "aufeve",
+      "title": "WFM",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0,
+      "first_date": "2025.12.10",
+      "last_date": "2025.12.10"
+    },
+    {
+      "opponent": "badouuu",
+      "title": "WFM",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0,
+      "first_date": "2025.12.28",
+      "last_date": "2025.12.28"
+    },
+    {
+      "opponent": "berlin_wa11",
+      "title": "CM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2026.05.25",
+      "last_date": "2026.05.25"
+    },
+    {
+      "opponent": "boydia",
+      "title": "FM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2026.09.04",
+      "last_date": "2026.09.04"
+    },
+    {
+      "opponent": "buenamor1972",
+      "title": "CM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2026.01.23",
+      "last_date": "2026.01.23"
+    },
+    {
+      "opponent": "certai",
+      "title": "NM",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0,
+      "first_date": "2022.01.16",
+      "last_date": "2022.01.16"
+    },
+    {
+      "opponent": "chanchakman",
+      "title": "CM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2026.08.03",
+      "last_date": "2026.08.03"
+    },
+    {
+      "opponent": "chessczar11",
+      "title": "FM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2023.01.11",
+      "last_date": "2023.01.11"
+    },
+    {
+      "opponent": "chesstacticalsv",
+      "title": "CM",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0,
+      "first_date": "2026.08.11",
+      "last_date": "2026.08.11"
+    },
+    {
+      "opponent": "clint_og",
+      "title": "CM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2026.10.06",
+      "last_date": "2026.10.06"
+    },
+    {
+      "opponent": "davidforthoffer",
+      "title": "NM",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0,
+      "first_date": "2021.12.30",
+      "last_date": "2021.12.30"
+    },
+    {
+      "opponent": "davidlibano",
+      "title": "NM",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0,
+      "first_date": "2026.06.29",
+      "last_date": "2026.06.29"
+    },
+    {
+      "opponent": "dragonb70",
+      "title": "IM",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0,
+      "first_date": "2022.01.04",
+      "last_date": "2022.01.04"
+    },
+    {
+      "opponent": "dres1",
+      "title": "NM",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0,
+      "first_date": "2025.12.25",
+      "last_date": "2025.12.25"
+    },
+    {
+      "opponent": "drstephenstrange",
+      "title": "FM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2026.04.09",
+      "last_date": "2026.04.09"
+    },
+    {
+      "opponent": "dsanchez1973",
+      "title": "NM",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0,
+      "first_date": "2023.08.24",
+      "last_date": "2023.08.24"
+    },
+    {
+      "opponent": "dzuffin",
+      "title": "CM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2026.08.11",
+      "last_date": "2026.08.11"
+    },
+    {
+      "opponent": "efrenramos1",
+      "title": "FM",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0,
+      "first_date": "2026.06.17",
+      "last_date": "2026.06.17"
+    },
+    {
+      "opponent": "esojaque",
+      "title": "CM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2026.03.10",
+      "last_date": "2026.03.10"
+    },
+    {
+      "opponent": "exiledsaint",
+      "title": "NM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2025.04.12",
+      "last_date": "2025.04.12"
+    },
+    {
+      "opponent": "fernando1279",
+      "title": "NM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2025.12.06",
+      "last_date": "2025.12.06"
+    },
+    {
+      "opponent": "fortknight11",
+      "title": "CM",
+      "games": 1,
+      "wins": 0,
+      "draws": 1,
+      "losses": 0,
+      "score": 0.5,
+      "first_date": "2023.01.05",
+      "last_date": "2023.01.05"
+    },
+    {
+      "opponent": "fredymatsuura",
+      "title": "FM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2026.06.14",
+      "last_date": "2026.06.14"
+    },
+    {
+      "opponent": "freeeeeeeeeeeeeeeeee",
+      "title": "CM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2026.01.29",
+      "last_date": "2026.01.29"
+    },
+    {
+      "opponent": "funbettor",
+      "title": "FM",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0,
+      "first_date": "2023.04.24",
+      "last_date": "2023.04.24"
+    },
+    {
+      "opponent": "fytnob",
+      "title": "NM",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0,
+      "first_date": "2025.09.08",
+      "last_date": "2025.09.08"
+    },
+    {
+      "opponent": "gliga",
+      "title": "FM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2025.12.03",
+      "last_date": "2025.12.03"
+    },
+    {
+      "opponent": "harveyzhang1",
+      "title": "CM",
+      "games": 1,
+      "wins": 0,
+      "draws": 1,
+      "losses": 0,
+      "score": 0.5,
+      "first_date": "2025.10.18",
+      "last_date": "2025.10.18"
+    },
+    {
+      "opponent": "highlama",
+      "title": "FM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2026.06.29",
+      "last_date": "2026.06.29"
+    },
+    {
+      "opponent": "hrvojezagreb",
+      "title": "CM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2026.02.24",
+      "last_date": "2026.02.24"
+    },
+    {
+      "opponent": "hsskoo",
+      "title": "FM",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0,
+      "first_date": "2025.12.27",
+      "last_date": "2025.12.27"
+    },
+    {
+      "opponent": "hwangrara",
+      "title": "WCM",
+      "games": 1,
+      "wins": 0,
+      "draws": 1,
+      "losses": 0,
+      "score": 0.5,
+      "first_date": "2025.11.07",
+      "last_date": "2025.11.07"
+    },
+    {
+      "opponent": "imhotep_0",
+      "title": "NM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2025.12.27",
+      "last_date": "2025.12.27"
+    },
+    {
+      "opponent": "israelfillip",
+      "title": "NM",
+      "games": 1,
+      "wins": 0,
+      "draws": 1,
+      "losses": 0,
+      "score": 0.5,
+      "first_date": "2025.08.11",
+      "last_date": "2025.08.11"
+    },
+    {
+      "opponent": "jardy79",
+      "title": "FM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2026.10.10",
+      "last_date": "2026.10.10"
+    },
+    {
+      "opponent": "jehubner",
+      "title": "WNM",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0,
+      "first_date": "2025.03.14",
+      "last_date": "2025.03.14"
+    },
+    {
+      "opponent": "joaog2004",
+      "title": "NM",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0,
+      "first_date": "2026.02.16",
+      "last_date": "2026.02.16"
+    },
+    {
+      "opponent": "joshuacao",
+      "title": "NM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2026.04.20",
+      "last_date": "2026.04.20"
+    },
+    {
+      "opponent": "kallerotmg",
+      "title": "NM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2025.04.27",
+      "last_date": "2025.04.27"
+    },
+    {
+      "opponent": "karpovian123",
+      "title": "NM",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0,
+      "first_date": "2025.04.25",
+      "last_date": "2025.04.25"
+    },
+    {
+      "opponent": "katchesskat",
+      "title": "WFM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2026.08.02",
+      "last_date": "2026.08.02"
+    },
+    {
+      "opponent": "kranthikumar1993",
+      "title": "NM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2023.12.25",
+      "last_date": "2023.12.25"
+    },
+    {
+      "opponent": "kritipatel",
+      "title": "WCM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2024.01.16",
+      "last_date": "2024.01.16"
+    },
+    {
+      "opponent": "kyrie-eleven",
+      "title": "FM",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0,
+      "first_date": "2026.05.04",
+      "last_date": "2026.05.04"
+    },
+    {
+      "opponent": "leslymontufar",
+      "title": "WFM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2025.11.11",
+      "last_date": "2025.11.11"
+    },
+    {
+      "opponent": "luibov_an",
+      "title": "WFM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2025.12.14",
+      "last_date": "2025.12.14"
+    },
+    {
+      "opponent": "maestroyodita",
+      "title": "FM",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0,
+      "first_date": "2026.02.06",
+      "last_date": "2026.02.06"
+    },
+    {
+      "opponent": "mammothcricket",
+      "title": "NM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2022.01.14",
+      "last_date": "2022.01.14"
+    },
+    {
+      "opponent": "mcguima49",
+      "title": "NM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2024.01.25",
+      "last_date": "2024.01.25"
+    },
+    {
+      "opponent": "mimihh",
+      "title": "FM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2025.03.11",
+      "last_date": "2025.03.11"
+    },
+    {
+      "opponent": "mirzano31",
+      "title": "WCM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2024.01.23",
+      "last_date": "2024.01.23"
+    },
+    {
+      "opponent": "murugapotri",
+      "title": "WFM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2025.11.25",
+      "last_date": "2025.11.25"
+    },
+    {
+      "opponent": "nagobe",
+      "title": "NM",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0,
+      "first_date": "2022.09.20",
+      "last_date": "2022.09.20"
+    },
+    {
+      "opponent": "nasrin_babayeva",
+      "title": "WFM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2026.06.17",
+      "last_date": "2026.06.17"
+    },
+    {
+      "opponent": "neri_gaite",
+      "title": "WIM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2024.01.02",
+      "last_date": "2024.01.02"
+    },
+    {
+      "opponent": "nmchess2impress",
+      "title": "NM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2026.08.28",
+      "last_date": "2026.08.28"
+    },
+    {
+      "opponent": "okin2817",
+      "title": "CM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2026.08.09",
+      "last_date": "2026.08.09"
+    },
+    {
+      "opponent": "optimusprimebr",
+      "title": "CM",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0,
+      "first_date": "2025.04.10",
+      "last_date": "2025.04.10"
+    },
+    {
+      "opponent": "pattycastillo",
+      "title": "WFM",
+      "games": 1,
+      "wins": 0,
+      "draws": 1,
+      "losses": 0,
+      "score": 0.5,
+      "first_date": "2023.08.06",
+      "last_date": "2023.08.06"
+    },
+    {
+      "opponent": "pawnn",
+      "title": "NM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2026.07.27",
+      "last_date": "2026.07.27"
+    },
+    {
+      "opponent": "piekarski64",
+      "title": "NM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2026.04.09",
+      "last_date": "2026.04.09"
+    },
+    {
+      "opponent": "puricfm",
+      "title": "FM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2026.10.02",
+      "last_date": "2026.10.02"
+    },
+    {
+      "opponent": "rashad_zeynalli",
+      "title": "FM",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0,
+      "first_date": "2021.12.27",
+      "last_date": "2021.12.27"
+    },
+    {
+      "opponent": "regolita",
+      "title": "WIM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2026.08.07",
+      "last_date": "2026.08.07"
+    },
+    {
+      "opponent": "rynos0411",
+      "title": "NM",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0,
+      "first_date": "2021.12.27",
+      "last_date": "2021.12.27"
+    },
+    {
+      "opponent": "samirsen",
+      "title": "NM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2025.05.03",
+      "last_date": "2025.05.03"
+    },
+    {
+      "opponent": "sebazzano",
+      "title": "CM",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0,
+      "first_date": "2026.05.04",
+      "last_date": "2026.05.04"
+    },
+    {
+      "opponent": "serverbusyc",
+      "title": "FM",
+      "games": 1,
+      "wins": 0,
+      "draws": 1,
+      "losses": 0,
+      "score": 0.5,
+      "first_date": "2022.09.05",
+      "last_date": "2022.09.05"
+    },
+    {
+      "opponent": "sesleria",
+      "title": "NM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2026.11.11",
+      "last_date": "2026.11.11"
+    },
+    {
+      "opponent": "snowbore",
+      "title": "NM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2026.01.05",
+      "last_date": "2026.01.05"
+    },
+    {
+      "opponent": "sonnyzc",
+      "title": "WIM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2025.08.08",
+      "last_date": "2025.08.08"
+    },
+    {
+      "opponent": "tagliata",
+      "title": "FM",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0,
+      "first_date": "2026.07.06",
+      "last_date": "2026.07.06"
+    },
+    {
+      "opponent": "tardnof17",
+      "title": "CM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2026.07.07",
+      "last_date": "2026.07.07"
+    },
+    {
+      "opponent": "thegreatauk",
+      "title": "CM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2025.12.20",
+      "last_date": "2025.12.20"
+    },
+    {
+      "opponent": "titomagno_64",
+      "title": "NM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2025.05.11",
+      "last_date": "2025.05.11"
+    },
+    {
+      "opponent": "vagoff",
+      "title": "CM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2023.02.19",
+      "last_date": "2023.02.19"
+    },
+    {
+      "opponent": "vaibhav2026",
+      "title": "CM",
+      "games": 1,
+      "wins": 0,
+      "draws": 1,
+      "losses": 0,
+      "score": 0.5,
+      "first_date": "2026.01.24",
+      "last_date": "2026.01.24"
+    },
+    {
+      "opponent": "valdenicio",
+      "title": "NM",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0,
+      "first_date": "2025.12.05",
+      "last_date": "2025.12.05"
+    },
+    {
+      "opponent": "vica56",
+      "title": "GM",
+      "games": 1,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1,
+      "score": 0.0,
+      "first_date": "2023.04.10",
+      "last_date": "2023.04.10"
+    },
+    {
+      "opponent": "vlad_akselrod",
+      "title": "IM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2023.12.27",
+      "last_date": "2023.12.27"
+    },
+    {
+      "opponent": "vozlo",
+      "title": "CM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2026.10.02",
+      "last_date": "2026.10.02"
+    },
+    {
+      "opponent": "yoelpolanco",
+      "title": "FM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2026.10.01",
+      "last_date": "2026.10.01"
+    },
+    {
+      "opponent": "zmeusor",
+      "title": "NM",
+      "games": 1,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0,
+      "score": 1.0,
+      "first_date": "2025.08.21",
+      "last_date": "2025.08.21"
+    }
+  ],
+  "games": [
+    {
+      "opponent": "homayoontofighi",
+      "title": "GM",
+      "date": "2021.12.24",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "B08",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "homayoontofighi",
+      "title": "GM",
+      "date": "2021.12.25",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "B01",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "homayoontofighi",
+      "title": "GM",
+      "date": "2021.12.25",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "C01",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "rynos0411",
+      "title": "NM",
+      "date": "2021.12.27",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "B50",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "rashad_zeynalli",
+      "title": "FM",
+      "date": "2021.12.27",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "B20",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "davidforthoffer",
+      "title": "NM",
+      "date": "2021.12.30",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "B50",
+      "time_control": "120+1",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "dragonb70",
+      "title": "IM",
+      "date": "2022.01.04",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "C70",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "mammothcricket",
+      "title": "NM",
+      "date": "2022.01.14",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "C50",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "certai",
+      "title": "NM",
+      "date": "2022.01.16",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "B22",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "94hawkeye",
+      "title": "NM",
+      "date": "2022.05.09",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "B06",
+      "time_control": "60+1",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "94hawkeye",
+      "title": "NM",
+      "date": "2022.06.12",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "A01",
+      "time_control": "60+1",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "aaradhya_das-03",
+      "title": "WCM",
+      "date": "2022.06.26",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "A40",
+      "time_control": "60+1",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "serverbusyc",
+      "title": "FM",
+      "date": "2022.09.05",
+      "result": "1/2-1/2",
+      "outcome": "draw",
+      "eco": "B06",
+      "time_control": "60+1",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "nagobe",
+      "title": "NM",
+      "date": "2022.09.20",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "B06",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "jawschess1955",
+      "title": "NM",
+      "date": "2023.01.03",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "A10",
+      "time_control": "60+1",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "jawschess1955",
+      "title": "NM",
+      "date": "2023.01.05",
+      "result": "1/2-1/2",
+      "outcome": "draw",
+      "eco": "A01",
+      "time_control": "60+1",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "fortknight11",
+      "title": "CM",
+      "date": "2023.01.05",
+      "result": "1/2-1/2",
+      "outcome": "draw",
+      "eco": "A06",
+      "time_control": "60+1",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "chessczar11",
+      "title": "FM",
+      "date": "2023.01.11",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "B06",
+      "time_control": "60+1",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "vagoff",
+      "title": "CM",
+      "date": "2023.02.19",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "B06",
+      "time_control": "60+1",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "vica56",
+      "title": "GM",
+      "date": "2023.04.10",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "A01",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "funbettor",
+      "title": "FM",
+      "date": "2023.04.24",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "A01",
+      "time_control": "60+1",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "pattycastillo",
+      "title": "WFM",
+      "date": "2023.08.06",
+      "result": "1/2-1/2",
+      "outcome": "draw",
+      "eco": "A06",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "dsanchez1973",
+      "title": "NM",
+      "date": "2023.08.24",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "tq2005",
+      "title": "WCM",
+      "date": "2023.12.06",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "kranthikumar1993",
+      "title": "NM",
+      "date": "2023.12.25",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "mikesailer",
+      "title": "NM",
+      "date": "2023.12.25",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "A06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "vlad_akselrod",
+      "title": "IM",
+      "date": "2023.12.27",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "chessarchitect64",
+      "title": "FM",
+      "date": "2024.01.01",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "rouven1977",
+      "title": "NM",
+      "date": "2024.01.01",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "chessarchitect64",
+      "title": "FM",
+      "date": "2024.01.01",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "neri_gaite",
+      "title": "WIM",
+      "date": "2024.01.02",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "A40",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "kritipatel",
+      "title": "WCM",
+      "date": "2024.01.16",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "mirzano31",
+      "title": "WCM",
+      "date": "2024.01.23",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "mcguima49",
+      "title": "NM",
+      "date": "2024.01.25",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "c3d2",
+      "title": "FM",
+      "date": "2024.07.24",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "leykunmesfin",
+      "title": "FM",
+      "date": "2025.02.17",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A04",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "jawschess1955",
+      "title": "NM",
+      "date": "2025.02.20",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "A10",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "mimihh",
+      "title": "FM",
+      "date": "2025.03.11",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "A40",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "jehubner",
+      "title": "WNM",
+      "date": "2025.03.14",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "B06",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "1assen",
+      "title": "NM",
+      "date": "2025.03.21",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "A01",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "joaolizak",
+      "title": "NM",
+      "date": "2025.03.23",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "B06",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "joaolizak",
+      "title": "NM",
+      "date": "2025.03.23",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "optimusprimebr",
+      "title": "CM",
+      "date": "2025.04.10",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "A01",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "leykunmesfin",
+      "title": "FM",
+      "date": "2025.04.10",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "backtothebeginning",
+      "title": "CM",
+      "date": "2025.04.11",
+      "result": "1/2-1/2",
+      "outcome": "draw",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "leykunmesfin",
+      "title": "FM",
+      "date": "2025.04.12",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "B00",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "exiledsaint",
+      "title": "NM",
+      "date": "2025.04.12",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "A40",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "karpovian123",
+      "title": "NM",
+      "date": "2025.04.25",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "kallerotmg",
+      "title": "NM",
+      "date": "2025.04.27",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A07",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "samirsen",
+      "title": "NM",
+      "date": "2025.05.03",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "titomagno_64",
+      "title": "NM",
+      "date": "2025.05.11",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "leykunmesfin",
+      "title": "FM",
+      "date": "2025.07.25",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "B06",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "alexandercs432",
+      "title": "CM",
+      "date": "2025.07.31",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "sonnyzc",
+      "title": "WIM",
+      "date": "2025.08.08",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "B06",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "israelfillip",
+      "title": "NM",
+      "date": "2025.08.11",
+      "result": "1/2-1/2",
+      "outcome": "draw",
+      "eco": "A07",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "zmeusor",
+      "title": "NM",
+      "date": "2025.08.21",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "coachric",
+      "title": "NM",
+      "date": "2025.08.22",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "A40",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "asmafant06",
+      "title": "WFM",
+      "date": "2025.08.28",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "tq2005",
+      "title": "WCM",
+      "date": "2025.08.29",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "fytnob",
+      "title": "NM",
+      "date": "2025.09.08",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "harveyzhang1",
+      "title": "CM",
+      "date": "2025.10.18",
+      "result": "1/2-1/2",
+      "outcome": "draw",
+      "eco": "A40",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "chessmayhem1",
+      "title": "CM",
+      "date": "2025.10.24",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "hwangrara",
+      "title": "WCM",
+      "date": "2025.11.07",
+      "result": "1/2-1/2",
+      "outcome": "draw",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "roman_2112",
+      "title": "IM",
+      "date": "2025.11.10",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "optimus_prime120",
+      "title": "FM",
+      "date": "2025.11.10",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "thox_xo",
+      "title": "WCM",
+      "date": "2025.11.10",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "leslymontufar",
+      "title": "WFM",
+      "date": "2025.11.11",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A05",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "coachric",
+      "title": "NM",
+      "date": "2025.11.13",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "carrotsandpizza",
+      "title": "FM",
+      "date": "2025.11.23",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "boydgary",
+      "title": "FM",
+      "date": "2025.11.23",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "sveta_13",
+      "title": "WCM",
+      "date": "2025.11.25",
+      "result": "1/2-1/2",
+      "outcome": "draw",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "murugapotri",
+      "title": "WFM",
+      "date": "2025.11.25",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "gliga",
+      "title": "FM",
+      "date": "2025.12.03",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "A02",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "valdenicio",
+      "title": "NM",
+      "date": "2025.12.05",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "fernando1279",
+      "title": "NM",
+      "date": "2025.12.06",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "aufeve",
+      "title": "WFM",
+      "date": "2025.12.10",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "luibov_an",
+      "title": "WFM",
+      "date": "2025.12.14",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "sveta_13",
+      "title": "WCM",
+      "date": "2025.12.15",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "thegreatauk",
+      "title": "CM",
+      "date": "2025.12.20",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "dres1",
+      "title": "NM",
+      "date": "2025.12.25",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "imhotep_0",
+      "title": "NM",
+      "date": "2025.12.27",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "B06",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "hsskoo",
+      "title": "FM",
+      "date": "2025.12.27",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "A06",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "badouuu",
+      "title": "WFM",
+      "date": "2025.12.28",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "A06",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "mikesailer",
+      "title": "NM",
+      "date": "2026.01.05",
+      "result": "1/2-1/2",
+      "outcome": "draw",
+      "eco": "D00",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "snowbore",
+      "title": "NM",
+      "date": "2026.01.05",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A40",
+      "time_control": "180",
+      "speed": "blitz"
+    },
+    {
+      "opponent": "buenamor1972",
+      "title": "CM",
+      "date": "2026.01.23",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A00",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "vaibhav2026",
+      "title": "CM",
+      "date": "2026.01.24",
+      "result": "1/2-1/2",
+      "outcome": "draw",
+      "eco": "A05",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "chessmayhem1",
+      "title": "CM",
+      "date": "2026.01.24",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "A45",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "thox_xo",
+      "title": "WCM",
+      "date": "2026.01.28",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "freeeeeeeeeeeeeeeeee",
+      "title": "CM",
+      "date": "2026.01.29",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "maestroyodita",
+      "title": "FM",
+      "date": "2026.02.06",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "A48",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "coachric",
+      "title": "NM",
+      "date": "2026.02.11",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "A04",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "albertopierce",
+      "title": "CM",
+      "date": "2026.02.12",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "A40",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "joaog2004",
+      "title": "NM",
+      "date": "2026.02.16",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "roman_2112",
+      "title": "IM",
+      "date": "2026.02.17",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "tk_z",
+      "title": "NM",
+      "date": "2026.02.17",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "A06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "tk_z",
+      "title": "NM",
+      "date": "2026.02.17",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "A40",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "c3d2",
+      "title": "FM",
+      "date": "2026.02.19",
+      "result": "1/2-1/2",
+      "outcome": "draw",
+      "eco": "A06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "hrvojezagreb",
+      "title": "CM",
+      "date": "2026.02.24",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "optimus_prime120",
+      "title": "FM",
+      "date": "2026.03.01",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "optimus_prime120",
+      "title": "FM",
+      "date": "2026.03.10",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "esojaque",
+      "title": "CM",
+      "date": "2026.03.10",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "optimus_prime120",
+      "title": "FM",
+      "date": "2026.03.15",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "piekarski64",
+      "title": "NM",
+      "date": "2026.04.09",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "drstephenstrange",
+      "title": "FM",
+      "date": "2026.04.09",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "A04",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "backtothebeginning",
+      "title": "CM",
+      "date": "2026.04.14",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "A04",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "chessdeep2017",
+      "title": "NM",
+      "date": "2026.04.15",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "lilyrishu",
+      "title": "WCM",
+      "date": "2026.04.16",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "joshuacao",
+      "title": "NM",
+      "date": "2026.04.20",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "krokofant",
+      "title": "CM",
+      "date": "2026.04.24",
+      "result": "1/2-1/2",
+      "outcome": "draw",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "jaquetriple",
+      "title": "CM",
+      "date": "2026.04.27",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "jaquetriple",
+      "title": "CM",
+      "date": "2026.04.27",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "A00",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "coachric",
+      "title": "NM",
+      "date": "2026.04.30",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "A40",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "coachric",
+      "title": "NM",
+      "date": "2026.05.04",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "kyrie-eleven",
+      "title": "FM",
+      "date": "2026.05.04",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "sebazzano",
+      "title": "CM",
+      "date": "2026.05.04",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "albertopierce",
+      "title": "CM",
+      "date": "2026.05.10",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "A40",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "squishey",
+      "title": "CM",
+      "date": "2026.05.22",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "A10",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "squishey",
+      "title": "CM",
+      "date": "2026.05.22",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "berlin_wa11",
+      "title": "CM",
+      "date": "2026.05.25",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "backtothebeginning",
+      "title": "CM",
+      "date": "2026.06.10",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "A04",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "fpawn",
+      "title": "NM",
+      "date": "2026.06.13",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "fredymatsuura",
+      "title": "FM",
+      "date": "2026.06.14",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "efrenramos1",
+      "title": "FM",
+      "date": "2026.06.17",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "nasrin_babayeva",
+      "title": "WFM",
+      "date": "2026.06.17",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "fpawn",
+      "title": "NM",
+      "date": "2026.06.18",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "fpawn",
+      "title": "NM",
+      "date": "2026.06.19",
+      "result": "1/2-1/2",
+      "outcome": "draw",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "backtothebeginning",
+      "title": "CM",
+      "date": "2026.06.20",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "rouven1977",
+      "title": "NM",
+      "date": "2026.06.25",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "caissanyx",
+      "title": "WIM",
+      "date": "2026.06.28",
+      "result": "1/2-1/2",
+      "outcome": "draw",
+      "eco": "A04",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "highlama",
+      "title": "FM",
+      "date": "2026.06.29",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "davidlibano",
+      "title": "NM",
+      "date": "2026.06.29",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "tagliata",
+      "title": "FM",
+      "date": "2026.07.06",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "boydgary",
+      "title": "FM",
+      "date": "2026.07.06",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "chessdeep2017",
+      "title": "NM",
+      "date": "2026.07.07",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "tardnof17",
+      "title": "CM",
+      "date": "2026.07.07",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "irk7890",
+      "title": "NM",
+      "date": "2026.07.07",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A07",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "irk7890",
+      "title": "NM",
+      "date": "2026.07.07",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "A40",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "avri_goat",
+      "title": "CM",
+      "date": "2026.07.24",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "avri_goat",
+      "title": "CM",
+      "date": "2026.07.24",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "fpawn",
+      "title": "NM",
+      "date": "2026.07.24",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "dinevmk",
+      "title": "FM",
+      "date": "2026.07.26",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "pawnn",
+      "title": "NM",
+      "date": "2026.07.27",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "A10",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "katchesskat",
+      "title": "WFM",
+      "date": "2026.08.02",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "A10",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "chanchakman",
+      "title": "CM",
+      "date": "2026.08.03",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "A10",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "21jamal",
+      "title": "CM",
+      "date": "2026.08.03",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "A15",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "fpawn",
+      "title": "NM",
+      "date": "2026.08.03",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "chessmayhem1",
+      "title": "CM",
+      "date": "2026.08.06",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "A04",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "regolita",
+      "title": "WIM",
+      "date": "2026.08.07",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "A40",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "fpawn",
+      "title": "NM",
+      "date": "2026.08.08",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "fpawn",
+      "title": "NM",
+      "date": "2026.08.08",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "fpawn",
+      "title": "NM",
+      "date": "2026.08.08",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "okin2817",
+      "title": "CM",
+      "date": "2026.08.09",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "chesstacticalsv",
+      "title": "CM",
+      "date": "2026.08.11",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "dzuffin",
+      "title": "CM",
+      "date": "2026.08.11",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "cm_kino",
+      "title": "CM",
+      "date": "2026.08.15",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "A40",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "cm_kino",
+      "title": "CM",
+      "date": "2026.08.15",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "nmchess2impress",
+      "title": "NM",
+      "date": "2026.08.28",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "boydia",
+      "title": "FM",
+      "date": "2026.09.04",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "lilyrishu",
+      "title": "WCM",
+      "date": "2026.09.15",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "lilyrishu",
+      "title": "WCM",
+      "date": "2026.09.15",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "A40",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "lilyrishu",
+      "title": "WCM",
+      "date": "2026.09.15",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "hayzilayni",
+      "title": "WCM",
+      "date": "2026.09.23",
+      "result": "1/2-1/2",
+      "outcome": "draw",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "caissanyx",
+      "title": "WIM",
+      "date": "2026.09.26",
+      "result": "1/2-1/2",
+      "outcome": "draw",
+      "eco": "A40",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "yoelpolanco",
+      "title": "FM",
+      "date": "2026.10.01",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "A04",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "krokofant",
+      "title": "CM",
+      "date": "2026.10.01",
+      "result": "1/2-1/2",
+      "outcome": "draw",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "puricfm",
+      "title": "FM",
+      "date": "2026.10.02",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "A40",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "vozlo",
+      "title": "CM",
+      "date": "2026.10.02",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "A00",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "carrotsandpizza",
+      "title": "FM",
+      "date": "2026.10.03",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "clint_og",
+      "title": "CM",
+      "date": "2026.10.06",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "jardy79",
+      "title": "FM",
+      "date": "2026.10.10",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "A40",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "adwilhans",
+      "title": "FM",
+      "date": "2026.10.11",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "A04",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "dinevmk",
+      "title": "FM",
+      "date": "2026.10.12",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "dinevmk",
+      "title": "FM",
+      "date": "2026.10.14",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "carrotsandpizza",
+      "title": "FM",
+      "date": "2026.10.17",
+      "result": "1-0",
+      "outcome": "loss",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "sesleria",
+      "title": "NM",
+      "date": "2026.11.11",
+      "result": "0-1",
+      "outcome": "win",
+      "eco": "B06",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "hayzilayni",
+      "title": "WCM",
+      "date": "2026.11.12",
+      "result": "0-1",
+      "outcome": "loss",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    },
+    {
+      "opponent": "aglo_2012",
+      "title": "WCM",
+      "date": "2026.11.14",
+      "result": "1-0",
+      "outcome": "win",
+      "eco": "A01",
+      "time_control": "60",
+      "speed": "bullet"
+    }
+  ]
+}
