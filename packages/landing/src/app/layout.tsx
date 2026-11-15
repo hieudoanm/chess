@@ -28,6 +28,17 @@ export const metadata: Metadata = {
   },
   description:
     'chess is a UCI-compatible engine with alpha-beta search, NNUE evaluation, and perft-tested move generation — plus an MCP server so AI assistants can play and analyze games.',
+  keywords: [
+    'chess engine',
+    'UCI protocol',
+    'alpha-beta search',
+    'NNUE',
+    'chess analysis',
+    'MCP server',
+    'Rust',
+  ],
+  authors: [{ name: 'hieudoan', url: 'https://github.com/hieudoanm/chess' }],
+  category: 'software',
   openGraph: {
     siteName: 'chess',
     type: 'website',
@@ -46,6 +57,28 @@ export const metadata: Metadata = {
   },
 };
 
+
+const JSON_LD = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      name: 'chess',
+      url: 'https://hieudoanm.github.io/chess/',
+      description: 'chess is a UCI-compatible engine with alpha-beta search, NNUE evaluation, and perft-tested move generation — plus an MCP server so AI assistants can play and analyze games.',
+    },
+    {
+      '@type': 'SoftwareApplication',
+      name: 'chess',
+      applicationCategory: 'GameApplication',
+      description: 'chess is a UCI-compatible engine with alpha-beta search, NNUE evaluation, and perft-tested move generation — plus an MCP server so AI assistants can play and analyze games.',
+      url: 'https://hieudoanm.github.io/chess/',
+      codeRepository: 'https://github.com/hieudoanm/chess',
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    },
+  ]
+};
+
 interface RootLayoutProps {
   children: ReactNode;
 }
@@ -56,6 +89,10 @@ const RootLayout: FC<RootLayoutProps> = ({ children }) => (
     data-theme="chess"
     className={`scroll-smooth antialiased motion-reduce:scroll-auto ${inter.className}`}>
     <body className="bg-base-100 text-base-content m-0 leading-relaxed">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
+      />
       <Navbar
         name="chess"
         logoSrc={LOGO}

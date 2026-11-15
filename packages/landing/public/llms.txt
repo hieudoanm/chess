@@ -1,0 +1,24 @@
+# chess
+
+> chess is a UCI-compatible engine with alpha-beta search, NNUE evaluation, and perft-tested move generation — plus an MCP server so AI assistants can play and analyze games.
+
+- Repository: https://github.com/hieudoanm/chess
+- Site: https://hieudoanm.github.io/chess/
+
+## Documentation
+
+### concepts
+
+- [Board and move generation](https://hieudoanm.github.io/chess/docs/concepts/board-and-move-generation/)
+- [Search and evaluation](https://hieudoanm.github.io/chess/docs/concepts/search-and-evaluation/)
+### getting-started
+
+- [Installation](https://hieudoanm.github.io/chess/docs/getting-started/installation/)
+- [Quickstart](https://hieudoanm.github.io/chess/docs/getting-started/quickstart/)
+### guides
+
+- [MCP server](https://hieudoanm.github.io/chess/docs/guides/mcp-server/)
+- [UCI protocol](https://hieudoanm.github.io/chess/docs/guides/uci-protocol/)
+### overview
+
+- [chess documentation](https://hieudoanm.github.io/chess/docs/)
