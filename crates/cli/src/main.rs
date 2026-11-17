@@ -5,6 +5,7 @@ mod elo;
 mod game;
 mod mate;
 mod mcp;
+mod mcp_http;
 mod opening_train;
 mod openings;
 mod pair;
@@ -46,7 +47,15 @@ enum Commands {
         fen: Option<String>,
     },
     Uci,
-    Mcp,
+    /// Run an MCP server (stdio by default, or streamable-HTTP with --http)
+    Mcp {
+        /// Serve MCP over HTTP at this address instead of stdio
+        #[arg(long)]
+        http: Option<String>,
+        /// Bearer token required on HTTP requests (or MCP_AUTH_TOKEN)
+        #[arg(long)]
+        token: Option<String>,
+    },
     Bench,
     Review {
         input: Option<String>,
@@ -287,9 +296,17 @@ fn main() {
         Some(Commands::Uci) | None => {
             uci::run();
         }
-        Some(Commands::Mcp) => {
-            let rt = tokio::runtime::Runtime::new().unwrap();
-            rt.block_on(mcp::run()).unwrap();
+        Some(Commands::Mcp { http, token }) => {
+            if let Some(addr) = http {
+                mcp::run_http(
+                    &addr,
+                    token.or_else(|| std::env::var("MCP_AUTH_TOKEN").ok()),
+                )
+                .unwrap();
+            } else {
+                let rt = tokio::runtime::Runtime::new().unwrap();
+                rt.block_on(mcp::run()).unwrap();
+            }
         }
         Some(Commands::Bench) => {
             let pos = Position::standard();
