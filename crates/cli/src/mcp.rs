@@ -77,14 +77,15 @@ impl McpServer {
 
     fn handle_initialize(&self, _params: Option<Value>) -> Value {
         serde_json::json!({
-            "protocolVersion": "2024-11-05",
+            "protocolVersion": "2025-11-25",
             "capabilities": {
-                "tools": {},
-                "resources": {}
+                "tools": { "listChanged": false },
+                "resources": { "listChanged": false },
+                "prompts": { "listChanged": false }
             },
             "serverInfo": {
                 "name": "chess-mcp",
-                "version": "0.1.0"
+                "version": env!("CARGO_PKG_VERSION")
             }
         })
     }
@@ -94,6 +95,7 @@ impl McpServer {
             "tools": [
                 {
                     "name": "new_game",
+                    "title": "New Game",
                     "description": "Start a new chess game from the standard starting position",
                     "annotations": {
                         "readOnlyHint": false,
@@ -109,6 +111,7 @@ impl McpServer {
                 },
                 {
                     "name": "get_board",
+                    "title": "Get Board",
                     "description": "Get the current board state as ASCII art and FEN",
                     "annotations": {
                         "readOnlyHint": true,
@@ -124,6 +127,7 @@ impl McpServer {
                 },
                 {
                     "name": "get_legal_moves",
+                    "title": "Get Legal Moves",
                     "description": "List all legal moves for the current position (UCI notation)",
                     "annotations": {
                         "readOnlyHint": true,
@@ -139,6 +143,7 @@ impl McpServer {
                 },
                 {
                     "name": "make_move",
+                    "title": "Make Move",
                     "description": "Make a move on the board (UCI notation, e.g. e2e4)",
                     "annotations": {
                         "readOnlyHint": false,
@@ -160,6 +165,7 @@ impl McpServer {
                 },
                 {
                     "name": "get_best_move",
+                    "title": "Get Best Move",
                     "description": "Get the engine's best move for the current position",
                     "annotations": {
                         "readOnlyHint": true,
@@ -283,6 +289,73 @@ impl McpServer {
         }
     }
 
+    fn handle_prompts_list(&self) -> Value {
+        serde_json::json!({
+            "prompts": [
+                {
+                    "name": "analyze_position",
+                    "title": "Analyze Position",
+                    "description": "Explain the current position: material, threats, and candidate plans",
+                    "arguments": []
+                },
+                {
+                    "name": "suggest_move",
+                    "title": "Suggest Move",
+                    "description": "Ask the engine for its best move at a chosen depth",
+                    "arguments": [
+                        {
+                            "name": "depth",
+                            "description": "Search depth 1-6 (default 3)",
+                            "required": false
+                        }
+                    ]
+                }
+            ]
+        })
+    }
+
+    fn handle_prompts_get(&self, name: &str, args: Option<Value>) -> Value {
+        let depth = args
+            .as_ref()
+            .and_then(|a| a.get("depth"))
+            .and_then(|v| v.as_u64())
+            .unwrap_or(3)
+            .clamp(1, 6);
+        let (prompt_text, moves) = match name {
+            "analyze_position" => (
+                "Analyze the current chess position. Report material balance,                  whose move it is, immediate tactical threats, and two or three                  candidate plans. Use the board tools to verify before answering."
+                    .to_string(),
+                self.legal_moves_uci(),
+            ),
+            "suggest_move" => (
+                format!(
+                    "Find the engine's best move at depth {depth}. Report the                      move in UCI notation, the score, and a short explanation                      of why it is best."
+                ),
+                self.legal_moves_uci(),
+            ),
+            _ => {
+                return serde_json::json!({
+                    "error": {"code": -32602, "message": format!("Unknown prompt: {name}")}
+                })
+            }
+        };
+        serde_json::json!({
+            "description": format!("Chess prompt: {name}"),
+            "messages": [
+                {
+                    "role": "user",
+                    "content": {
+                        "type": "text",
+                        "text": format!("{prompt_text}
+
+FEN: {}
+Legal moves ({}): {}", self.fen(), moves.len(), moves.join(", "))
+                    }
+                }
+            ]
+        })
+    }
+
     fn handle_resources_list(&self) -> Value {
         serde_json::json!({
             "resources": [
@@ -330,7 +403,21 @@ pub async fn run() -> io::Result<()> {
         if trimmed.is_empty() {
             continue;
         }
+        if let Some(response) = server.process(trimmed) {
+            out.write_all(response.as_bytes()).await?;
+            out.write_all(b"\n").await?;
+            out.flush().await?;
+        }
+    }
 
+    Ok(())
+}
+
+impl McpServer {
+    /// Process one JSON-RPC frame; returns the serialized response line, or
+    /// `None` for notifications and parse-free replies. Shared by the stdio
+    /// loop and the streamable-HTTP transport.
+    fn process(&mut self, trimmed: &str) -> Option<String> {
         let request: Result<JsonRpcRequest, _> = serde_json::from_str(trimmed);
 
         match request {
@@ -340,7 +427,7 @@ pub async fn run() -> io::Result<()> {
 
                 let maybe_response = match req.method.as_str() {
                     "initialize" => {
-                        let result = server.handle_initialize(req.params);
+                        let result = self.handle_initialize(req.params);
                         Some(
                             serde_json::to_string(&JsonRpcResponse {
                                 jsonrpc: "2.0".to_string(),
@@ -351,7 +438,7 @@ pub async fn run() -> io::Result<()> {
                         )
                     }
                     "tools/list" => {
-                        let result = server.handle_tools_list();
+                        let result = self.handle_tools_list();
                         Some(
                             serde_json::to_string(&JsonRpcResponse {
                                 jsonrpc: "2.0".to_string(),
@@ -368,7 +455,35 @@ pub async fn run() -> io::Result<()> {
                             .and_then(|p| p.get("name").and_then(|v| v.as_str()))
                             .unwrap_or("");
                         let args = req.params.as_ref().and_then(|p| p.get("arguments"));
-                        let result = server.handle_tools_call(name, args.cloned());
+                        let result = self.handle_tools_call(name, args.cloned());
+                        Some(
+                            serde_json::to_string(&JsonRpcResponse {
+                                jsonrpc: "2.0".to_string(),
+                                id,
+                                result,
+                            })
+                            .unwrap(),
+                        )
+                    }
+                    "prompts/list" => {
+                        let result = self.handle_prompts_list();
+                        Some(
+                            serde_json::to_string(&JsonRpcResponse {
+                                jsonrpc: "2.0".to_string(),
+                                id,
+                                result,
+                            })
+                            .unwrap(),
+                        )
+                    }
+                    "prompts/get" => {
+                        let name = req
+                            .params
+                            .as_ref()
+                            .and_then(|p| p.get("name").and_then(|v| v.as_str()))
+                            .unwrap_or("");
+                        let args = req.params.as_ref().and_then(|p| p.get("arguments"));
+                        let result = self.handle_prompts_get(name, args.cloned());
                         Some(
                             serde_json::to_string(&JsonRpcResponse {
                                 jsonrpc: "2.0".to_string(),
@@ -379,7 +494,7 @@ pub async fn run() -> io::Result<()> {
                         )
                     }
                     "resources/list" => {
-                        let result = server.handle_resources_list();
+                        let result = self.handle_resources_list();
                         Some(
                             serde_json::to_string(&JsonRpcResponse {
                                 jsonrpc: "2.0".to_string(),
@@ -395,7 +510,7 @@ pub async fn run() -> io::Result<()> {
                             .as_ref()
                             .and_then(|p| p.get("uri").and_then(|v| v.as_str()))
                             .unwrap_or("");
-                        let result = server.handle_resources_read(uri);
+                        let result = self.handle_resources_read(uri);
                         Some(
                             serde_json::to_string(&JsonRpcResponse {
                                 jsonrpc: "2.0".to_string(),
@@ -427,13 +542,10 @@ pub async fn run() -> io::Result<()> {
                     ),
                 };
 
-                if let Some(response) = maybe_response {
-                    if has_id {
-                        out.write_all(response.as_bytes()).await?;
-                        out.write_all(b"\n").await?;
-                        out.flush().await?;
-                    }
+                if !has_id {
+                    return None;
                 }
+                maybe_response
             }
             Err(e) => {
                 let error = serde_json::to_string(&JsonRpcError {
@@ -445,14 +557,19 @@ pub async fn run() -> io::Result<()> {
                     }),
                 })
                 .unwrap();
-                out.write_all(error.as_bytes()).await?;
-                out.write_all(b"\n").await?;
-                out.flush().await?;
+                Some(error)
             }
         }
     }
+}
 
-    Ok(())
+/// Run the MCP server over streamable HTTP on `addr`.
+pub fn run_http(addr: &str, token: Option<String>) -> io::Result<()> {
+    let server = std::sync::Arc::new(std::sync::Mutex::new(McpServer::new()));
+    crate::mcp_http::serve(addr, token, move |body: &str| {
+        let mut guard = server.lock().expect("mcp server poisoned");
+        guard.process(body.trim())
+    })
 }
 
 #[derive(Debug, Serialize)]
