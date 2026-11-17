@@ -95,6 +95,12 @@ impl McpServer {
                 {
                     "name": "new_game",
                     "description": "Start a new chess game from the standard starting position",
+                    "annotations": {
+                        "readOnlyHint": false,
+                        "destructiveHint": true,
+                        "idempotentHint": true,
+                        "openWorldHint": false
+                    },
                     "inputSchema": {
                         "type": "object",
                         "properties": {},
@@ -104,6 +110,12 @@ impl McpServer {
                 {
                     "name": "get_board",
                     "description": "Get the current board state as ASCII art and FEN",
+                    "annotations": {
+                        "readOnlyHint": true,
+                        "destructiveHint": false,
+                        "idempotentHint": true,
+                        "openWorldHint": false
+                    },
                     "inputSchema": {
                         "type": "object",
                         "properties": {},
@@ -113,6 +125,12 @@ impl McpServer {
                 {
                     "name": "get_legal_moves",
                     "description": "List all legal moves for the current position (UCI notation)",
+                    "annotations": {
+                        "readOnlyHint": true,
+                        "destructiveHint": false,
+                        "idempotentHint": true,
+                        "openWorldHint": false
+                    },
                     "inputSchema": {
                         "type": "object",
                         "properties": {},
@@ -122,6 +140,12 @@ impl McpServer {
                 {
                     "name": "make_move",
                     "description": "Make a move on the board (UCI notation, e.g. e2e4)",
+                    "annotations": {
+                        "readOnlyHint": false,
+                        "destructiveHint": false,
+                        "idempotentHint": true,
+                        "openWorldHint": false
+                    },
                     "inputSchema": {
                         "type": "object",
                         "properties": {
@@ -137,6 +161,12 @@ impl McpServer {
                 {
                     "name": "get_best_move",
                     "description": "Get the engine's best move for the current position",
+                    "annotations": {
+                        "readOnlyHint": true,
+                        "destructiveHint": false,
+                        "idempotentHint": true,
+                        "openWorldHint": false
+                    },
                     "inputSchema": {
                         "type": "object",
                         "properties": {
@@ -431,4 +461,54 @@ struct JsonRpcError {
     jsonrpc: String,
     id: Value,
     error: Value,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const EXPECTED_TOOLS: [&str; 5] = [
+        "new_game",
+        "get_board",
+        "get_legal_moves",
+        "make_move",
+        "get_best_move",
+    ];
+
+    fn listed_tools() -> Vec<Value> {
+        let result = McpServer::new().handle_tools_list();
+        result["tools"].as_array().expect("tools array").clone()
+    }
+
+    #[test]
+    fn tools_list_exposes_every_expected_tool() {
+        let tools = listed_tools();
+        let names: Vec<&str> = tools
+            .iter()
+            .filter_map(|tool| tool["name"].as_str())
+            .collect();
+        for expected in EXPECTED_TOOLS {
+            assert!(names.contains(&expected), "missing tool {expected}");
+        }
+        assert_eq!(names.len(), EXPECTED_TOOLS.len());
+    }
+
+    #[test]
+    fn every_tool_has_all_four_boolean_annotations() {
+        for tool in listed_tools() {
+            let name = tool["name"].as_str().unwrap_or("<unnamed>");
+            let annotations = &tool["annotations"];
+            for hint in [
+                "readOnlyHint",
+                "destructiveHint",
+                "idempotentHint",
+                "openWorldHint",
+            ] {
+                assert!(
+                    annotations.get(hint).is_some_and(Value::is_boolean),
+                    "{name} missing boolean annotation {hint}"
+                );
+            }
+        }
+    }
 }
