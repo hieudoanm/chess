@@ -75,6 +75,33 @@ impl McpServer {
             .collect()
     }
 
+    fn position_state(&self) -> Value {
+        let p = &self.engine.position;
+        let side = match p.side_to_move {
+            chess_core::color::Color::White => "white",
+            chess_core::color::Color::Black => "black",
+        };
+        let result = match chess_core::rules::game_result(p) {
+            chess_core::rules::GameResult::WhiteWins => "white_wins",
+            chess_core::rules::GameResult::BlackWins => "black_wins",
+            chess_core::rules::GameResult::Draw => "draw",
+            chess_core::rules::GameResult::Ongoing => "ongoing",
+        };
+        serde_json::json!({
+            "fen": self.fen(),
+            "side_to_move": side,
+            "in_check": p.is_in_check(p.side_to_move),
+            "game_result": result
+        })
+    }
+
+    fn board_result(&self, text: String) -> Value {
+        serde_json::json!({
+            "content": [{ "type": "text", "text": text }],
+            "structuredContent": self.position_state()
+        })
+    }
+
     fn handle_initialize(&self, _params: Option<Value>) -> Value {
         serde_json::json!({
             "protocolVersion": "2025-11-25",
@@ -103,6 +130,17 @@ impl McpServer {
                         "idempotentHint": true,
                         "openWorldHint": false
                     },
+                    "outputSchema": {
+                        "type": "object",
+                        "properties": {
+                            "fen": {"type": "string"},
+                            "side_to_move": {"type": "string", "enum": ["white", "black"]},
+                            "in_check": {"type": "boolean"},
+                            "game_result": {"type": "string", "enum": ["white_wins", "black_wins", "draw", "ongoing"]}
+                        },
+                        "required": ["fen", "side_to_move", "in_check", "game_result"],
+                        "additionalProperties": false
+                    },
                     "inputSchema": {
                         "type": "object",
                         "properties": {},
@@ -118,6 +156,17 @@ impl McpServer {
                         "destructiveHint": false,
                         "idempotentHint": true,
                         "openWorldHint": false
+                    },
+                    "outputSchema": {
+                        "type": "object",
+                        "properties": {
+                            "fen": {"type": "string"},
+                            "side_to_move": {"type": "string", "enum": ["white", "black"]},
+                            "in_check": {"type": "boolean"},
+                            "game_result": {"type": "string", "enum": ["white_wins", "black_wins", "draw", "ongoing"]}
+                        },
+                        "required": ["fen", "side_to_move", "in_check", "game_result"],
+                        "additionalProperties": false
                     },
                     "inputSchema": {
                         "type": "object",
@@ -135,6 +184,14 @@ impl McpServer {
                         "idempotentHint": true,
                         "openWorldHint": false
                     },
+                    "outputSchema": {
+                        "type": "object",
+                        "properties": {
+                            "moves": {"type": "array", "items": {"type": "string"}}
+                        },
+                        "required": ["moves"],
+                        "additionalProperties": false
+                    },
                     "inputSchema": {
                         "type": "object",
                         "properties": {},
@@ -150,6 +207,18 @@ impl McpServer {
                         "destructiveHint": false,
                         "idempotentHint": true,
                         "openWorldHint": false
+                    },
+                    "outputSchema": {
+                        "type": "object",
+                        "properties": {
+                            "move": {"type": "string"},
+                            "fen": {"type": "string"},
+                            "side_to_move": {"type": "string", "enum": ["white", "black"]},
+                            "in_check": {"type": "boolean"},
+                            "game_result": {"type": "string", "enum": ["white_wins", "black_wins", "draw", "ongoing"]}
+                        },
+                        "required": ["move", "fen", "side_to_move", "in_check", "game_result"],
+                        "additionalProperties": false
                     },
                     "inputSchema": {
                         "type": "object",
@@ -173,6 +242,16 @@ impl McpServer {
                         "idempotentHint": true,
                         "openWorldHint": false
                     },
+                    "outputSchema": {
+                        "type": "object",
+                        "properties": {
+                            "best_move": {"type": ["string", "null"]},
+                            "depth": {"type": "integer"},
+                            "score": {"type": "integer"}
+                        },
+                        "required": ["best_move", "depth", "score"],
+                        "additionalProperties": false
+                    },
                     "inputSchema": {
                         "type": "object",
                         "properties": {
@@ -194,25 +273,9 @@ impl McpServer {
         match name {
             "new_game" => {
                 self.engine = Engine::new();
-                serde_json::json!({
-                    "content": [
-                        {
-                            "type": "text",
-                            "text": format!("New game started.\n{}", self.board_text())
-                        }
-                    ]
-                })
+                self.board_result(format!("New game started.\n{}", self.board_text()))
             }
-            "get_board" => {
-                serde_json::json!({
-                    "content": [
-                        {
-                            "type": "text",
-                            "text": self.board_text()
-                        }
-                    ]
-                })
-            }
+            "get_board" => self.board_result(self.board_text()),
             "get_legal_moves" => {
                 let moves = self.legal_moves_uci();
                 serde_json::json!({
@@ -221,7 +284,8 @@ impl McpServer {
                             "type": "text",
                             "text": format!("Legal moves: {}", moves.join(", "))
                         }
-                    ]
+                    ],
+                    "structuredContent": { "moves": moves }
                 })
             }
             "make_move" => {
@@ -234,13 +298,16 @@ impl McpServer {
                 match find_move_from_uci(&self.engine.position, &uci) {
                     Some(m) => {
                         chess_core::rules::apply_move(&mut self.engine.position, m);
+                        let mut state = self.position_state();
+                        state["move"] = serde_json::json!(uci);
                         serde_json::json!({
                             "content": [
                                 {
                                     "type": "text",
                                     "text": format!("Move played: {}\n{}", uci, self.board_text())
                                 }
-                            ]
+                            ],
+                            "structuredContent": state
                         })
                     }
                     None => {
@@ -268,7 +335,12 @@ impl McpServer {
                                 "type": "text",
                                 "text": format!("Best move: {} (depth {}, score: {})\n{}", bm.to_uci(), depth, search.score, self.board_text())
                             }
-                        ]
+                        ],
+                        "structuredContent": {
+                            "best_move": bm.to_uci(),
+                            "depth": depth,
+                            "score": search.score
+                        }
                     }),
                     None => serde_json::json!({
                         "content": [
@@ -276,7 +348,12 @@ impl McpServer {
                                 "type": "text",
                                 "text": "No legal moves available."
                             }
-                        ]
+                        ],
+                        "structuredContent": {
+                            "best_move": Value::Null,
+                            "depth": depth,
+                            "score": search.score
+                        }
                     }),
                 }
             }
