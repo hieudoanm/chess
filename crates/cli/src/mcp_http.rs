@@ -99,6 +99,7 @@ fn handle_connection(
     }
 
     if !authorized {
+        drain_body(stream, &mut buf, header_end, content_length)?;
         return respond(
             stream,
             401,
@@ -108,6 +109,7 @@ fn handle_connection(
         );
     }
     if path != "/mcp" {
+        drain_body(stream, &mut buf, header_end, content_length)?;
         return respond(
             stream,
             404,
@@ -117,6 +119,7 @@ fn handle_connection(
         );
     }
     if method != "POST" {
+        drain_body(stream, &mut buf, header_end, content_length)?;
         return respond(
             stream,
             405,
@@ -135,14 +138,7 @@ fn handle_connection(
         );
     }
 
-    while buf.len() < header_end + content_length {
-        let mut chunk = [0u8; 8192];
-        let n = stream.read(&mut chunk)?;
-        if n == 0 {
-            break;
-        }
-        buf.extend_from_slice(&chunk[..n]);
-    }
+    drain_body(stream, &mut buf, header_end, content_length)?;
     let end = (header_end + content_length).min(buf.len());
     let body_str = String::from_utf8_lossy(&buf[header_end..end]);
 
@@ -180,6 +176,27 @@ fn handle_connection(
             Some(&protocol_version),
         ),
     }
+}
+
+/// Read and discard the request body (bounded by `MAX_BODY_BYTES`) so the
+/// socket has no unread bytes when it closes early — otherwise the kernel
+/// sends RST and the client can lose the response.
+fn drain_body(
+    stream: &mut std::net::TcpStream,
+    buf: &mut Vec<u8>,
+    header_end: usize,
+    content_length: usize,
+) -> std::io::Result<()> {
+    let want = header_end + content_length.min(MAX_BODY_BYTES);
+    while buf.len() < want {
+        let mut chunk = [0u8; 8192];
+        let n = stream.read(&mut chunk)?;
+        if n == 0 {
+            break;
+        }
+        buf.extend_from_slice(&chunk[..n]);
+    }
+    Ok(())
 }
 
 fn mcp_protocol_version() -> String {
