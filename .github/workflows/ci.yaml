@@ -120,10 +120,9 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: pnpm
-          cache-dependency-path: packages/landing/pnpm-lock.yaml
+          cache-dependency-path: pnpm-lock.yaml
 
-      - name: Install landing dependencies
-        working-directory: packages/landing
+      - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Typecheck landing
