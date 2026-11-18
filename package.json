@@ -1,0 +1,31 @@
+{
+  "name": "@chess/workspace",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Chess",
+  "license": "MIT",
+  "author": {
+    "name": "Hieu Doan",
+    "email": "hieu.doan.professional@gmail.com",
+    "url": "https://hieudoanm.github.io"
+  },
+  "packageManager": "pnpm@12.21.0",
+  "engines": {
+    "node": "26.13.1"
+  },
+  "scripts": {
+    "prepare": "husky || true"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "21.2.4",
+    "@commitlint/config-conventional": "21.2.4",
+    "husky": "9.1.7",
+    "lint-staged": "17.6.1",
+    "prettier": "3.10.1",
+    "prettier-plugin-tailwindcss": "0.8.1"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,mjs,cjs,json,jsonc,md,mdx,css,scss,html,yml,yaml}": "prettier --cache --write",
+    "!(vendor)/**/*.rs": "rustfmt --edition 2024"
+  }
+}
