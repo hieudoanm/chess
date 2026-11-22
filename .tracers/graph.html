@@ -458,8 +458,8 @@
   "tracersVersion": "0.0.1",
   "repository": {
     "id": "repository:.",
-    "name": "repository",
-    "root": ".",
+    "name": "chess",
+    "root": "/Users/hieudoan/git/github.com/hieudoanm/chess",
     "fileCount": 94,
     "languageCount": 23
   },
@@ -5928,30 +5928,6 @@
       "language": "rust"
     },
     {
-      "id": "external:rust:chess_core::Score.parse",
-      "kind": "external_symbol",
-      "name": "parse",
-      "language": "rust"
-    },
-    {
-      "id": "external:rust:chess_core::square::Square.new",
-      "kind": "external_symbol",
-      "name": "new",
-      "language": "rust"
-    },
-    {
-      "id": "external:rust:crate::Position.from_fen",
-      "kind": "external_symbol",
-      "name": "from_fen",
-      "language": "rust"
-    },
-    {
-      "id": "external:rust:crate::Variant.parse",
-      "kind": "external_symbol",
-      "name": "parse",
-      "language": "rust"
-    },
-    {
       "id": "external:rust:fs::File.create",
       "kind": "external_symbol",
       "name": "create",
@@ -6006,12 +5982,6 @@
       "language": "rust"
     },
     {
-      "id": "external:rust:games::db.GameFilter",
-      "kind": "external_symbol",
-      "name": "GameFilter",
-      "language": "rust"
-    },
-    {
       "id": "external:rust:games::explorer::movetext_sans.join",
       "kind": "external_symbol",
       "name": "join",
@@ -6039,18 +6009,6 @@
       "id": "external:rust:next.to_string",
       "kind": "external_symbol",
       "name": "to_string",
-      "language": "rust"
-    },
-    {
-      "id": "external:rust:nnue::Weights.load",
-      "kind": "external_symbol",
-      "name": "load",
-      "language": "rust"
-    },
-    {
-      "id": "external:rust:nnue::Weights.new",
-      "kind": "external_symbol",
-      "name": "new",
       "language": "rust"
     },
     {
@@ -28805,21 +28763,9 @@
       "language": "rust"
     },
     {
-      "id": "unresolved:rust:chess_core::RatingGame",
-      "kind": "unknown",
-      "name": "chess_core::RatingGame",
-      "language": "rust"
-    },
-    {
       "id": "unresolved:rust:chess_core::RoundPairings",
       "kind": "unknown",
       "name": "chess_core::RoundPairings",
-      "language": "rust"
-    },
-    {
-      "id": "unresolved:rust:chess_core::board::Board",
-      "kind": "unknown",
-      "name": "chess_core::board::Board",
       "language": "rust"
     },
     {
@@ -28862,12 +28808,6 @@
       "id": "unresolved:rust:context",
       "kind": "unknown",
       "name": "context",
-      "language": "rust"
-    },
-    {
-      "id": "unresolved:rust:crate::Piece",
-      "kind": "unknown",
-      "name": "crate::Piece",
       "language": "rust"
     },
     {
@@ -29192,12 +29132,6 @@
       "id": "unresolved:rust:next_line",
       "kind": "unknown",
       "name": "next_line",
-      "language": "rust"
-    },
-    {
-      "id": "unresolved:rust:nnue::TrainingExample",
-      "kind": "unknown",
-      "name": "nnue::TrainingExample",
       "language": "rust"
     },
     {
@@ -90567,39 +90501,6 @@
     },
     {
       "source": "function:crates/cli/src/main.rs::main",
-      "target": "external:rust:chess_core::Score.parse",
-      "kind": "calls",
-      "status": "resolved_external",
-      "origin": "lexical",
-      "sites": [
-        {
-          "start": {
-            "line": 388,
-            "column": 25,
-            "byte": 10653
-          },
-          "end": {
-            "line": 388,
-            "column": 57,
-            "byte": 10685
-          }
-        },
-        {
-          "start": {
-            "line": 410,
-            "column": 35,
-            "byte": 11710
-          },
-          "end": {
-            "line": 410,
-            "column": 66,
-            "byte": 11741
-          }
-        }
-      ]
-    },
-    {
-      "source": "function:crates/cli/src/main.rs::main",
       "target": "external:rust:std::Some",
       "kind": "calls",
       "status": "resolved_external",
@@ -92538,6 +92439,39 @@
     },
     {
       "source": "function:crates/cli/src/main.rs::main",
+      "target": "method:crates/core/src/rating.rs::Score.parse",
+      "kind": "calls",
+      "status": "resolved_internal",
+      "origin": "lexical",
+      "sites": [
+        {
+          "start": {
+            "line": 388,
+            "column": 25,
+            "byte": 10653
+          },
+          "end": {
+            "line": 388,
+            "column": 57,
+            "byte": 10685
+          }
+        },
+        {
+          "start": {
+            "line": 410,
+            "column": 35,
+            "byte": 11710
+          },
+          "end": {
+            "line": 410,
+            "column": 66,
+            "byte": 11741
+          }
+        }
+      ]
+    },
+    {
+      "source": "function:crates/cli/src/main.rs::main",
       "target": "method:crates/engine/src/lib.rs::Engine.apply",
       "kind": "calls",
       "status": "resolved_internal",
@@ -93186,27 +93120,6 @@
     },
     {
       "source": "function:crates/cli/src/main.rs::main",
-      "target": "external:rust:games::db.GameFilter",
-      "kind": "uses_type",
-      "status": "resolved_external",
-      "origin": "syntax",
-      "sites": [
-        {
-          "start": {
-            "line": 511,
-            "column": 26,
-            "byte": 14985
-          },
-          "end": {
-            "line": 511,
-            "column": 47,
-            "byte": 15006
-          }
-        }
-      ]
-    },
-    {
-      "source": "function:crates/cli/src/main.rs::main",
       "target": "struct:crates/core/src/board.rs::Board",
       "kind": "uses_type",
       "status": "resolved_internal",
@@ -93228,9 +93141,9 @@
     },
     {
       "source": "function:crates/cli/src/main.rs::main",
-      "target": "unresolved:rust:chess_core::RatingGame",
+      "target": "struct:crates/core/src/rating.rs::RatingGame",
       "kind": "uses_type",
-      "status": "unresolved",
+      "status": "resolved_internal",
       "origin": "syntax",
       "sites": [
         {
@@ -93243,6 +93156,27 @@
             "line": 414,
             "column": 51,
             "byte": 11920
+          }
+        }
+      ]
+    },
+    {
+      "source": "function:crates/cli/src/main.rs::main",
+      "target": "struct:crates/games/src/db.rs::GameFilter",
+      "kind": "uses_type",
+      "status": "resolved_internal",
+      "origin": "syntax",
+      "sites": [
+        {
+          "start": {
+            "line": 511,
+            "column": 26,
+            "byte": 14985
+          },
+          "end": {
+            "line": 511,
+            "column": 47,
+            "byte": 15006
           }
         }
       ]
@@ -130875,27 +130809,6 @@
     },
     {
       "source": "function:crates/core/src/variants.rs::tests.crazyhouse_capture_funds_pocket",
-      "target": "external:rust:crate::Position.from_fen",
-      "kind": "calls",
-      "status": "resolved_external",
-      "origin": "lexical",
-      "sites": [
-        {
-          "start": {
-            "line": 158,
-            "column": 23,
-            "byte": 5295
-          },
-          "end": {
-            "line": 158,
-            "column": 83,
-            "byte": 5355
-          }
-        }
-      ]
-    },
-    {
-      "source": "function:crates/core/src/variants.rs::tests.crazyhouse_capture_funds_pocket",
       "target": "external:rust:std::assert_eq",
       "kind": "calls",
       "status": "resolved_external",
@@ -130998,6 +130911,27 @@
             "line": 161,
             "column": 33,
             "byte": 5508
+          }
+        }
+      ]
+    },
+    {
+      "source": "function:crates/core/src/variants.rs::tests.crazyhouse_capture_funds_pocket",
+      "target": "method:crates/core/src/position.rs::Position.from_fen",
+      "kind": "calls",
+      "status": "resolved_internal",
+      "origin": "lexical",
+      "sites": [
+        {
+          "start": {
+            "line": 158,
+            "column": 23,
+            "byte": 5295
+          },
+          "end": {
+            "line": 158,
+            "column": 83,
+            "byte": 5355
           }
         }
       ]
@@ -131187,27 +131121,6 @@
     },
     {
       "source": "function:crates/core/src/variants.rs::tests.crazyhouse_fen_roundtrip",
-      "target": "external:rust:crate::Position.from_fen",
-      "kind": "calls",
-      "status": "resolved_external",
-      "origin": "lexical",
-      "sites": [
-        {
-          "start": {
-            "line": 189,
-            "column": 20,
-            "byte": 6582
-          },
-          "end": {
-            "line": 189,
-            "column": 51,
-            "byte": 6613
-          }
-        }
-      ]
-    },
-    {
-      "source": "function:crates/core/src/variants.rs::tests.crazyhouse_fen_roundtrip",
       "target": "external:rust:std::assert",
       "kind": "calls",
       "status": "resolved_external",
@@ -131324,22 +131237,22 @@
       ]
     },
     {
-      "source": "function:crates/core/src/variants.rs::tests.horde_start_position",
-      "target": "external:rust:crate::Position.from_fen",
+      "source": "function:crates/core/src/variants.rs::tests.crazyhouse_fen_roundtrip",
+      "target": "method:crates/core/src/position.rs::Position.from_fen",
       "kind": "calls",
-      "status": "resolved_external",
+      "status": "resolved_internal",
       "origin": "lexical",
       "sites": [
         {
           "start": {
-            "line": 133,
+            "line": 189,
             "column": 20,
-            "byte": 4392
+            "byte": 6582
           },
           "end": {
-            "line": 133,
+            "line": 189,
             "column": 51,
-            "byte": 4423
+            "byte": 6613
           }
         }
       ]
@@ -131469,6 +131382,27 @@
             "line": 128,
             "column": 35,
             "byte": 4153
+          }
+        }
+      ]
+    },
+    {
+      "source": "function:crates/core/src/variants.rs::tests.horde_start_position",
+      "target": "method:crates/core/src/position.rs::Position.from_fen",
+      "kind": "calls",
+      "status": "resolved_internal",
+      "origin": "lexical",
+      "sites": [
+        {
+          "start": {
+            "line": 133,
+            "column": 20,
+            "byte": 4392
+          },
+          "end": {
+            "line": 133,
+            "column": 51,
+            "byte": 4423
           }
         }
       ]
@@ -131757,27 +131691,6 @@
     },
     {
       "source": "function:crates/core/src/variants.rs::variant_position",
-      "target": "external:rust:crate::Variant.parse",
-      "kind": "calls",
-      "status": "resolved_external",
-      "origin": "lexical",
-      "sites": [
-        {
-          "start": {
-            "line": 95,
-            "column": 11,
-            "byte": 3060
-          },
-          "end": {
-            "line": 95,
-            "column": 38,
-            "byte": 3087
-          }
-        }
-      ]
-    },
-    {
-      "source": "function:crates/core/src/variants.rs::variant_position",
       "target": "external:rust:std::Some",
       "kind": "calls",
       "status": "resolved_external",
@@ -131913,6 +131826,27 @@
             "line": 96,
             "column": 62,
             "byte": 3152
+          }
+        }
+      ]
+    },
+    {
+      "source": "function:crates/core/src/variants.rs::variant_position",
+      "target": "method:crates/core/src/position.rs::Variant.parse",
+      "kind": "calls",
+      "status": "resolved_internal",
+      "origin": "lexical",
+      "sites": [
+        {
+          "start": {
+            "line": 95,
+            "column": 11,
+            "byte": 3060
+          },
+          "end": {
+            "line": 95,
+            "column": 38,
+            "byte": 3087
           }
         }
       ]
@@ -146613,48 +146547,6 @@
     },
     {
       "source": "function:crates/nnue-train/src/main.rs::main",
-      "target": "external:rust:nnue::Weights.load",
-      "kind": "calls",
-      "status": "resolved_external",
-      "origin": "lexical",
-      "sites": [
-        {
-          "start": {
-            "line": 97,
-            "column": 26,
-            "byte": 3058
-          },
-          "end": {
-            "line": 97,
-            "column": 70,
-            "byte": 3102
-          }
-        }
-      ]
-    },
-    {
-      "source": "function:crates/nnue-train/src/main.rs::main",
-      "target": "external:rust:nnue::Weights.new",
-      "kind": "calls",
-      "status": "resolved_external",
-      "origin": "lexical",
-      "sites": [
-        {
-          "start": {
-            "line": 101,
-            "column": 26,
-            "byte": 3230
-          },
-          "end": {
-            "line": 101,
-            "column": 46,
-            "byte": 3250
-          }
-        }
-      ]
-    },
-    {
-      "source": "function:crates/nnue-train/src/main.rs::main",
       "target": "external:rust:std::Ok",
       "kind": "calls",
       "status": "resolved_external",
@@ -147036,6 +146928,69 @@
     },
     {
       "source": "function:crates/nnue-train/src/main.rs::main",
+      "target": "method:crates/nnue-train/src/nnue.rs::Weights.load",
+      "kind": "calls",
+      "status": "resolved_internal",
+      "origin": "lexical",
+      "sites": [
+        {
+          "start": {
+            "line": 97,
+            "column": 26,
+            "byte": 3058
+          },
+          "end": {
+            "line": 97,
+            "column": 70,
+            "byte": 3102
+          }
+        }
+      ]
+    },
+    {
+      "source": "function:crates/nnue-train/src/main.rs::main",
+      "target": "method:crates/nnue-train/src/nnue.rs::Weights.new",
+      "kind": "calls",
+      "status": "resolved_internal",
+      "origin": "lexical",
+      "sites": [
+        {
+          "start": {
+            "line": 101,
+            "column": 26,
+            "byte": 3230
+          },
+          "end": {
+            "line": 101,
+            "column": 46,
+            "byte": 3250
+          }
+        }
+      ]
+    },
+    {
+      "source": "function:crates/nnue-train/src/main.rs::main",
+      "target": "method:crates/nnue-train/src/nnue.rs::Weights.save",
+      "kind": "calls",
+      "status": "resolved_internal",
+      "origin": "lexical",
+      "sites": [
+        {
+          "start": {
+            "line": 118,
+            "column": 5,
+            "byte": 3760
+          },
+          "end": {
+            "line": 118,
+            "column": 45,
+            "byte": 3800
+          }
+        }
+      ]
+    },
+    {
+      "source": "function:crates/nnue-train/src/main.rs::main",
       "target": "unresolved:rust:exists",
       "kind": "calls",
       "status": "unresolved",
@@ -147063,27 +147018,6 @@
             "line": 95,
             "column": 58,
             "byte": 2962
-          }
-        }
-      ]
-    },
-    {
-      "source": "function:crates/nnue-train/src/main.rs::main",
-      "target": "unresolved:rust:save",
-      "kind": "calls",
-      "status": "unresolved",
-      "origin": "syntax",
-      "sites": [
-        {
-          "start": {
-            "line": 118,
-            "column": 5,
-            "byte": 3760
-          },
-          "end": {
-            "line": 118,
-            "column": 45,
-            "byte": 3800
           }
         }
       ]
@@ -147564,9 +147498,9 @@
     },
     {
       "source": "function:crates/nnue-train/src/main.rs::train",
-      "target": "unresolved:rust:nnue::TrainingExample",
+      "target": "struct:crates/nnue-train/src/nnue.rs::TrainingExample",
       "kind": "uses_type",
-      "status": "unresolved",
+      "status": "resolved_internal",
       "origin": "syntax",
       "sites": [
         {
@@ -158148,27 +158082,6 @@
     },
     {
       "source": "method:crates/cli/src/mcp.rs::McpServer.board_text",
-      "target": "external:rust:chess_core::square::Square.new",
-      "kind": "calls",
-      "status": "resolved_external",
-      "origin": "lexical",
-      "sites": [
-        {
-          "start": {
-            "line": 44,
-            "column": 26,
-            "byte": 1116
-          },
-          "end": {
-            "line": 44,
-            "column": 69,
-            "byte": 1159
-          }
-        }
-      ]
-    },
-    {
-      "source": "method:crates/cli/src/mcp.rs::McpServer.board_text",
       "target": "external:rust:std::format",
       "kind": "calls",
       "status": "resolved_external",
@@ -158448,6 +158361,27 @@
     },
     {
       "source": "method:crates/cli/src/mcp.rs::McpServer.board_text",
+      "target": "method:crates/core/src/square.rs::Square.new",
+      "kind": "calls",
+      "status": "resolved_internal",
+      "origin": "lexical",
+      "sites": [
+        {
+          "start": {
+            "line": 44,
+            "column": 26,
+            "byte": 1116
+          },
+          "end": {
+            "line": 44,
+            "column": 69,
+            "byte": 1159
+          }
+        }
+      ]
+    },
+    {
+      "source": "method:crates/cli/src/mcp.rs::McpServer.board_text",
       "target": "unresolved:rust:push_str",
       "kind": "calls",
       "status": "unresolved",
@@ -158514,10 +158448,10 @@
     },
     {
       "source": "method:crates/cli/src/mcp.rs::McpServer.fen",
-      "target": "unresolved:rust:to_fen",
+      "target": "method:crates/core/src/board.rs::Board.to_fen",
       "kind": "calls",
-      "status": "unresolved",
-      "origin": "syntax",
+      "status": "resolved_internal",
+      "origin": "lexical",
       "sites": [
         {
           "start": {
@@ -158535,9 +158469,9 @@
     },
     {
       "source": "method:crates/cli/src/mcp.rs::McpServer.fen",
-      "target": "unresolved:rust:chess_core::board::Board",
+      "target": "struct:crates/core/src/board.rs::Board",
       "kind": "uses_type",
-      "status": "unresolved",
+      "status": "resolved_internal",
       "origin": "syntax",
       "sites": [
         {
@@ -161013,6 +160947,27 @@
     },
     {
       "source": "method:crates/core/src/board.rs::Board.get_piece",
+      "target": "struct:crates/core/src/piece.rs::Piece",
+      "kind": "uses_type",
+      "status": "resolved_internal",
+      "origin": "syntax",
+      "sites": [
+        {
+          "start": {
+            "line": 20,
+            "column": 55,
+            "byte": 355
+          },
+          "end": {
+            "line": 20,
+            "column": 67,
+            "byte": 367
+          }
+        }
+      ]
+    },
+    {
+      "source": "method:crates/core/src/board.rs::Board.get_piece",
       "target": "struct:crates/core/src/square.rs::Square",
       "kind": "uses_type",
       "status": "resolved_internal",
@@ -161028,27 +160983,6 @@
             "line": 20,
             "column": 43,
             "byte": 343
-          }
-        }
-      ]
-    },
-    {
-      "source": "method:crates/core/src/board.rs::Board.get_piece",
-      "target": "unresolved:rust:crate::Piece",
-      "kind": "uses_type",
-      "status": "unresolved",
-      "origin": "syntax",
-      "sites": [
-        {
-          "start": {
-            "line": 20,
-            "column": 55,
-            "byte": 355
-          },
-          "end": {
-            "line": 20,
-            "column": 67,
-            "byte": 367
           }
         }
       ]
@@ -192870,17 +192804,17 @@
   "statistics": {
     "files": 94,
     "packages": 2,
-    "nodes": 3174,
+    "nodes": 3163,
     "edges": 9175,
     "symbols": 2388,
-    "unresolvedEdges": 464,
+    "unresolvedEdges": 458,
     "diagnostics": 7,
     "byNodeKind": {
       "class": 1,
       "constant": 210,
       "constructor": 1,
       "enum": 10,
-      "external_symbol": 353,
+      "external_symbol": 346,
       "file": 94,
       "framework": 10,
       "function": 284,
@@ -192893,7 +192827,7 @@
       "struct": 66,
       "trait": 1,
       "type": 3,
-      "unknown": 186,
+      "unknown": 182,
       "variable": 1325
     },
     "byEdgeKind": {
@@ -192911,15 +192845,15 @@
       "javascript": 9,
       "markdown": 34,
       "python": 60,
-      "rust": 2689,
+      "rust": 2678,
       "tsx": 259,
       "typescript": 102
     },
     "byStatus": {
       "ambiguous": 6,
-      "resolved_external": 1733,
-      "resolved_internal": 6978,
-      "unresolved": 458
+      "resolved_external": 1724,
+      "resolved_internal": 6993,
+      "unresolved": 452
     },
     "byFramework": {
       "anyhow": 1,
