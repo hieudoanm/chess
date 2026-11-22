@@ -12,3 +12,4 @@ playwright-report/
 e2e/artifacts/
 **/.intellijPlatform/
 *.tsbuildinfo
+.tracers/
