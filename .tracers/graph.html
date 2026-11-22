@@ -588,11 +588,18 @@
   ],
   "frameworks": [
     {
+      "name": "anyhow",
+      "displayName": "anyhow",
+      "family": "rust",
+      "version": null,
+      "confidence": "high"
+    },
+    {
       "name": "clap.rs",
       "displayName": "clap.rs",
       "family": "rust",
       "version": null,
-      "confidence": "medium"
+      "confidence": "high"
     },
     {
       "name": "nextjs",
@@ -606,6 +613,48 @@
       "displayName": "React",
       "family": "ecmascript",
       "version": "tailwindcss",
+      "confidence": "high"
+    },
+    {
+      "name": "regex",
+      "displayName": "regex",
+      "family": "rust",
+      "version": null,
+      "confidence": "medium"
+    },
+    {
+      "name": "reqwest",
+      "displayName": "reqwest",
+      "family": "rust",
+      "version": null,
+      "confidence": "high"
+    },
+    {
+      "name": "rusqlite",
+      "displayName": "rusqlite",
+      "family": "rust",
+      "version": null,
+      "confidence": "high"
+    },
+    {
+      "name": "serde",
+      "displayName": "Serde",
+      "family": "rust",
+      "version": null,
+      "confidence": "high"
+    },
+    {
+      "name": "tailwindcss",
+      "displayName": "Tailwind CSS",
+      "family": "ecmascript",
+      "version": "tailwindcss",
+      "confidence": "medium"
+    },
+    {
+      "name": "tokio",
+      "displayName": "Tokio",
+      "family": "rust",
+      "version": null,
       "confidence": "high"
     }
   ],
@@ -7023,11 +7072,21 @@
       "language": "bash"
     },
     {
+      "id": "framework:anyhow",
+      "kind": "framework",
+      "name": "anyhow",
+      "metadata": {
+        "confidence": "high",
+        "family": "rust",
+        "framework": "anyhow"
+      }
+    },
+    {
       "id": "framework:clap.rs",
       "kind": "framework",
       "name": "clap.rs",
       "metadata": {
-        "confidence": "medium",
+        "confidence": "high",
         "family": "rust",
         "framework": "clap.rs"
       }
@@ -7050,6 +7109,66 @@
         "confidence": "high",
         "family": "ecmascript",
         "framework": "react"
+      }
+    },
+    {
+      "id": "framework:regex",
+      "kind": "framework",
+      "name": "regex",
+      "metadata": {
+        "confidence": "medium",
+        "family": "rust",
+        "framework": "regex"
+      }
+    },
+    {
+      "id": "framework:reqwest",
+      "kind": "framework",
+      "name": "reqwest",
+      "metadata": {
+        "confidence": "high",
+        "family": "rust",
+        "framework": "reqwest"
+      }
+    },
+    {
+      "id": "framework:rusqlite",
+      "kind": "framework",
+      "name": "rusqlite",
+      "metadata": {
+        "confidence": "high",
+        "family": "rust",
+        "framework": "rusqlite"
+      }
+    },
+    {
+      "id": "framework:serde",
+      "kind": "framework",
+      "name": "Serde",
+      "metadata": {
+        "confidence": "high",
+        "family": "rust",
+        "framework": "serde"
+      }
+    },
+    {
+      "id": "framework:tailwindcss:tailwindcss",
+      "kind": "framework",
+      "name": "Tailwind CSS",
+      "metadata": {
+        "confidence": "medium",
+        "family": "ecmascript",
+        "framework": "tailwindcss"
+      }
+    },
+    {
+      "id": "framework:tokio",
+      "kind": "framework",
+      "name": "Tokio",
+      "metadata": {
+        "confidence": "high",
+        "family": "rust",
+        "framework": "tokio"
       }
     },
     {
@@ -190908,6 +191027,13 @@
     },
     {
       "source": "repository:.",
+      "target": "framework:anyhow",
+      "kind": "uses_framework",
+      "status": "resolved_internal",
+      "origin": "syntax"
+    },
+    {
+      "source": "repository:.",
       "target": "framework:clap.rs",
       "kind": "uses_framework",
       "status": "resolved_internal",
@@ -190923,6 +191049,48 @@
     {
       "source": "repository:.",
       "target": "framework:react:tailwindcss",
+      "kind": "uses_framework",
+      "status": "resolved_internal",
+      "origin": "syntax"
+    },
+    {
+      "source": "repository:.",
+      "target": "framework:regex",
+      "kind": "uses_framework",
+      "status": "resolved_internal",
+      "origin": "syntax"
+    },
+    {
+      "source": "repository:.",
+      "target": "framework:reqwest",
+      "kind": "uses_framework",
+      "status": "resolved_internal",
+      "origin": "syntax"
+    },
+    {
+      "source": "repository:.",
+      "target": "framework:rusqlite",
+      "kind": "uses_framework",
+      "status": "resolved_internal",
+      "origin": "syntax"
+    },
+    {
+      "source": "repository:.",
+      "target": "framework:serde",
+      "kind": "uses_framework",
+      "status": "resolved_internal",
+      "origin": "syntax"
+    },
+    {
+      "source": "repository:.",
+      "target": "framework:tailwindcss:tailwindcss",
+      "kind": "uses_framework",
+      "status": "resolved_internal",
+      "origin": "syntax"
+    },
+    {
+      "source": "repository:.",
+      "target": "framework:tokio",
       "kind": "uses_framework",
       "status": "resolved_internal",
       "origin": "syntax"
@@ -193756,8 +193924,8 @@
   "statistics": {
     "files": 94,
     "packages": 2,
-    "nodes": 3276,
-    "edges": 9089,
+    "nodes": 3283,
+    "edges": 9096,
     "symbols": 2376,
     "unresolvedEdges": 2260,
     "diagnostics": 30,
@@ -193768,7 +193936,7 @@
       "enum": 10,
       "external_symbol": 189,
       "file": 94,
-      "framework": 3,
+      "framework": 10,
       "function": 284,
       "interface": 19,
       "method": 139,
@@ -193789,7 +193957,7 @@
       "exports": 551,
       "implements": 10,
       "imports": 217,
-      "uses_framework": 3,
+      "uses_framework": 10,
       "uses_type": 587
     },
     "byLanguage": {
@@ -193804,13 +193972,20 @@
     "byStatus": {
       "ambiguous": 6,
       "resolved_external": 513,
-      "resolved_internal": 6316,
+      "resolved_internal": 6323,
       "unresolved": 2254
     },
     "byFramework": {
+      "anyhow": 1,
       "clap.rs": 1,
       "nextjs": 1,
-      "react": 1
+      "react": 1,
+      "regex": 1,
+      "reqwest": 1,
+      "rusqlite": 1,
+      "serde": 1,
+      "tailwindcss": 1,
+      "tokio": 1
     }
   }
 };</script>
