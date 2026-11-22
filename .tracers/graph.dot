@@ -1670,10 +1670,6 @@ digraph tracers {
   "unresolved:rust:Clone" [label="Clone\nunknown", color="black"];
   "unresolved:rust:Default" [label="Default\nunknown", color="black"];
   "unresolved:rust:Item" [label="Item\nunknown", color="black"];
-  "unresolved:rust:KILLER_MOVES" [label="KILLER_MOVES\nunknown", color="black"];
-  "unresolved:rust:L1" [label="L1\nunknown", color="black"];
-  "unresolved:rust:L2" [label="L2\nunknown", color="black"];
-  "unresolved:rust:L3" [label="L3\nunknown", color="black"];
   "unresolved:rust:abs" [label="abs\nunknown", color="black"];
   "unresolved:rust:acquire" [label="acquire\nunknown", color="black"];
   "unresolved:rust:args" [label="args\nunknown", color="black"];
@@ -1752,7 +1748,6 @@ digraph tracers {
   "unresolved:rust:map_or" [label="map_or\nunknown", color="black"];
   "unresolved:rust:map_while" [label="map_while\nunknown", color="black"];
   "unresolved:rust:moves_to_prefix" [label="moves_to_prefix\nunknown", color="black"];
-  "unresolved:rust:new" [label="new\nunknown", color="black"];
   "unresolved:rust:next_line" [label="next_line\nunknown", color="black"];
   "unresolved:rust:opponent" [label="opponent\nunknown", color="black"];
   "unresolved:rust:or_insert" [label="or_insert\nunknown", color="black"];
@@ -6570,9 +6565,9 @@ digraph tracers {
   "function:crates/arena/src/main.rs::main" -> "external:rust:std::unwrap_or" [label="calls", style="bold"];
   "function:crates/arena/src/main.rs::main" -> "external:rust:std::unwrap_or_else" [label="calls", style="bold"];
   "function:crates/arena/src/main.rs::main" -> "function:crates/arena/src/lib.rs::play_game" [label="calls", style="bold"];
+  "function:crates/arena/src/main.rs::main" -> "method:crates/arena/src/lib.rs::Engine.new" [label="calls", style="bold"];
   "function:crates/arena/src/main.rs::main" -> "unresolved:rust:close" [label="calls", style="dotted"];
   "function:crates/arena/src/main.rs::main" -> "unresolved:rust:default" [label="calls", style="dotted"];
-  "function:crates/arena/src/main.rs::main" -> "unresolved:rust:new" [label="calls", style="dotted"];
   "function:crates/arena/src/main.rs::main" -> "unresolved:rust:send" [label="calls", style="dotted"];
   "function:crates/arena/src/main.rs::main" -> "unresolved:rust:wait_for" [label="calls", style="dotted"];
   "function:crates/cli/build.rs::main" -> "external:rust:SystemTime.now" [label="calls", style="bold"];
@@ -6598,8 +6593,8 @@ digraph tracers {
   "function:crates/cli/src/arena_cmd.rs::run" -> "external:rust:std::unwrap_or_default" [label="calls", style="bold"];
   "function:crates/cli/src/arena_cmd.rs::run" -> "function:crates/arena/src/lib.rs::play_game" [label="calls", style="bold"];
   "function:crates/cli/src/arena_cmd.rs::run" -> "function:crates/cli/src/arena_cmd.rs::split_cmd" [label="calls", style="bold"];
+  "function:crates/cli/src/arena_cmd.rs::run" -> "method:crates/arena/src/lib.rs::Engine.new" [label="calls", style="bold"];
   "function:crates/cli/src/arena_cmd.rs::run" -> "unresolved:rust:close" [label="calls", style="dotted"];
-  "function:crates/cli/src/arena_cmd.rs::run" -> "unresolved:rust:new" [label="calls", style="dotted"];
   "function:crates/cli/src/arena_cmd.rs::split_cmd" -> "external:rust:parts.next.to_string" [label="calls", style="bold"];
   "function:crates/cli/src/arena_cmd.rs::split_cmd" -> "external:rust:parts.next.unwrap_or" [label="calls", style="bold"];
   "function:crates/cli/src/arena_cmd.rs::split_cmd" -> "external:rust:std::collect" [label="calls", style="bold"];
@@ -6726,6 +6721,7 @@ digraph tracers {
   "function:crates/cli/src/main.rs::main" -> "method:crates/core/src/position.rs::Position.standard" [label="calls", style="bold"];
   "function:crates/cli/src/main.rs::main" -> "method:crates/core/src/rating.rs::Score.parse" [label="calls", style="bold"];
   "function:crates/cli/src/main.rs::main" -> "method:crates/engine/src/lib.rs::Engine.apply" [label="calls", style="bold"];
+  "function:crates/cli/src/main.rs::main" -> "method:crates/engine/src/lib.rs::Engine.new" [label="calls", style="bold"];
   "function:crates/cli/src/main.rs::main" -> "method:crates/engine/src/lib.rs::Engine.search" [label="calls", style="bold"];
   "function:crates/cli/src/main.rs::main" -> "method:crates/engine/src/lib.rs::Engine.static_eval" [label="calls", style="bold"];
   "function:crates/cli/src/main.rs::main" -> "struct:crates/core/src/board.rs::Board" [label="calls", style="bold"];
@@ -6736,7 +6732,6 @@ digraph tracers {
   "function:crates/cli/src/main.rs::main" -> "unresolved:rust:evaluate" [label="calls", style="dotted"];
   "function:crates/cli/src/main.rs::main" -> "unresolved:rust:flush" [label="calls", style="dotted"];
   "function:crates/cli/src/main.rs::main" -> "unresolved:rust:moves_to_prefix" [label="calls", style="dotted"];
-  "function:crates/cli/src/main.rs::main" -> "unresolved:rust:new" [label="calls", style="dotted"];
   "function:crates/cli/src/main.rs::main" -> "unresolved:rust:performance" [label="calls", style="dotted"];
   "function:crates/cli/src/main.rs::main" -> "unresolved:rust:read_line" [label="calls", style="dotted"];
   "function:crates/cli/src/main.rs::main" -> "unresolved:rust:run" [label="calls", style="dotted"];
@@ -7187,9 +7182,9 @@ digraph tracers {
   "function:crates/cli/src/review.rs::run" -> "function:crates/cli/src/review.rs::write_export" [label="calls", style="bold"];
   "function:crates/cli/src/review.rs::run" -> "function:crates/core/src/notation.rs::parse_pgn" [label="calls", style="bold"];
   "function:crates/cli/src/review.rs::run" -> "method:crates/core/src/position.rs::Position.from_fen" [label="calls", style="bold"];
+  "function:crates/cli/src/review.rs::run" -> "method:crates/engine/src/lib.rs::Engine.new" [label="calls", style="bold"];
   "function:crates/cli/src/review.rs::run" -> "struct:crates/core/src/notation.rs::PgnGame" [label="calls", style="bold"];
   "function:crates/cli/src/review.rs::run" -> "unresolved:rust:context" [label="calls", style="dotted"];
-  "function:crates/cli/src/review.rs::run" -> "unresolved:rust:new" [label="calls", style="dotted"];
   "function:crates/cli/src/review.rs::run" -> "unresolved:rust:read_to_string" [label="calls", style="dotted"];
   "function:crates/cli/src/review.rs::run" -> "unresolved:rust:with_context" [label="calls", style="dotted"];
   "function:crates/cli/src/review.rs::run" -> "struct:crates/core/src/notation.rs::PgnGame" [label="uses_type", style="dotted"];
@@ -7282,9 +7277,9 @@ digraph tracers {
   "function:crates/cli/src/uci.rs::run" -> "external:rust:std::writeln" [label="calls", style="bold"];
   "function:crates/cli/src/uci.rs::run" -> "function:crates/cli/src/uci.rs::handle_go" [label="calls", style="bold"];
   "function:crates/cli/src/uci.rs::run" -> "function:crates/cli/src/uci.rs::handle_position" [label="calls", style="bold"];
+  "function:crates/cli/src/uci.rs::run" -> "method:crates/engine/src/lib.rs::Engine.new" [label="calls", style="bold"];
   "function:crates/cli/src/uci.rs::run" -> "unresolved:rust:flush" [label="calls", style="dotted"];
   "function:crates/cli/src/uci.rs::run" -> "unresolved:rust:lock" [label="calls", style="dotted"];
-  "function:crates/cli/src/uci.rs::run" -> "unresolved:rust:new" [label="calls", style="dotted"];
   "function:crates/cli/src/uci.rs::run" -> "unresolved:rust:stdin" [label="calls", style="dotted"];
   "function:crates/cli/src/uci.rs::run" -> "unresolved:rust:stdout" [label="calls", style="dotted"];
   "function:crates/core/src/eco.rs::eco_name" -> "external:rust:std::Some" [label="calls", style="bold"];
@@ -7539,7 +7534,6 @@ digraph tracers {
   "function:crates/core/src/nnue.rs::compute_features" -> "unresolved:rust:wrapping_add" [label="calls", style="dotted"];
   "function:crates/core/src/nnue.rs::compute_features" -> "enum:crates/core/src/color.rs::Color" [label="uses_type", style="dotted"];
   "function:crates/core/src/nnue.rs::compute_features" -> "struct:crates/core/src/position.rs::Position" [label="uses_type", style="dotted"];
-  "function:crates/core/src/nnue.rs::compute_features" -> "unresolved:rust:L1" [label="uses_type", style="dotted"];
   "function:crates/core/src/nnue.rs::feature_index" -> "external:rust:std::unwrap" [label="calls", style="bold"];
   "function:crates/core/src/nnue.rs::feature_index" -> "function:crates/core/src/nnue.rs::king_bucket" [label="calls", style="bold"];
   "function:crates/core/src/nnue.rs::feature_index" -> "method:crates/core/src/square.rs::Square.new" [label="calls", style="bold"];
@@ -8291,7 +8285,6 @@ digraph tracers {
   "function:crates/engine/src/lib.rs::score_move" -> "struct:crates/engine/src/lib.rs::CaptureHistory" [label="uses_type", style="dotted"];
   "function:crates/engine/src/lib.rs::score_move" -> "struct:crates/engine/src/lib.rs::ContinuationHistory" [label="uses_type", style="dotted"];
   "function:crates/engine/src/lib.rs::score_move" -> "struct:crates/engine/src/lib.rs::HistoryTable" [label="uses_type", style="dotted"];
-  "function:crates/engine/src/lib.rs::score_move" -> "unresolved:rust:KILLER_MOVES" [label="uses_type", style="dotted"];
   "function:crates/engine/src/lib.rs::static_eval" -> "function:crates/core/src/rules.rs::evaluate" [label="calls", style="bold"];
   "function:crates/engine/src/lib.rs::static_eval" -> "struct:crates/core/src/position.rs::Position" [label="uses_type", style="dotted"];
   "function:crates/games/src/bin/fetch_titled.rs::main" -> "external:rust:BTreeSet.new" [label="calls", style="bold"];
@@ -8760,15 +8753,12 @@ digraph tracers {
   "function:crates/nnue-train/src/nnue.rs::compute_features" -> "unresolved:rust:wrapping_add" [label="calls", style="dotted"];
   "function:crates/nnue-train/src/nnue.rs::compute_features" -> "enum:crates/core/src/color.rs::Color" [label="uses_type", style="dotted"];
   "function:crates/nnue-train/src/nnue.rs::compute_features" -> "struct:crates/core/src/position.rs::Position" [label="uses_type", style="dotted"];
-  "function:crates/nnue-train/src/nnue.rs::compute_features" -> "unresolved:rust:L1" [label="uses_type", style="dotted"];
   "function:crates/nnue-train/src/nnue.rs::evaluate" -> "struct:crates/nnue-train/src/nnue.rs::ForwardCache" [label="calls", style="bold"];
   "function:crates/nnue-train/src/nnue.rs::evaluate" -> "struct:crates/nnue-train/src/nnue.rs::ForwardCache" [label="uses_type", style="dotted"];
   "function:crates/nnue-train/src/nnue.rs::evaluate" -> "struct:crates/nnue-train/src/nnue.rs::Weights" [label="uses_type", style="dotted"];
-  "function:crates/nnue-train/src/nnue.rs::evaluate" -> "unresolved:rust:L1" [label="uses_type", style="dotted"];
   "function:crates/nnue-train/src/nnue.rs::evaluate_f32" -> "struct:crates/nnue-train/src/nnue.rs::F32ForwardCache" [label="calls", style="bold"];
   "function:crates/nnue-train/src/nnue.rs::evaluate_f32" -> "struct:crates/nnue-train/src/nnue.rs::F32ForwardCache" [label="uses_type", style="dotted"];
   "function:crates/nnue-train/src/nnue.rs::evaluate_f32" -> "struct:crates/nnue-train/src/nnue.rs::F32Weights" [label="uses_type", style="dotted"];
-  "function:crates/nnue-train/src/nnue.rs::evaluate_f32" -> "unresolved:rust:L1" [label="uses_type", style="dotted"];
   "function:crates/nnue-train/src/nnue.rs::feature_index" -> "external:rust:std::unwrap" [label="calls", style="bold"];
   "function:crates/nnue-train/src/nnue.rs::feature_index" -> "function:crates/nnue-train/src/nnue.rs::king_bucket" [label="calls", style="bold"];
   "function:crates/nnue-train/src/nnue.rs::feature_index" -> "method:crates/core/src/square.rs::Square.new" [label="calls", style="bold"];
@@ -9188,9 +9178,9 @@ digraph tracers {
   "method:crates/cli/src/mcp.rs::McpServer.handle_tools_call" -> "method:crates/cli/src/mcp.rs::McpServer.board_text" [label="calls", style="bold"];
   "method:crates/cli/src/mcp.rs::McpServer.handle_tools_call" -> "method:crates/cli/src/mcp.rs::McpServer.legal_moves_uci" [label="calls", style="bold"];
   "method:crates/cli/src/mcp.rs::McpServer.handle_tools_call" -> "method:crates/cli/src/mcp.rs::McpServer.position_state" [label="calls", style="bold"];
+  "method:crates/cli/src/mcp.rs::McpServer.handle_tools_call" -> "method:crates/engine/src/lib.rs::Engine.new" [label="calls", style="bold"];
   "method:crates/cli/src/mcp.rs::McpServer.handle_tools_call" -> "method:crates/engine/src/lib.rs::Engine.search" [label="calls", style="bold"];
   "method:crates/cli/src/mcp.rs::McpServer.handle_tools_call" -> "unresolved:rust:as_u64" [label="calls", style="dotted"];
-  "method:crates/cli/src/mcp.rs::McpServer.handle_tools_call" -> "unresolved:rust:new" [label="calls", style="dotted"];
   "method:crates/cli/src/mcp.rs::McpServer.handle_tools_call" -> "external:rust:serde_json::Value" [label="uses_type", style="dotted"];
   "method:crates/cli/src/mcp.rs::McpServer.handle_tools_list" -> "external:rust:serde_json::Value" [label="uses_type", style="dotted"];
   "method:crates/cli/src/mcp.rs::McpServer.legal_moves_uci" -> "external:rust:std::collect" [label="calls", style="bold"];
@@ -9199,7 +9189,7 @@ digraph tracers {
   "method:crates/cli/src/mcp.rs::McpServer.legal_moves_uci" -> "function:crates/core/src/move_gen.rs::generate_moves" [label="calls", style="bold"];
   "method:crates/cli/src/mcp.rs::McpServer.legal_moves_uci" -> "unresolved:rust:to_uci" [label="calls", style="dotted"];
   "method:crates/cli/src/mcp.rs::McpServer.new" -> "external:rust:Self" [label="calls", style="bold"];
-  "method:crates/cli/src/mcp.rs::McpServer.new" -> "unresolved:rust:new" [label="calls", style="dotted"];
+  "method:crates/cli/src/mcp.rs::McpServer.new" -> "method:crates/engine/src/lib.rs::Engine.new" [label="calls", style="bold"];
   "method:crates/cli/src/mcp.rs::McpServer.position_state" -> "function:crates/core/src/rules.rs::game_result" [label="calls", style="bold"];
   "method:crates/cli/src/mcp.rs::McpServer.position_state" -> "external:rust:serde_json::Value" [label="uses_type", style="dotted"];
   "method:crates/cli/src/mcp.rs::McpServer.process" -> "external:rust:serde_json.from_str" [label="calls", style="bold"];
@@ -9514,7 +9504,6 @@ digraph tracers {
   "method:crates/engine/src/lib.rs::KillerMoves.add" -> "struct:crates/core/src/mv.rs::Move" [label="uses_type", style="dotted"];
   "method:crates/engine/src/lib.rs::KillerMoves.get" -> "external:rust:std::min" [label="calls", style="bold"];
   "method:crates/engine/src/lib.rs::KillerMoves.get" -> "struct:crates/core/src/mv.rs::Move" [label="uses_type", style="dotted"];
-  "method:crates/engine/src/lib.rs::KillerMoves.get" -> "unresolved:rust:KILLER_MOVES" [label="uses_type", style="dotted"];
   "method:crates/engine/src/lib.rs::KillerMoves.new" -> "struct:crates/engine/src/lib.rs::KillerMoves" [label="calls", style="bold"];
   "method:crates/engine/src/lib.rs::KillerMoves.new" -> "struct:crates/engine/src/lib.rs::KillerMoves" [label="uses_type", style="dotted"];
   "method:crates/engine/src/lib.rs::SearchCtx.check_stop" -> "external:rust:Instant.now" [label="calls", style="bold"];
@@ -12270,11 +12259,7 @@ digraph tracers {
   "struct:crates/core/src/mv.rs::Move" -> "enum:crates/core/src/mv.rs::MoveType" [label="uses_type", style="dotted"];
   "struct:crates/core/src/mv.rs::Move" -> "enum:crates/core/src/piece.rs::PieceType" [label="uses_type", style="dotted"];
   "struct:crates/core/src/mv.rs::Move" -> "struct:crates/core/src/square.rs::Square" [label="uses_type", style="dotted"];
-  "struct:crates/core/src/nnue.rs::DeterministicWeights" -> "unresolved:rust:L1" [label="uses_type", style="dotted"];
-  "struct:crates/core/src/nnue.rs::DeterministicWeights" -> "unresolved:rust:L2" [label="uses_type", style="dotted"];
-  "struct:crates/core/src/nnue.rs::DeterministicWeights" -> "unresolved:rust:L3" [label="uses_type", style="dotted"];
   "struct:crates/core/src/nnue.rs::NnueAccumulator" -> "unresolved:rust:Clone" [label="implements", style="dotted"];
-  "struct:crates/core/src/nnue.rs::NnueAccumulator" -> "unresolved:rust:L1" [label="uses_type", style="dotted"];
   "struct:crates/core/src/nnue.rs::NnueEval" -> "unresolved:rust:Default" [label="implements", style="dotted"];
   "struct:crates/core/src/nnue.rs::NnueEval" -> "struct:crates/core/src/nnue.rs::DeterministicWeights" [label="uses_type", style="dotted"];
   "struct:crates/core/src/notation.rs::PgnGame" -> "external:rust:std::collections.BTreeMap" [label="uses_type", style="dotted"];
@@ -12304,7 +12289,6 @@ digraph tracers {
   "struct:crates/engine/src/lib.rs::Engine" -> "struct:crates/engine/src/lib.rs::KillerMoves" [label="uses_type", style="dotted"];
   "struct:crates/engine/src/lib.rs::Engine" -> "struct:crates/engine/src/lib.rs::TranspositionTable" [label="uses_type", style="dotted"];
   "struct:crates/engine/src/lib.rs::KillerMoves" -> "struct:crates/core/src/mv.rs::Move" [label="uses_type", style="dotted"];
-  "struct:crates/engine/src/lib.rs::KillerMoves" -> "unresolved:rust:KILLER_MOVES" [label="uses_type", style="dotted"];
   "struct:crates/engine/src/lib.rs::SearchCtx" -> "external:rust:std::Instant" [label="uses_type", style="dotted"];
   "struct:crates/engine/src/lib.rs::SearchCtx" -> "struct:crates/core/src/mv.rs::Move" [label="uses_type", style="dotted"];
   "struct:crates/engine/src/lib.rs::SearchCtx" -> "struct:crates/engine/src/lib.rs::CaptureHistory" [label="uses_type", style="dotted"];
@@ -12324,22 +12308,6 @@ digraph tracers {
   "struct:crates/games/src/lichess.rs::ExplorerResult" -> "struct:crates/games/src/lichess.rs::ExplorerCounts" [label="uses_type", style="dotted"];
   "struct:crates/games/src/lichess.rs::ExplorerResult" -> "struct:crates/games/src/lichess.rs::ExplorerMove" [label="uses_type", style="dotted"];
   "struct:crates/games/src/lichess.rs::ExplorerResult" -> "struct:crates/games/src/lichess.rs::ExplorerOpening" [label="uses_type", style="dotted"];
-  "struct:crates/nnue-train/src/nnue.rs::F32ForwardCache" -> "unresolved:rust:L1" [label="uses_type", style="dotted"];
-  "struct:crates/nnue-train/src/nnue.rs::F32ForwardCache" -> "unresolved:rust:L2" [label="uses_type", style="dotted"];
-  "struct:crates/nnue-train/src/nnue.rs::F32ForwardCache" -> "unresolved:rust:L3" [label="uses_type", style="dotted"];
-  "struct:crates/nnue-train/src/nnue.rs::F32WeightGrads" -> "unresolved:rust:L1" [label="uses_type", style="dotted"];
-  "struct:crates/nnue-train/src/nnue.rs::F32WeightGrads" -> "unresolved:rust:L2" [label="uses_type", style="dotted"];
-  "struct:crates/nnue-train/src/nnue.rs::F32WeightGrads" -> "unresolved:rust:L3" [label="uses_type", style="dotted"];
-  "struct:crates/nnue-train/src/nnue.rs::F32Weights" -> "unresolved:rust:L1" [label="uses_type", style="dotted"];
-  "struct:crates/nnue-train/src/nnue.rs::F32Weights" -> "unresolved:rust:L2" [label="uses_type", style="dotted"];
-  "struct:crates/nnue-train/src/nnue.rs::F32Weights" -> "unresolved:rust:L3" [label="uses_type", style="dotted"];
-  "struct:crates/nnue-train/src/nnue.rs::ForwardCache" -> "unresolved:rust:L1" [label="uses_type", style="dotted"];
-  "struct:crates/nnue-train/src/nnue.rs::ForwardCache" -> "unresolved:rust:L2" [label="uses_type", style="dotted"];
-  "struct:crates/nnue-train/src/nnue.rs::ForwardCache" -> "unresolved:rust:L3" [label="uses_type", style="dotted"];
   "struct:crates/nnue-train/src/nnue.rs::PgnGame" -> "enum:crates/core/src/rules.rs::GameResult" [label="uses_type", style="dotted"];
   "struct:crates/nnue-train/src/nnue.rs::TrainingExample" -> "enum:crates/core/src/color.rs::Color" [label="uses_type", style="dotted"];
-  "struct:crates/nnue-train/src/nnue.rs::TrainingExample" -> "unresolved:rust:L1" [label="uses_type", style="dotted"];
-  "struct:crates/nnue-train/src/nnue.rs::Weights" -> "unresolved:rust:L1" [label="uses_type", style="dotted"];
-  "struct:crates/nnue-train/src/nnue.rs::Weights" -> "unresolved:rust:L2" [label="uses_type", style="dotted"];
-  "struct:crates/nnue-train/src/nnue.rs::Weights" -> "unresolved:rust:L3" [label="uses_type", style="dotted"];
 }
