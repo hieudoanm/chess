@@ -140,7 +140,10 @@ const Downloads: FC = () => (
           </h1>
           <p className="mt-3 text-lg text-gray-500">
             The UCI-compatible engine with alpha-beta search and an MCP server,
-            as a single binary. Assets are in the{' '}
+            as a single binary.
+          </p>
+          <p className="mt-3 text-lg text-gray-500">
+            Assets are in the{' '}
             <a href={RELEASE_PAGE} className="text-primary">
               latest release
             </a>
