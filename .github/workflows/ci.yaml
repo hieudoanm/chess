@@ -20,8 +20,8 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  cli-check:
-    name: CLI check
+  cli-quality:
+    name: CLI - Quality
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -40,12 +40,12 @@ jobs:
         run: cargo test --all-targets
 
   cli-build:
-    name: CLI build (${{ matrix.os }})
+    name: CLI - Build (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     # Release binaries are only needed for the master-branch release job;
-    # PRs are covered by the `cli-check` job.
+    # PRs are covered by the `cli-quality` job.
     if: github.event_name != 'pull_request'
-    needs: cli-check
+    needs: cli-quality
     strategy:
       fail-fast: false
       matrix:
@@ -66,15 +66,15 @@ jobs:
         shell: bash
         run: |
           case "${{ matrix.os }}" in
-            ubuntu-latest) mv target/release/chess chess-x86_64-unknown-linux-gnu ;;
-            macos-latest) mv target/release/chess chess-aarch64-apple-darwin ;;
-            windows-latest) mv target/release/chess.exe chess-x86_64-pc-windows-msvc.exe ;;
+            ubuntu-latest) mv target/release/chess cli-chess-x86_64-unknown-linux-gnu ;;
+            macos-latest) mv target/release/chess cli-chess-aarch64-apple-darwin ;;
+            windows-latest) mv target/release/chess.exe cli-chess-x86_64-pc-windows-msvc.exe ;;
           esac
       - name: Upload CLI binary
         uses: actions/upload-artifact@v7.0.2
         with:
-          name: chess-cli-${{ matrix.os }}
-          path: chess-*
+          name: cli-chess-${{ matrix.os }}
+          path: cli-chess-*
           if-no-files-found: error
           retention-days: 7
 
@@ -93,7 +93,7 @@ jobs:
         uses: actions/download-artifact@v8.0.2
         with:
           path: dist
-          pattern: chess-cli-*
+          pattern: cli-chess-*
           merge-multiple: true
       - name: Delete existing latest release
         env:
