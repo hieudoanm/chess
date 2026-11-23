@@ -18,6 +18,7 @@ const NAV_LINKS = [
   { label: 'How it works', href: '#how-it-works' },
   { label: 'Install', href: '#install' },
   { label: 'Docs', href: '/docs/' },
+  { label: 'Downloads', href: '/downloads/' },
 ];
 
 export const metadata: Metadata = {
@@ -57,7 +58,6 @@ export const metadata: Metadata = {
   },
 };
 
-
 const JSON_LD = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -65,18 +65,20 @@ const JSON_LD = {
       '@type': 'WebSite',
       name: 'chess',
       url: 'https://hieudoanm.github.io/chess/',
-      description: 'chess is a UCI-compatible engine with alpha-beta search, NNUE evaluation, and perft-tested move generation — plus an MCP server so AI assistants can play and analyze games.',
+      description:
+        'chess is a UCI-compatible engine with alpha-beta search, NNUE evaluation, and perft-tested move generation — plus an MCP server so AI assistants can play and analyze games.',
     },
     {
       '@type': 'SoftwareApplication',
       name: 'chess',
       applicationCategory: 'GameApplication',
-      description: 'chess is a UCI-compatible engine with alpha-beta search, NNUE evaluation, and perft-tested move generation — plus an MCP server so AI assistants can play and analyze games.',
+      description:
+        'chess is a UCI-compatible engine with alpha-beta search, NNUE evaluation, and perft-tested move generation — plus an MCP server so AI assistants can play and analyze games.',
       url: 'https://hieudoanm.github.io/chess/',
       codeRepository: 'https://github.com/hieudoanm/chess',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
     },
-  ]
+  ],
 };
 
 interface RootLayoutProps {
