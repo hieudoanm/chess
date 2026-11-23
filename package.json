@@ -9,7 +9,7 @@
     "email": "hieu.doan.professional@gmail.com",
     "url": "https://hieudoanm.github.io"
   },
-  "packageManager": "pnpm@12.21.0",
+  "packageManager": "pnpm@12.23.0",
   "engines": {
     "node": "26.13.1"
   },
