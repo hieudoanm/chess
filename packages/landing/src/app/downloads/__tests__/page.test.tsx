@@ -23,6 +23,7 @@ describe('downloads page', () => {
   });
 
   it('hides sections that have no assets', () => {
+    expect(html).not.toContain('Models</h2>');
     expect(html).not.toContain('Desktop</h2>');
     expect(html).not.toContain('Editor Extensions</h2>');
     expect(html).not.toContain('Browser Extensions</h2>');
