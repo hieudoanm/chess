@@ -8,6 +8,7 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 const GITHUB = 'https://github.com/hieudoanm/chess';
+const BASE = process.env.NODE_ENV === 'production' ? '/chess' : '';
 // next/image with unoptimized does not apply basePath — mirror next.config.ts.
 const LOGO =
   process.env.NODE_ENV === 'production' ? '/chess/logo.svg' : '/logo.svg';
@@ -52,8 +53,8 @@ export const metadata: Metadata = {
   twitter: { card: 'summary_large_image', images: ['/og.png'] },
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: 'any' },
-      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: `${BASE}/favicon.ico`, sizes: 'any' },
+      { url: `${BASE}/favicon.svg`, type: 'image/svg+xml' },
     ],
   },
 };

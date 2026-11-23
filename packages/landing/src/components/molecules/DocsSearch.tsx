@@ -33,8 +33,7 @@ const INDEX_URL =
 
 const MAX_RESULTS = 8;
 
-const docHref = (slug: string): string =>
-  slug ? `/docs/${slug}/` : '/docs/';
+const docHref = (slug: string): string => (slug ? `/docs/${slug}/` : '/docs/');
 
 const search = (index: SearchEntry[], query: string): Result[] => {
   const terms = query.toLowerCase().split(/\s+/).filter(Boolean);
@@ -70,7 +69,9 @@ const search = (index: SearchEntry[], query: string): Result[] => {
     results.push({ entry, rank, heading, snippet });
   }
   return results
-    .sort((a, b) => a.rank - b.rank || a.entry.title.localeCompare(b.entry.title))
+    .sort(
+      (a, b) => a.rank - b.rank || a.entry.title.localeCompare(b.entry.title)
+    )
     .slice(0, MAX_RESULTS);
 };
 
@@ -148,7 +149,7 @@ const DocsSearch: FC = () => {
         onKeyDown={onKeyDown}
         placeholder="Search docs…"
         aria-label="Search docs"
-        className="border-base-content/10 bg-base-200/50 focus:border-primary/50 w-full rounded-xl border py-2.5 pr-4 pl-10 text-sm outline-none transition-colors"
+        className="border-base-content/10 bg-base-200/50 focus:border-primary/50 w-full rounded-xl border py-2.5 pr-4 pl-10 text-sm transition-colors outline-none"
       />
       {showPanel && (
         <div className="border-base-content/10 bg-base-100 absolute inset-x-0 top-full z-40 mt-2 max-h-96 overflow-y-auto rounded-xl border shadow-lg">

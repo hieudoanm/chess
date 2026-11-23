@@ -2,13 +2,13 @@ import type { Metadata } from 'next';
 import type { FC, ReactNode } from 'react';
 import type { IconType } from 'react-icons';
 import {
-  FaApple,
-  FaBrain,
-  FaDownload,
-  FaLinux,
-  FaTerminal,
-  FaWindows,
-} from 'react-icons/fa';
+  PiAppleLogo,
+  PiBrain,
+  PiDownloadSimple,
+  PiLinuxLogo,
+  PiTerminal,
+  PiWindowsLogo,
+} from 'react-icons/pi';
 
 export const metadata: Metadata = {
   title: 'Downloads',
@@ -37,7 +37,7 @@ interface Cell {
 const CLI: Cell[] = [
   {
     name: 'macOS (Silicon)',
-    icon: FaApple,
+    icon: PiAppleLogo,
     desc: 'Apple Silicon Macs — M1 and later.',
     assets: [
       {
@@ -48,7 +48,7 @@ const CLI: Cell[] = [
   },
   {
     name: 'macOS (Intel)',
-    icon: FaApple,
+    icon: PiAppleLogo,
     desc: 'Intel-based Macs.',
     assets: [
       { label: 'Intel', href: `${RELEASES}/cli-chess-x86_64-apple-darwin` },
@@ -56,7 +56,7 @@ const CLI: Cell[] = [
   },
   {
     name: 'Linux',
-    icon: FaLinux,
+    icon: PiLinuxLogo,
     desc: 'x86_64 GNU/Linux distributions.',
     assets: [
       {
@@ -67,7 +67,7 @@ const CLI: Cell[] = [
   },
   {
     name: 'Windows',
-    icon: FaWindows,
+    icon: PiWindowsLogo,
     desc: 'Windows 10/11, x86_64.',
     assets: [
       {
@@ -122,7 +122,7 @@ function CardGrid({ cells, cols }: { cells: Cell[]; cols: string }) {
                 key={a.href}
                 href={a.href}
                 className="btn btn-primary btn-sm gap-2">
-                <FaDownload className="h-3.5 w-3.5" />
+                <PiDownloadSimple className="h-3.5 w-3.5" />
                 {a.label}
               </a>
             ))}
@@ -154,19 +154,19 @@ const Downloads: FC = () => (
           </p>
         </div>
 
-        <Section icon={FaTerminal} title="CLI">
+        <Section icon={PiTerminal} title="CLI">
           <CardGrid cells={CLI} cols="lg:grid-cols-4" />
         </Section>
 
         {MODELS.length > 0 && (
-          <Section icon={FaBrain} title="Models">
+          <Section icon={PiBrain} title="Models">
             <CardGrid cells={MODELS} cols="lg:grid-cols-3" />
           </Section>
         )}
 
         <div className="border-base-300 bg-base-200/50 rounded-2xl border p-6">
           <h2 className="text-base-content m-0 mb-2 flex items-center gap-2 text-lg leading-tight">
-            <FaTerminal className="text-primary h-5 w-5" />
+            <PiTerminal className="text-primary h-5 w-5" />
             Install script
           </h2>
           <p className="text-base-content/60 mb-4 text-sm">

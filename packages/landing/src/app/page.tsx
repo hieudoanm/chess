@@ -5,7 +5,13 @@ import Features, { type Feature } from '@/components/molecules/Features';
 import Hero from '@/components/molecules/Hero';
 import SectionHead from '@/components/molecules/SectionHead';
 import Terminal from '@/components/molecules/Terminal';
-import { LuBrain, LuBot, LuGitBranch, LuTerminal, LuZap } from 'react-icons/lu';
+import {
+  PiBrain,
+  PiRobot,
+  PiGitBranch,
+  PiTerminal,
+  PiLightning,
+} from 'react-icons/pi';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
@@ -15,32 +21,32 @@ const GITHUB = 'https://github.com/hieudoanm/chess';
 
 const FEATURES: Feature[] = [
   {
-    icon: LuTerminal,
+    icon: PiTerminal,
     title: 'UCI compatible',
     body: 'Speaks the standard UCI protocol — plug it into any GUI or GUI-compatible tool. Supports position setup from FEN or move lists, depth and time controls, and ponder.',
   },
   {
-    icon: LuGitBranch,
+    icon: PiGitBranch,
     title: 'Alpha-beta search',
     body: 'Negamax with alpha-beta pruning and a transposition table — iterative deepening over a fully legal move generator.',
   },
   {
-    icon: LuBrain,
+    icon: PiBrain,
     title: 'NNUE evaluation',
     body: 'Neural network evaluation with an incrementally updated accumulator — refreshed only for the pieces that moved, not the whole board.',
   },
   {
-    icon: LuBot,
+    icon: PiRobot,
     title: 'MCP server',
     body: 'Built-in Model Context Protocol server over stdio JSON-RPC — tools for new games, board state, legal moves, and best-move queries for AI agents.',
   },
   {
-    icon: LuTerminal,
+    icon: PiTerminal,
     title: 'Scriptable CLI',
     body: 'chess play for interactive games, chess moves and chess board for position inspection, chess bench for perft benchmarks, chess fen for FEN export.',
   },
   {
-    icon: LuZap,
+    icon: PiLightning,
     title: 'Fast & lean',
     body: 'No runtime dependencies, no daemon, no account. A single static binary that searches millions of nodes per second.',
   },
