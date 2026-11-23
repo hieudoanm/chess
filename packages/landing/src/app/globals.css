@@ -8,49 +8,55 @@
 @plugin 'daisyui/theme' {
   name: 'chess';
   default: true;
+  prefersdark: false;
   color-scheme: 'light';
-  --color-base-100: #ffffff;
-  --color-base-200: #f8fafc;
-  --color-base-300: #e2e8f0;
-  --color-base-content: #0f172a;
+  --color-base-100: oklch(100% 0 0);
+  --color-base-200: oklch(98% 0 0);
+  --color-base-300: oklch(95% 0 0);
+  --color-base-content: oklch(21% 0.006 285.885);
   --color-primary: #1d4ed8;
   --color-primary-content: #ffffff;
   --color-secondary: #1e40af;
   --color-secondary-content: #ffffff;
   --color-accent: #0ea5e9;
   --color-accent-content: #ffffff;
-  --color-neutral: #1e293b;
-  --color-neutral-content: #ffffff;
-  --color-info: #2563eb;
-  --color-info-content: #ffffff;
-  --color-success: #16a34a;
-  --color-success-content: #ffffff;
-  --color-warning: #d97706;
-  --color-warning-content: #ffffff;
-  --color-error: #dc2626;
-  --color-error-content: #ffffff;
-  --radius-box: 0.75rem;
-  --radius-field: 0.5rem;
+  --color-neutral: oklch(14% 0.005 285.823);
+  --color-neutral-content: oklch(92% 0.004 286.32);
+  --color-info: oklch(74% 0.16 232.661);
+  --color-info-content: oklch(29% 0.066 243.157);
+  --color-success: oklch(76% 0.177 163.223);
+  --color-success-content: oklch(37% 0.077 168.94);
+  --color-warning: oklch(82% 0.189 84.429);
+  --color-warning-content: oklch(41% 0.112 45.904);
+  --color-error: oklch(71% 0.194 13.428);
+  --color-error-content: oklch(27% 0.105 12.094);
   --radius-selector: 0.5rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.5rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
 }
 
 /* ---------- docs prose (Tailwind Typography, literal theme values) ---------- */
 
 .prose {
-  --tw-prose-body: #111827;
-  --tw-prose-headings: #111827;
+  --tw-prose-body: var(--color-base-content);
+  --tw-prose-headings: var(--color-base-content);
   --tw-prose-lead: #6b7280;
-  --tw-prose-links: #c2410c;
-  --tw-prose-bold: #111827;
+  --tw-prose-links: var(--color-primary);
+  --tw-prose-bold: var(--color-base-content);
   --tw-prose-counters: #6b7280;
-  --tw-prose-bullets: #d1d5db;
-  --tw-prose-hr: #e5e7eb;
+  --tw-prose-bullets: var(--color-base-300);
+  --tw-prose-hr: var(--color-base-300);
   --tw-prose-quotes: #6b7280;
-  --tw-prose-quote-borders: #c2410c;
+  --tw-prose-quote-borders: var(--color-primary);
   --tw-prose-captions: #6b7280;
-  --tw-prose-code: #111827;
+  --tw-prose-code: var(--color-base-content);
   --tw-prose-pre-code: #e8e8e8;
   --tw-prose-pre-bg: #111827;
-  --tw-prose-th-borders: #e5e7eb;
-  --tw-prose-td-borders: #e5e7eb;
+  --tw-prose-th-borders: var(--color-base-300);
+  --tw-prose-td-borders: var(--color-base-300);
 }
