@@ -168,7 +168,7 @@ describe('ExportModal', () => {
     expect(mockedExportToCSV).toHaveBeenCalled();
     expect(mockedDownloadFile).toHaveBeenCalledWith(
       'a,b',
-      'tourney-export.csv',
+      'chess-export.csv',
       'text/csv'
     );
   });
@@ -179,7 +179,7 @@ describe('ExportModal', () => {
     expect(mockedExportTournamentToCSV).toHaveBeenCalled();
     expect(mockedDownloadFile).toHaveBeenCalledWith(
       'a,b',
-      'tourney-t1.csv',
+      'chess-t1.csv',
       'text/csv'
     );
   });
@@ -199,7 +199,7 @@ describe('ExportModal', () => {
     expect(mockedExportToJSON).toHaveBeenCalled();
     expect(mockedDownloadFile).toHaveBeenCalledWith(
       '{}',
-      'tourney-backup.json',
+      'chess-backup.json',
       'application/json'
     );
   });
@@ -209,7 +209,7 @@ describe('ExportModal', () => {
     fireEvent.click(screen.getByText('JSON Backup'));
     expect(mockedDownloadFile).toHaveBeenCalledWith(
       '{}',
-      'tourney-t1-backup.json',
+      'chess-t1-backup.json',
       'application/json'
     );
   });
@@ -229,7 +229,7 @@ describe('ExportModal', () => {
     await waitFor(() => expect(mockedExportToSQLite).toHaveBeenCalled());
     expect(mockedDownloadFile).toHaveBeenCalledWith(
       expect.any(Blob),
-      'tourney-export.db',
+      'chess-export.db',
       'application/x-sqlite3'
     );
   });
@@ -571,7 +571,7 @@ describe('ExportModal', () => {
     await waitFor(() =>
       expect(mockedDownloadFile).toHaveBeenCalledWith(
         expect.any(Blob),
-        'tourney-t1.db',
+        'chess-t1.db',
         'application/x-sqlite3'
       )
     );

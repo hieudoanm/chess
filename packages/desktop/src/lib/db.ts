@@ -6,7 +6,7 @@ import type {
   StandingSnapshot,
 } from '@/types';
 
-const DB_NAME = 'tourney-db';
+const DB_NAME = 'chess-db';
 const DB_VERSION = 1;
 
 const STORES = {

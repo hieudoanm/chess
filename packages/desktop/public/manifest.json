@@ -1,6 +1,6 @@
 {
-  "name": "Tourney - Tournament Manager",
-  "short_name": "Tourney",
+  "name": "Chess - Tournament Manager",
+  "short_name": "Chess",
   "description": "Tournament Manager",
   "start_url": "/",
   "scope": "/",
@@ -17,8 +17,8 @@
   "related_applications": [],
   "shortcuts": [
     {
-      "name": "Open Tourney - Tournament Manager",
-      "short_name": "Tourney",
+      "name": "Open Chess - Tournament Manager",
+      "short_name": "Chess",
       "description": "Tournament Manager",
       "url": "/",
       "icons": [

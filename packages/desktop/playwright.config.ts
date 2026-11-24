@@ -13,7 +13,7 @@ export default defineConfig({
   },
   projects: [
     {
-      name: 'tourney',
+      name: 'chess',
       use: { ...devices['Desktop Chrome'] },
     },
   ],

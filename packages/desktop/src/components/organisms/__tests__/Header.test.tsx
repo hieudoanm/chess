@@ -9,15 +9,14 @@ beforeEach(() => {
 });
 
 describe('Header', () => {
-  it('renders Tourney logo', () => {
+  it('renders Chess logo', () => {
     render(<Header />);
-    expect(screen.getByText('Tourney')).toBeInTheDocument();
+    expect(screen.getByText('Chess')).toBeInTheDocument();
   });
 
   it('renders nav links', () => {
     render(<Header />);
     expect(screen.getAllByText('About').length).toBeGreaterThanOrEqual(1);
-    expect(screen.getAllByText('Downloads').length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText('Version').length).toBeGreaterThanOrEqual(1);
   });
 
@@ -31,7 +30,7 @@ describe('Header', () => {
     render(<Header />);
     await user.click(screen.getByTestId('theme-toggle'));
     expect(document.documentElement.getAttribute('data-theme')).toBe(
-      'tourney-dark'
+      'chess-dark'
     );
   });
 
@@ -42,7 +41,7 @@ describe('Header', () => {
     await user.click(toggle);
     await user.click(toggle);
     expect(document.documentElement.getAttribute('data-theme')).toBe(
-      'tourney-light'
+      'chess-light'
     );
   });
 
@@ -50,21 +49,21 @@ describe('Header', () => {
     const user = userEvent.setup();
     render(<Header />);
     await user.click(screen.getByTestId('theme-toggle'));
-    expect(localStorage.getItem('tourney-theme')).toBe('tourney-dark');
+    expect(localStorage.getItem('chess-theme')).toBe('chess-dark');
   });
 
   it('sets data-theme attribute on html', () => {
     render(<Header />);
     expect(document.documentElement.getAttribute('data-theme')).toBe(
-      'tourney-light'
+      'chess-light'
     );
   });
 
   it('reads saved theme from localStorage', () => {
-    localStorage.setItem('tourney-theme', 'tourney-dark');
+    localStorage.setItem('chess-theme', 'chess-dark');
     render(<Header />);
     expect(document.documentElement.getAttribute('data-theme')).toBe(
-      'tourney-dark'
+      'chess-dark'
     );
   });
 });

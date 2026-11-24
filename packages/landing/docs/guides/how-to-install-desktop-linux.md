@@ -1,7 +1,7 @@
 # How to install the chess desktop app on Linux
 
 For 64-bit Linux distributions. The desktop app is a native Tauri application —
-**Tourney**, a local tool for creating and managing chess tournaments (Swiss,
+**Chess**, a local tool for creating and managing chess tournaments (Swiss,
 round-robin, knockout). Three package formats are published per release.
 
 ## Option 1: .deb (Debian / Ubuntu)

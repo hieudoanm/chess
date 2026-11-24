@@ -4,7 +4,7 @@ import AboutPage from '../page';
 describe('AboutPage', () => {
   it('renders the app name', () => {
     render(<AboutPage />);
-    expect(screen.getByText('Tourney')).toBeInTheDocument();
+    expect(screen.getByText('Chess')).toBeInTheDocument();
   });
 
   it('renders the description', () => {

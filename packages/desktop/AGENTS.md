@@ -1,4 +1,4 @@
-# Tourney
+# Chess
 
 Tournament management app — create, manage, and track competitions across
 multiple formats.
@@ -28,8 +28,8 @@ Reference docs live in `docs/`:
    `prettier-plugin-tailwindcss`)
 7. **Atomic design** — Components organized by size: atoms → molecules →
    organisms → templates
-8. **Console logging** — `console.log('[Tourney]', ...)` in development,
-   stripped in production via `compiler.removeConsole`
+8. **Console logging** — `console.log('[Chess]', ...)` in development, stripped
+   in production via `compiler.removeConsole`
 9. **Mock delay** — Simulate network latency with `NEXT_PUBLIC_MOCK_DELAY`
    (default 800ms)
 

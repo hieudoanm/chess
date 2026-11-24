@@ -116,7 +116,7 @@ describe('CreatePage', () => {
 
   it('falls back to defaults when using a template missing optional fields', async () => {
     window.localStorage.setItem(
-      'tourney-templates',
+      'chess-templates',
       JSON.stringify([
         {
           id: 'tpl-1',

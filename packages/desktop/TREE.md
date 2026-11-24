@@ -75,10 +75,6 @@
 │   │   │   │   ├── __tests__/
 │   │   │   │   │   └── [page.test.tsx](./src/app/(info)/about/__tests__/page.test.tsx)
 │   │   │   │   └── [page.tsx](./src/app/(info)/about/page.tsx)
-│   │   │   ├── downloads/
-│   │   │   │   ├── __tests__/
-│   │   │   │   │   └── [page.test.tsx](./src/app/(info)/downloads/__tests__/page.test.tsx)
-│   │   │   │   └── [page.tsx](./src/app/(info)/downloads/page.tsx)
 │   │   │   └── version/
 │   │   │       ├── __tests__/
 │   │   │       │   └── [page.test.tsx](./src/app/(info)/version/__tests__/page.test.tsx)
@@ -265,12 +261,10 @@
 │   │   └── templates/
 │   │       ├── __tests__/
 │   │       │   ├── [AboutTemplate.test.tsx](./src/components/templates/__tests__/AboutTemplate.test.tsx)
-│   │       │   ├── [DownloadsTemplate.test.tsx](./src/components/templates/__tests__/DownloadsTemplate.test.tsx)
 │   │       │   ├── [ErrorTemplate.test.tsx](./src/components/templates/__tests__/ErrorTemplate.test.tsx)
 │   │       │   ├── [SettingsTemplate.test.tsx](./src/components/templates/__tests__/SettingsTemplate.test.tsx)
 │   │       │   └── [VersionTemplate.test.tsx](./src/components/templates/__tests__/VersionTemplate.test.tsx)
 │   │       ├── [AboutTemplate.tsx](./src/components/templates/AboutTemplate.tsx)
-│   │       ├── [DownloadsTemplate.tsx](./src/components/templates/DownloadsTemplate.tsx)
 │   │       ├── [ErrorTemplate.tsx](./src/components/templates/ErrorTemplate.tsx)
 │   │       ├── [SettingsTemplate.tsx](./src/components/templates/SettingsTemplate.tsx)
 │   │       └── [VersionTemplate.tsx](./src/components/templates/VersionTemplate.tsx)

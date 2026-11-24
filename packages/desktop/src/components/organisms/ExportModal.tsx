@@ -117,8 +117,8 @@ export const ExportModal = ({
         : exportToCSV({ tournaments, participants, matches, standings });
 
       const name = tournamentId
-        ? `tourney-${tournamentId}.csv`
-        : 'tourney-export.csv';
+        ? `chess-${tournamentId}.csv`
+        : 'chess-export.csv';
       downloadFile(csv, name, 'text/csv');
       setStatus('idle');
       setStatusMessage('');
@@ -140,8 +140,8 @@ export const ExportModal = ({
         groups: data.groups,
       });
       const name = tournamentId
-        ? `tourney-${tournamentId}-backup.json`
-        : 'tourney-backup.json';
+        ? `chess-${tournamentId}-backup.json`
+        : 'chess-backup.json';
       downloadFile(json, name, 'application/json');
       setStatus('idle');
       setStatusMessage('');
@@ -158,8 +158,8 @@ export const ExportModal = ({
     try {
       const blob = await exportToSQLite(tournaments, participants, matches);
       const name = tournamentId
-        ? `tourney-${tournamentId}.db`
-        : 'tourney-export.db';
+        ? `chess-${tournamentId}.db`
+        : 'chess-export.db';
       downloadFile(blob, name, 'application/x-sqlite3');
       setStatus('idle');
       setStatusMessage('');

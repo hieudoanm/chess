@@ -20,11 +20,11 @@ describe('downloads page', () => {
 
   it('renders the expected sections', () => {
     expect(html).toContain('CLI</h2>');
+    expect(html).toContain('Desktop</h2>');
   });
 
   it('hides sections that have no assets', () => {
     expect(html).not.toContain('Models</h2>');
-    expect(html).not.toContain('Desktop</h2>');
     expect(html).not.toContain('Editor Extensions</h2>');
     expect(html).not.toContain('Browser Extensions</h2>');
   });
@@ -34,5 +34,36 @@ describe('downloads page', () => {
     expect(html).toContain(`${RELEASES}/cli-chess-x86_64-apple-darwin`);
     expect(html).toContain(`${RELEASES}/cli-chess-x86_64-pc-windows-msvc.exe`);
     expect(html).toContain(`${RELEASES}/cli-chess-x86_64-unknown-linux-gnu`);
+    expect(html).toContain(
+      `${RELEASES}/desktop-chess-aarch64-apple-darwin.app.zip`
+    );
+    expect(html).toContain(
+      `${RELEASES}/desktop-chess-aarch64-apple-darwin.dmg`
+    );
+    expect(html).toContain(
+      `${RELEASES}/desktop-chess-x86_64-apple-darwin.app.zip`
+    );
+    expect(html).toContain(`${RELEASES}/desktop-chess-x86_64-apple-darwin.dmg`);
+    expect(html).toContain(
+      `${RELEASES}/desktop-chess-x86_64-pc-windows-msvc-setup.exe`
+    );
+    expect(html).toContain(
+      `${RELEASES}/desktop-chess-x86_64-pc-windows-msvc.msi`
+    );
+    expect(html).toContain(
+      `${RELEASES}/desktop-chess-x86_64-unknown-linux-gnu.AppImage`
+    );
+    expect(html).toContain(
+      `${RELEASES}/desktop-chess-x86_64-unknown-linux-gnu.deb`
+    );
+    expect(html).toContain(
+      `${RELEASES}/desktop-chess-x86_64-unknown-linux-gnu.rpm`
+    );
+  });
+
+  it('warns about the unsigned macOS build', () => {
+    expect(html).toContain('unsigned app workaround');
+    expect(html).toContain('xattr -dr com.apple.quarantine');
+    expect(html).toContain('/Applications/Chess.app');
   });
 });

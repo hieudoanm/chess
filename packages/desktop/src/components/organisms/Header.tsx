@@ -6,14 +6,13 @@ import { FiMenu, FiMoon, FiSun } from 'react-icons/fi';
 
 const NAV_LINKS = [
   { href: '/about', label: 'About' },
-  { href: '/downloads', label: 'Downloads' },
   { href: '/version', label: 'Version' },
 ] as const;
 
-const APP_NAME: string = 'Tourney';
-const THEME_KEY: string = 'tourney-theme';
-const THEME_DARK: string = 'tourney-dark';
-const THEME_LIGHT: string = 'tourney-light';
+const APP_NAME: string = 'Chess';
+const THEME_KEY: string = 'chess-theme';
+const THEME_DARK: string = 'chess-dark';
+const THEME_LIGHT: string = 'chess-light';
 
 const getInitialTheme = (): string => {
   if (typeof window === 'undefined') return THEME_LIGHT;

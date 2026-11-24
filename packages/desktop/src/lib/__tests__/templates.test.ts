@@ -10,12 +10,12 @@ describe('templates', () => {
   });
 
   it('returns an empty list for corrupted storage', () => {
-    window.localStorage.setItem('tourney-templates', '{not json');
+    window.localStorage.setItem('chess-templates', '{not json');
     expect(getTemplates()).toEqual([]);
   });
 
   it('returns an empty list when storage holds a non-array', () => {
-    window.localStorage.setItem('tourney-templates', '{"foo": 1}');
+    window.localStorage.setItem('chess-templates', '{"foo": 1}');
     expect(getTemplates()).toEqual([]);
   });
 

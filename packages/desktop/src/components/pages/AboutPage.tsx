@@ -7,7 +7,7 @@ import { Navbar, NAV_ITEMS } from '@/components/organisms/Navbar';
 export const AboutPage: FC = () => (
   <div className="flex min-h-dvh flex-col pb-20">
     <AboutTemplate
-      name="Tourney"
+      name="Chess"
       description="Tournament management app for creating and tracking competitions"
       version="v0.0.1"
       items={[

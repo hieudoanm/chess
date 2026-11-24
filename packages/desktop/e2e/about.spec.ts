@@ -17,7 +17,7 @@ test('loads about page', async ({ page }) => {
 
 test('displays app name', async ({ page }) => {
   await page.goto('/about');
-  await expect(page.locator('h1:has-text("Tourney")')).toBeVisible();
+  await expect(page.locator('h1:has-text("Chess")')).toBeVisible();
 });
 
 test('displays app description', async ({ page }) => {

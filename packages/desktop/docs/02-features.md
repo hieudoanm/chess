@@ -1,3 +1,3 @@
 # 02 — Features
 
-User-visible behaviour for Sports Tourney.
+User-visible behaviour for Chess.

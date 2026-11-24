@@ -14,7 +14,7 @@ import {
 export const metadata: Metadata = {
   title: 'Downloads',
   description:
-    'Download the chess engine CLI for macOS, Windows, and Linux, or install it with the setup script.',
+    'Download chess — the engine CLI and desktop tournament manager — for macOS, Windows, and Linux.',
   alternates: { canonical: '/downloads/' },
 };
 
@@ -223,7 +223,7 @@ const Downloads: FC = () => (
           </h1>
           <p className="mt-3 text-lg text-gray-500">
             The UCI-compatible engine with alpha-beta search and an MCP server,
-            as a single binary.
+            plus the Chess desktop tournament manager.
           </p>
           <p className="mt-3 text-lg text-gray-500">
             Assets are in the{' '}
@@ -241,8 +241,8 @@ const Downloads: FC = () => (
         <Section icon={PiDownloadSimple} title="Desktop">
           <CardGrid cells={DESKTOP} cols="lg:grid-cols-4" />
           <p className="text-base-content/60 mt-4 text-sm">
-            Desktop builds are the Tauri app (Next.js + local SQLite).
-            Step-by-step guides:{' '}
+            Desktop builds are the Chess app — a Tauri tournament manager with
+            local SQLite (sql.js). Step-by-step guides:{' '}
             <Link
               href="/docs/guides/how-to-install-desktop-macos-silicon/"
               className="text-primary">
@@ -269,6 +269,21 @@ const Downloads: FC = () => (
             <CardGrid cells={MODELS} cols="lg:grid-cols-3" />
           </Section>
         )}
+
+        <div className="border-base-300 bg-base-200/50 mt-12 rounded-2xl border p-6">
+          <h2 className="text-base-content m-0 mb-2 flex items-center gap-2 text-lg leading-tight">
+            <PiAppleLogo className="text-primary h-5 w-5" />
+            macOS: unsigned app workaround
+          </h2>
+          <p className="text-base-content/60 mb-4 text-sm">
+            The macOS builds are not signed or notarized, so Gatekeeper will
+            block the first launch. Either right-click the app and choose{' '}
+            <strong>Open</strong>, or remove the quarantine attribute:
+          </p>
+          <pre className="bg-base-300 overflow-x-auto rounded-lg p-4 font-mono text-sm">
+            <code>xattr -dr com.apple.quarantine /Applications/Chess.app</code>
+          </pre>
+        </div>
 
         <div className="border-base-300 bg-base-200/50 rounded-2xl border p-6">
           <h2 className="text-base-content m-0 mb-2 flex items-center gap-2 text-lg leading-tight">

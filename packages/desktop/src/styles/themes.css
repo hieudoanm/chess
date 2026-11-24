@@ -1,11 +1,11 @@
 @plugin 'daisyui' {
   themes:
-    tourney-light --default,
-    tourney-dark;
+    chess-light --default,
+    chess-dark;
 }
 
 @plugin 'daisyui/theme' {
-  name: 'tourney-light';
+  name: 'chess-light';
   default: true;
   color-scheme: 'light';
   --color-base-100: #fffbeb;
@@ -39,7 +39,7 @@
 }
 
 @plugin 'daisyui/theme' {
-  name: 'tourney-dark';
+  name: 'chess-dark';
   color-scheme: 'dark';
   --color-base-100: #191300;
   --color-base-200: #221a06;

@@ -6,7 +6,7 @@ import type {
   TournamentTemplate,
 } from '@/types';
 
-const STORAGE_KEY = 'tourney-templates';
+const STORAGE_KEY = 'chess-templates';
 
 export interface TemplateDraft {
   name: string;

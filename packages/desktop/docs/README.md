@@ -1,4 +1,4 @@
-# Sports Tourney — Product Specification
+# Chess — Product Specification
 
 Product strategy · Functional requirements · Architecture · Data model ·
 Delivery roadmap
@@ -29,15 +29,15 @@ Delivery roadmap
 
 ## 1. Product vision
 
-Sports Tourney is a hybrid application built with Next.js, Tauri, and
-TypeScript, running on web, desktop, and mobile.
+Chess is a hybrid application built with Next.js, Tauri, and TypeScript, running
+on web, desktop, and mobile.
 
 ## 2. Target users
 
-| Persona   | Primary need                     | Desired outcome                                  |
-| --------- | -------------------------------- | ------------------------------------------------ |
-| End user  | Use Sports Tourney on any device | Cross-platform access to sports tourney features |
-| Developer | Build and extend Sports Tourney  | Reproducible development and deployment          |
+| Persona   | Primary need            | Desired outcome                                    |
+| --------- | ----------------------- | -------------------------------------------------- |
+| End user  | Use Chess on any device | Cross-platform access to chess tournament features |
+| Developer | Build and extend Chess  | Reproducible development and deployment            |
 
 ## 3. Scope and priorities
 
@@ -51,11 +51,11 @@ specification.
 
 ## 5. User journeys
 
-### Journey A — Use Sports Tourney
+### Journey A — Use Chess
 
-Goal: complete a core workflow in Sports Tourney.
+Goal: complete a core workflow in Chess.
 
-1. Open Sports Tourney.
+1. Open Chess.
 2. Select a feature.
 3. Complete the task.
 

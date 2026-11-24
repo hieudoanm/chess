@@ -1,3 +1,3 @@
 # 09 — Testing Strategy
 
-Test layers, fixtures, and acceptance criteria for Sports Tourney.
+Test layers, fixtures, and acceptance criteria for Chess.

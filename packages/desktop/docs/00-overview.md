@@ -1,3 +1,3 @@
 # 00 — Overview
 
-Product vision and scope for Sports Tourney.
+Product vision and scope for Chess.

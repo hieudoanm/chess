@@ -27,7 +27,7 @@ test.afterEach(async ({ page }, testInfo) => {
 
 test('loads successfully', async ({ page }) => {
   await page.goto('/');
-  await expect(page).toHaveTitle(/Tourney/);
+  await expect(page).toHaveTitle(/Chess/);
 });
 
 test('displays tournaments', async ({ page }) => {

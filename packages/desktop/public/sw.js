@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tourney-v1';
+const CACHE_NAME = 'chess-v1';
 const STATIC_ASSETS = ['/', '/about/', '/settings/', '/version/'];
 
 self.addEventListener('install', (event) => {

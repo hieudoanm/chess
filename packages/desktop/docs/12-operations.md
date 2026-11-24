@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for contributing to **Tourney**, a hybrid app that ships as a web app
+Thanks for contributing to **Chess**, a hybrid app that ships as a web app
 (browser), desktop app (Tauri), and mobile app (Tauri Mobile).
 
 ## Getting Started

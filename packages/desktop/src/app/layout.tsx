@@ -5,12 +5,12 @@ import { Providers } from './providers';
 import { Header } from '@/components/organisms/Header';
 
 export const metadata: Metadata = {
-  title: 'Tourney - Tournaments Manager',
+  title: 'Chess - Tournament Manager',
   description: 'Create and manage tournaments across multiple formats',
   metadataBase: new URL('https://hieudoanm.github.io/chess/'),
   openGraph: {
     type: 'website',
-    siteName: 'Tourney',
+    siteName: 'Chess',
     url: 'https://hieudoanm.github.io/chess/',
     title: 'Run a tournament',
     description:
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
         url: '/og/og.png',
         width: 1200,
         height: 630,
-        alt: 'Tourney — Run a tournament',
+        alt: 'Chess — Run a tournament',
       },
     ],
   },
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'Tourney',
+    title: 'Chess',
   },
 };
 
@@ -46,7 +46,7 @@ export const viewport: Viewport = {
 };
 
 const RootLayout: FC<{ children: React.ReactNode }> = ({ children }) => (
-  <html lang="en" data-theme="tourney-light">
+  <html lang="en" data-theme="chess-light">
     <body className="bg-base-100 text-base-content h-screen overflow-y-auto font-mono">
       <Header />
       <Providers>{children}</Providers>

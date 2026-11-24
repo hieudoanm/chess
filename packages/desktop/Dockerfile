@@ -1,14 +1,14 @@
 # syntax=docker/dockerfile:1
 
 # =============================================================================
-# tourney - Touraments - Touraments Manager
+# chess - Tournaments - Tournaments Manager
 #
 # The web build is a Next.js static export (`output: 'export'`, produced into
 # `out/`). It has no Node server, so the production image simply serves the
 # export with an unprivileged nginx. Build from the package directory:
 #
-#   docker build -t tourney .
-#   docker run --rm -p 8080:8080 tourney
+#   docker build -t chess .
+#   docker run --rm -p 8080:8080 chess
 #
 # Multi-stage: base (node) -> deps (install) -> builder (static export) ->
 # runner (unprivileged nginx).
@@ -43,8 +43,8 @@ RUN pnpm build
 # Serve the static `out/` export with an unprivileged, non-root nginx
 # (listens on 8080). 1.27.4 pin avoids a 1.27.5 /run/nginx.pid regression.
 FROM nginxinc/nginx-unprivileged:${NGINX_VERSION}-alpine
-LABEL org.opencontainers.image.title="tourney"
-LABEL org.opencontainers.image.description="Touraments - Touraments Manager"
+LABEL org.opencontainers.image.title="chess"
+LABEL org.opencontainers.image.description="Tournaments - Tournaments Manager"
 LABEL org.opencontainers.image.source="https://github.com/hieudoanm/chess"
 COPY --from=builder /app/out/ /usr/share/nginx/html/
 EXPOSE 8080

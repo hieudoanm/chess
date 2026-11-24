@@ -1,7 +1,7 @@
 import { buildVersion } from './version';
 
 export const about = {
-  name: 'Tourney',
+  name: 'Chess',
   description:
     'Tournament management app for creating and tracking competitions.',
   version: buildVersion,

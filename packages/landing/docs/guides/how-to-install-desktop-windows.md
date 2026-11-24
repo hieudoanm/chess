@@ -1,7 +1,7 @@
 # How to install the chess desktop app on Windows
 
 For 64-bit Windows 10/11. The desktop app is a native Tauri application —
-**Tourney**, a local tool for creating and managing chess tournaments (Swiss,
+**Chess**, a local tool for creating and managing chess tournaments (Swiss,
 round-robin, knockout). Two installers are published per release.
 
 ## Option 1: MSI installer (recommended)
@@ -11,7 +11,7 @@ round-robin, knockout). Two installers are published per release.
    [latest release](https://github.com/hieudoanm/chess/releases/latest).
 2. Double-click the `.msi` and follow the wizard — it installs for the current
    user without admin rights.
-3. Launch **Tourney** from the Start menu.
+3. Launch **Chess** from the Start menu.
 
 ## Option 2: NSIS setup (.exe)
 

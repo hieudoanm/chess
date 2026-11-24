@@ -1,15 +1,15 @@
-# tourney - Docker Compose
+# chess - Docker Compose
 # Serve the static export with nginx in a container. Runs the same image as
 # the Dockerfile in this directory:
 #   docker compose up -d
 #   open http://localhost:8080
 
 services:
-  tourney:
+  chess:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: tourney
+    container_name: chess
     restart: always
     ports:
       - '8080:8080'

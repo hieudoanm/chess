@@ -1,4 +1,4 @@
-# Tourney
+# Chess
 
 > A minimal Swiss-manager tournament organizer that runs everywhere — phone,
 > tablet, laptop, and desktop. Create brackets, track standings, and manage
@@ -184,10 +184,10 @@ Running natively on every device you own.
 
 See [LICENSE](LICENSE).
 
-# Tourney — Packaging Checklist
+# Chess — Packaging Checklist
 
-Checklist for shipping Tourney to users: macOS notarization, Windows
-code-signing, Android/iOS store builds, and the Tauri updater pipeline.
+Checklist for shipping Chess to users: macOS notarization, Windows code-signing,
+Android/iOS store builds, and the Tauri updater pipeline.
 
 App: `tourney` (bundle identifier `io.github.hieudoanm.tourney`, version 0.0.1).
 
