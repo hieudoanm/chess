@@ -12,8 +12,15 @@ pruning, and a UCI-compatible CLI.
 
 ## Crates
 
-| Crate | Purpose |
-| --- | --- |
-| `chess-core` | Board, pieces, move generation, rules, FEN |
-| `chess-engine` | Negamax search with alpha-beta pruning |
-| `chess-cli` | `chess` binary: subcommands, UCI mode, MCP server |
+| Crate          | Purpose                                           |
+| -------------- | ------------------------------------------------- |
+| `chess-core`   | Board, pieces, move generation, rules, FEN        |
+| `chess-engine` | Negamax search with alpha-beta pruning            |
+| `chess-cli`    | `chess` binary: subcommands, UCI mode, MCP server |
+
+## Installation guides
+
+- [CLI on macOS (Apple Silicon)](guides/how-to-install-cli-macos-silicon.md)
+- [CLI on macOS (Intel)](guides/how-to-install-cli-macos-intel.md)
+- [CLI on Linux](guides/how-to-install-cli-linux.md)
+- [CLI on Windows](guides/how-to-install-cli-windows.md)

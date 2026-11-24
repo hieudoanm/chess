@@ -2,8 +2,8 @@
 
 ## One-command install
 
-Downloads a prebuilt binary for your platform, or builds from source with
-Cargo when no prebuilt artifact matches:
+Downloads a prebuilt binary for your platform, or builds from source with Cargo
+when no prebuilt artifact matches:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/hieudoanm/chess/master/scripts/install.sh | sh
@@ -29,4 +29,12 @@ The binary lands at `target/release/chess`.
 ## Requirements
 
 - Rust stable toolchain (for source builds)
-- Nothing else — the engine is a single static binary with no runtime dependencies.
+- Nothing else — the engine is a single static binary with no runtime
+  dependencies.
+
+## Per-platform guides
+
+- [macOS (Apple Silicon)](../guides/how-to-install-cli-macos-silicon.md)
+- [macOS (Intel)](../guides/how-to-install-cli-macos-intel.md)
+- [Linux](../guides/how-to-install-cli-linux.md)
+- [Windows](../guides/how-to-install-cli-windows.md)
