@@ -35,9 +35,9 @@ jobs:
       - name: Check formatting
         run: cargo fmt --all -- --check
       - name: Run clippy
-        run: cargo clippy --all-targets -- -D warnings
+        run: cargo clippy --locked --all-targets -- -D warnings
       - name: Run tests
-        run: cargo test --all-targets
+        run: cargo test --locked --all-targets
 
   cli-build:
     name: CLI - Build (${{ matrix.os }})
@@ -62,7 +62,7 @@ jobs:
       - name: Cache cargo
         uses: Swatinem/rust-cache@v2.9.3
       - name: Build release binary
-        run: cargo build --release -p chess-cli
+        run: cargo build --release --locked -p chess-cli
       - name: Rename binary for release
         shell: bash
         run: |
@@ -283,11 +283,67 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
+  browser-extension:
+    name: Browser Extension - Quality & Package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v6.1.1
+        with:
+          version: 12.23.0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck extension
+        working-directory: packages/extensions/browser
+        run: pnpm run typecheck
+
+      - name: Lint extension
+        working-directory: packages/extensions/browser
+        run: pnpm run lint:check
+
+      - name: Format check extension
+        working-directory: packages/extensions/browser
+        run: pnpm run format:check
+
+      - name: Test extension
+        working-directory: packages/extensions/browser
+        run: pnpm run test
+
+      - name: Package extension
+        working-directory: packages/extensions/browser
+        run: make package
+
+      - name: Prefix artifact names
+        run: |
+          cd packages/extensions/browser/download
+          for f in *; do mv "$f" "extension-browser-$f"; done
+
+      - name: Upload extension artifacts
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: extension-browser
+          path: packages/extensions/browser/download/*
+          if-no-files-found: error
+          retention-days: 7
+
   release:
     name: Release
     needs:
       - cli-build
       - desktop-build
+      - browser-extension
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     permissions:
@@ -295,12 +351,25 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7.0.1
-      - name: Download all artifacts
+      - name: Download CLI artifacts
         uses: actions/download-artifact@v8.0.2
         with:
+          pattern: cli-chess-*
           path: dist
-          pattern: '*chess*'
           merge-multiple: true
+
+      - name: Download desktop artifacts
+        uses: actions/download-artifact@v8.0.2
+        with:
+          pattern: chess-desktop-*
+          path: dist
+          merge-multiple: true
+
+      - name: Download extension artifacts
+        uses: actions/download-artifact@v8.0.2
+        with:
+          name: extension-browser
+          path: dist
       - name: Flatten desktop bundles
         run: |
           find dist -type f -name 'desktop-chess-*' -exec mv {} dist/ \;

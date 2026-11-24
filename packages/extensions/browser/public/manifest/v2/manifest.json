@@ -1,0 +1,43 @@
+{
+  "manifest_version": 2,
+  "name": "Chess Unlocked",
+  "version": "0.0.1",
+  "description": "Replace Chess.com premium features with free Lichess.org alternatives.",
+  "icons": {
+    "16": "icons/16x16.png",
+    "32": "icons/32x32.png",
+    "48": "icons/48x48.png",
+    "128": "icons/128x128.png"
+  },
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_title": "Chess Unlocked",
+    "default_icon": {
+      "16": "icons/16x16.png",
+      "32": "icons/32x32.png",
+      "48": "icons/48x48.png"
+    }
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://chess.com/*", "*://www.chess.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": ["storage", "https://chess.com/*", "https://www.chess.com/*"],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "chess-unlocked@hieudoanm.github.io",
+      "strict_min_version": "109.0"
+    }
+  }
+}

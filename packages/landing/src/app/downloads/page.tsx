@@ -6,10 +6,13 @@ import {
   PiAppleLogo,
   PiBrain,
   PiDownloadSimple,
+  PiFileZip,
+  PiGoogleChromeLogo,
   PiLinuxLogo,
   PiTerminal,
   PiWindowsLogo,
 } from 'react-icons/pi';
+import { FaFirefox } from 'react-icons/fa';
 
 export const metadata: Metadata = {
   title: 'Downloads',
@@ -151,6 +154,56 @@ const DESKTOP: Cell[] = [
   },
 ];
 
+const EXT: Cell[] = [
+  {
+    name: 'Chrome',
+    icon: PiGoogleChromeLogo,
+    desc: 'Chrome / Edge / Chromium (.crx, .zip).',
+    guide: '/docs/guides/how-to-install-extension-chromium/',
+    assets: [
+      {
+        label: 'v3 .crx',
+        href: `${RELEASES}/extension-browser-chess-unlocked-v3.crx`,
+      },
+      {
+        label: 'v3 .zip',
+        href: `${RELEASES}/extension-browser-chess-unlocked-v3.zip`,
+      },
+    ],
+  },
+  {
+    name: 'Firefox',
+    icon: FaFirefox,
+    desc: 'Firefox (.xpi, .zip).',
+    guide: '/docs/guides/how-to-install-extension-gecko/',
+    assets: [
+      {
+        label: 'v2 .xpi',
+        href: `${RELEASES}/extension-browser-chess-unlocked-v2.xpi`,
+      },
+      {
+        label: 'v2 .zip',
+        href: `${RELEASES}/extension-browser-chess-unlocked-v2.zip`,
+      },
+    ],
+  },
+  {
+    name: 'Source',
+    icon: PiFileZip,
+    desc: 'Unpacked extension source (.zip).',
+    assets: [
+      {
+        label: 'v3 .zip',
+        href: `${RELEASES}/extension-browser-chess-unlocked-v3.zip`,
+      },
+      {
+        label: 'v2 .zip',
+        href: `${RELEASES}/extension-browser-chess-unlocked-v2.zip`,
+      },
+    ],
+  },
+];
+
 const MODELS: Cell[] = [];
 
 function Section({
@@ -223,7 +276,8 @@ const Downloads: FC = () => (
           </h1>
           <p className="mt-3 text-lg text-gray-500">
             The UCI-compatible engine with alpha-beta search and an MCP server,
-            plus the Chess desktop tournament manager.
+            the Chess desktop tournament manager, and the Chess Unlocked browser
+            extension.
           </p>
           <p className="mt-3 text-lg text-gray-500">
             Assets are in the{' '}
@@ -264,6 +318,26 @@ const Downloads: FC = () => (
           </p>
         </Section>
 
+        <Section icon={PiGoogleChromeLogo} title="Browser Extension">
+          <CardGrid cells={EXT} cols="lg:grid-cols-3" />
+          <p className="text-base-content/60 mt-4 text-sm">
+            Chess Unlocked adds free Lichess.org alternatives to Chess.com
+            premium features. Step-by-step guides:{' '}
+            <Link
+              href="/docs/guides/how-to-install-extension-chromium/"
+              className="text-primary">
+              Chromium
+            </Link>
+            {' · '}
+            <Link
+              href="/docs/guides/how-to-install-extension-gecko/"
+              className="text-primary">
+              Firefox
+            </Link>
+            .
+          </p>
+        </Section>
+
         {MODELS.length > 0 && (
           <Section icon={PiBrain} title="Models">
             <CardGrid cells={MODELS} cols="lg:grid-cols-3" />
@@ -291,9 +365,10 @@ const Downloads: FC = () => (
             Install script
           </h2>
           <p className="text-base-content/60 mb-4 text-sm">
-            Downloads the right prebuilt binary, or builds from source if no
-            release matches your platform. Installs to <code>~/.local/bin</code>
-            .
+            Downloads the right prebuilt binary or desktop installer, or builds
+            from source if no release matches your platform. Pass{' '}
+            <code>--firefox</code> or <code>--chrome</code> to install the
+            browser extension instead. Installs to <code>~/.local/bin</code>.
           </p>
           <pre className="bg-base-300 overflow-x-auto rounded-lg p-4 font-mono text-sm">
             <code>{INSTALL_SH}</code>

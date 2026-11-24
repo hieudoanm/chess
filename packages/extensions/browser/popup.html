@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chess Unlocked</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 0;
+        padding: 16px;
+        width: 320px;
+      }
+      h1 {
+        font-size: 16px;
+        margin: 0;
+      }
+      h2 {
+        font-size: 13px;
+        margin: 0 0 8px;
+      }
+      .muted {
+        color: #666;
+        font-size: 12px;
+      }
+      header {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      section {
+        margin-top: 12px;
+      }
+      .row {
+        display: flex;
+        justify-content: space-between;
+        padding: 4px 0;
+        font-size: 13px;
+      }
+      .features {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .features li {
+        padding: 3px 0;
+        font-size: 13px;
+      }
+      .badge {
+        font-size: 11px;
+        padding: 2px 8px;
+        border-radius: 999px;
+      }
+      .badge.ok {
+        background: #d8f5d0;
+        color: #1a6b1a;
+      }
+      .badge.err {
+        background: #f5d0d0;
+        color: #8a1a1a;
+      }
+      footer {
+        margin-top: 12px;
+      }
+      button {
+        padding: 6px 12px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        background: #fff;
+        cursor: pointer;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/popup/index.ts"></script>
+  </body>
+</html>

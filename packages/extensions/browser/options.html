@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chess Unlocked — Settings</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 0;
+        padding: 16px;
+        max-width: 560px;
+      }
+      h1 {
+        font-size: 18px;
+        margin: 0 0 4px;
+      }
+      h2 {
+        font-size: 14px;
+        margin: 0 0 8px;
+      }
+      .muted {
+        color: #666;
+        font-size: 12px;
+      }
+      .card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 12px;
+        margin: 12px 0;
+      }
+      .row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 6px 0;
+      }
+      .features {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .features li {
+        padding: 4px 0;
+      }
+      .switch {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      button {
+        padding: 6px 12px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        background: #fff;
+        cursor: pointer;
+      }
+      button.danger {
+        border-color: #c33;
+        color: #c33;
+      }
+      select {
+        padding: 4px 8px;
+      }
+      .status {
+        margin-top: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <main id="app"></main>
+    <script type="module" src="/src/options/index.ts"></script>
+  </body>
+</html>

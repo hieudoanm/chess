@@ -28,3 +28,5 @@ pruning, and a UCI-compatible CLI.
 - [Desktop app on macOS (Intel)](guides/how-to-install-desktop-macos-intel.md)
 - [Desktop app on Linux](guides/how-to-install-desktop-linux.md)
 - [Desktop app on Windows](guides/how-to-install-desktop-windows.md)
+- [Browser extension on Chromium](guides/how-to-install-extension-chromium.md)
+- [Browser extension on Firefox](guides/how-to-install-extension-gecko.md)
