@@ -12,7 +12,8 @@ test.afterEach(async ({ page }, testInfo) => {
 
 test('loads version page', async ({ page }) => {
   await page.goto('/version');
-  await expect(page.locator('text=Tourney Version')).toBeVisible();
+  await expect(page.locator('h1:has-text("Version")')).toBeVisible();
+  await expect(page.locator('text=Current deployment')).toBeVisible();
 });
 
 test('displays version format', async ({ page }) => {

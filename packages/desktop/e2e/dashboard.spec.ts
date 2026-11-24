@@ -125,7 +125,7 @@ test('can delete tournament via context menu', async ({ page }) => {
     .locator('input[placeholder="Tournament name"]')
     .fill('Temp Tournament');
   await page.locator('button:has-text("Create")').click();
-  await expect(page.locator('h1:has-text("Tourney")')).toBeVisible();
+  await expect(page.locator('h3:has-text("Temp Tournament")')).toBeVisible();
 
   const count = await page
     .locator('a[href*="/tournament"][href*="id="]')

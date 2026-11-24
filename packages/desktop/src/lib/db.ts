@@ -18,11 +18,13 @@ const STORES = {
 } as const;
 
 let dbInstance: IDBDatabase | null = null;
+let dbPromise: Promise<IDBDatabase> | null = null;
 
 const openDB = (): Promise<IDBDatabase> => {
   if (dbInstance) return Promise.resolve(dbInstance);
+  if (dbPromise) return dbPromise;
 
-  return new Promise<IDBDatabase>((resolve, reject) => {
+  dbPromise = new Promise<IDBDatabase>((resolve, reject) => {
     const request = indexedDB.open(DB_NAME, DB_VERSION);
 
     request.onupgradeneeded = (event) => {
@@ -65,9 +67,12 @@ const openDB = (): Promise<IDBDatabase> => {
     };
 
     request.onerror = (event) => {
+      dbPromise = null;
       reject((event.target as IDBOpenDBRequest).error);
     };
   });
+
+  return dbPromise;
 };
 
 const getAll = <T>(storeName: string): Promise<T[]> =>

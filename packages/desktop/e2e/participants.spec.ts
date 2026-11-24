@@ -52,8 +52,8 @@ test('batch add shows textarea', async ({ page }) => {
   await expect(page.locator('textarea')).toBeVisible();
 });
 
-test('has back link', async ({ page }) => {
+test('has tab navigation', async ({ page }) => {
   await page.goto(`/tournament?id=${TOURNAMENT_ID}`);
   await page.locator('button:has-text("Participants")').click();
-  await expect(page.locator('a:has-text("Back")')).toBeVisible();
+  await expect(page.locator('button:has-text("Overview")')).toBeVisible();
 });

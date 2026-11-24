@@ -12,7 +12,7 @@ test.afterEach(async ({ page }, testInfo) => {
 
 test('loads create page', async ({ page }) => {
   await page.goto('/create');
-  await expect(page.locator('h1:has-text("Create Tournament")')).toBeVisible();
+  await expect(page.locator('text=Basic Info')).toBeVisible();
 });
 
 test('has name input', async ({ page }) => {
@@ -93,12 +93,12 @@ test('can create tournament', async ({ page }) => {
     .locator('input[placeholder="Tournament name"]')
     .fill('Test Tournament');
   await page.locator('button:has-text("Create")').click();
-  await expect(page.locator('h1:has-text("Tourney")')).toBeVisible();
+  await expect(page.locator('h3:has-text("Test Tournament")')).toBeVisible();
 });
 
 test('cancel navigates back', async ({ page }) => {
   await page.goto('/');
   await page.goto('/create');
   await page.locator('button:has-text("Cancel")').click();
-  await expect(page.locator('h1:has-text("Tourney")')).toBeVisible();
+  await expect(page.getByPlaceholder(/Search tournaments/)).toBeVisible();
 });

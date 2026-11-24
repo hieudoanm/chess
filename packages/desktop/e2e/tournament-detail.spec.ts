@@ -17,9 +17,11 @@ test('loads tournament detail', async ({ page }) => {
   await expect(page).toHaveURL(new RegExp(`tournament.*id=${TOURNAMENT_ID}`));
 });
 
-test('displays tournament name', async ({ page }) => {
+test('displays tournament overview', async ({ page }) => {
   await page.goto(`/tournament?id=${TOURNAMENT_ID}`);
-  await expect(page.locator('h1').first()).toBeVisible();
+  await expect(
+    page.locator('text=Manchester City won their 8th FA Cup')
+  ).toBeVisible();
 });
 
 test('has tab bar', async ({ page }) => {
@@ -80,7 +82,9 @@ test('can cancel delete', async ({ page }) => {
   await expect(page.locator('text=Delete Tournament?')).not.toBeVisible();
 });
 
-test('has status badge', async ({ page }) => {
+test('shows tournament actions', async ({ page }) => {
   await page.goto(`/tournament?id=${TOURNAMENT_ID}`);
-  await expect(page.locator('.badge').first()).toBeVisible();
+  await expect(
+    page.locator('button:has-text("Clone Tournament")')
+  ).toBeVisible();
 });

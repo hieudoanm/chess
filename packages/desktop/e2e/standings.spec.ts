@@ -18,10 +18,10 @@ test('loads standings page', async ({ page }) => {
   await expect(page.locator('text=Standings').first()).toBeVisible();
 });
 
-test('has back link', async ({ page }) => {
+test('has tab navigation', async ({ page }) => {
   await page.goto(`/tournament?id=${TOURNAMENT_ID}`);
   await page.locator('button:has-text("Standings")').click();
-  await expect(page.locator('a:has-text("Back")')).toBeVisible();
+  await expect(page.locator('button:has-text("Overview")')).toBeVisible();
 });
 
 test('shows standings table', async ({ page }) => {

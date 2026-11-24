@@ -24,10 +24,10 @@ test('has Add Match button', async ({ page }) => {
   await expect(page.locator('a:has-text("Add Match")')).toBeVisible();
 });
 
-test('has back link', async ({ page }) => {
+test('has tab navigation', async ({ page }) => {
   await page.goto(`/tournament?id=${TOURNAMENT_ID}`);
   await page.locator('button:has-text("Matches")').click();
-  await expect(page.locator('a:has-text("Back")')).toBeVisible();
+  await expect(page.locator('button:has-text("Overview")')).toBeVisible();
 });
 
 test('can add a match', async ({ page }) => {

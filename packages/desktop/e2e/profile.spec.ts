@@ -15,23 +15,23 @@ test('loads profile page', async ({ page }) => {
   await expect(page.locator('h1:has-text("Profile")')).toBeVisible();
 });
 
-test('displays stats cards', async ({ page }) => {
+test('displays account form', async ({ page }) => {
   await page.goto('/profile');
-  await expect(page.locator('text=Tournaments Created')).toBeVisible();
-  await expect(page.locator('text=Matches Tracked')).toBeVisible();
+  await expect(page.locator('text=Manage your account details')).toBeVisible();
+  await expect(page.getByRole('textbox', { name: 'Full name' })).toBeVisible();
 });
 
-test('displays activity list', async ({ page }) => {
+test('has save button', async ({ page }) => {
   await page.goto('/profile');
-  await expect(page.locator('text=Recent Activity')).toBeVisible();
+  await expect(page.locator('button:has-text("Save changes")')).toBeVisible();
 });
 
-test('has settings link', async ({ page }) => {
+test('has sign out link', async ({ page }) => {
   await page.goto('/profile');
-  await expect(page.locator('a:has-text("Settings")')).toBeVisible();
+  await expect(page.locator('a:has-text("Sign out")')).toBeVisible();
 });
 
 test('has version link', async ({ page }) => {
   await page.goto('/profile');
-  await expect(page.locator('a:has-text("Version")')).toBeVisible();
+  await expect(page.locator('a:has-text("Version")').first()).toBeVisible();
 });

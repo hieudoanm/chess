@@ -5,6 +5,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
   type FC,
   type ReactNode,
@@ -83,62 +84,68 @@ export const DataProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [groups, setGroups] = useState<Group[]>([]);
   const [snapshots, setSnapshots] = useState<StandingSnapshot[]>([]);
   const [loading, setLoading] = useState(true);
+  const refreshPromiseRef = useRef<Promise<void> | null>(null);
 
-  const refresh = useCallback(async () => {
-    setLoading(true);
-    let [t, p, m, g] = await Promise.all([
-      db.getAllTournaments(),
-      db.getAllTournaments().then(async (ts) => {
-        const all: Participant[] = [];
+  const refresh = useCallback(() => {
+    refreshPromiseRef.current ??= (async () => {
+      setLoading(true);
+      let [t, p, m, g] = await Promise.all([
+        db.getAllTournaments(),
+        db.getAllTournaments().then(async (ts) => {
+          const all: Participant[] = [];
+          for (const tournament of ts) {
+            all.push(...(await db.getParticipants(tournament.id)));
+          }
+          return all;
+        }),
+        db.getAllTournaments().then(async (ts) => {
+          const all: Match[] = [];
+          for (const tournament of ts) {
+            all.push(...(await db.getMatches(tournament.id)));
+          }
+          return all;
+        }),
+        db.getAllTournaments().then(async (ts) => {
+          const all: Group[] = [];
+          for (const tournament of ts) {
+            all.push(...(await db.getGroups(tournament.id)));
+          }
+          return all;
+        }),
+      ]);
+      const s = await db.getAllTournaments().then(async (ts) => {
+        const all: StandingSnapshot[] = [];
         for (const tournament of ts) {
-          all.push(...(await db.getParticipants(tournament.id)));
+          all.push(...(await db.getSnapshots(tournament.id)));
         }
         return all;
-      }),
-      db.getAllTournaments().then(async (ts) => {
-        const all: Match[] = [];
-        for (const tournament of ts) {
-          all.push(...(await db.getMatches(tournament.id)));
+      });
+
+      if (t.length === 0) {
+        for (const tournament of sampleTournaments) {
+          await db.createTournament(tournament);
         }
-        return all;
-      }),
-      db.getAllTournaments().then(async (ts) => {
-        const all: Group[] = [];
-        for (const tournament of ts) {
-          all.push(...(await db.getGroups(tournament.id)));
+        await db.createParticipants(sampleParticipants);
+        await db.createMatches(sampleMatches);
+        for (const group of sampleGroups) {
+          await db.createGroup(group);
         }
-        return all;
-      }),
-    ]);
-    const s = await db.getAllTournaments().then(async (ts) => {
-      const all: StandingSnapshot[] = [];
-      for (const tournament of ts) {
-        all.push(...(await db.getSnapshots(tournament.id)));
+        t = sampleTournaments;
+        p = sampleParticipants;
+        m = sampleMatches;
+        g = sampleGroups;
       }
-      return all;
+
+      setTournaments(t);
+      setParticipants(p);
+      setMatches(m);
+      setGroups(g);
+      setSnapshots(s);
+      setLoading(false);
+    })().finally(() => {
+      refreshPromiseRef.current = null;
     });
-
-    if (t.length === 0) {
-      for (const tournament of sampleTournaments) {
-        await db.createTournament(tournament);
-      }
-      await db.createParticipants(sampleParticipants);
-      await db.createMatches(sampleMatches);
-      for (const group of sampleGroups) {
-        await db.createGroup(group);
-      }
-      t = sampleTournaments;
-      p = sampleParticipants;
-      m = sampleMatches;
-      g = sampleGroups;
-    }
-
-    setTournaments(t);
-    setParticipants(p);
-    setMatches(m);
-    setGroups(g);
-    setSnapshots(s);
-    setLoading(false);
+    return refreshPromiseRef.current;
   }, []);
 
   useEffect(() => {

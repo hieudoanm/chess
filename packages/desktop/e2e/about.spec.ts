@@ -27,7 +27,9 @@ test('displays app description', async ({ page }) => {
 
 test('displays version', async ({ page }) => {
   await page.goto('/about');
-  await expect(page.locator('text=v0.0.1')).toBeVisible();
+  await expect(
+    page.getByText(/\d{4}\.\d{2}\.\d{2}\.\d{2}\.\d{2}\.\d{2}/)
+  ).toBeVisible();
 });
 
 test('displays tech stack', async ({ page }) => {
