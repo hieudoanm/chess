@@ -8,6 +8,7 @@ members = [
   "crates/games",
   "crates/nnue-train",
 ]
+exclude = ["packages/desktop/src-tauri"]
 
 [workspace.package]
 version = "0.0.1"

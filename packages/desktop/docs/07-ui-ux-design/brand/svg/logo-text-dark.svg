@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="528" height="256" viewBox="0 0 528 256" role="img" aria-label="TOURNEY">
+  <title>TOURNEY</title>
+  <rect x="0" y="32" width="192" height="192" rx="24" fill="#60A5FA" />
+  <line x1="160" y1="64" x2="32" y2="192" stroke="#0F172A" stroke-width="14" stroke-linecap="round" />
+  <text x="224" y="176" font-family="Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="120" font-weight="700" letter-spacing="-2" fill="#E2E8F0">TOURNEY</text>
+</svg>

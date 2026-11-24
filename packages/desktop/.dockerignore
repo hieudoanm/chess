@@ -1,0 +1,24 @@
+# Dependencies
+node_modules
+
+# Build output
+.next
+out
+build
+coverage
+
+# Tauri native build artifacts
+src-tauri/target
+
+# VCS / editor
+.git
+.gitignore
+.DS_Store
+
+# Tests
+playwright-report
+test-results
+
+# Logs / env
+*.log
+.env*

@@ -1,0 +1,29 @@
+# tourney - Docker Compose
+# Serve the static export with nginx in a container. Runs the same image as
+# the Dockerfile in this directory:
+#   docker compose up -d
+#   open http://localhost:8080
+
+services:
+  tourney:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tourney
+    restart: always
+    ports:
+      - '8080:8080'
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'wget',
+          '--no-verbose',
+          '--tries=1',
+          '--spider',
+          'http://localhost:8080/',
+        ]
+      interval: 30s
+      timeout: 5s
+      start_period: 5s
+      retries: 3

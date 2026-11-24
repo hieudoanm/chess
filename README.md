@@ -1,9 +1,8 @@
 # chess
 
-[![CI](https://github.com/hieudoanm/chess/actions/workflows/ci.yaml/badge.svg?branch=master)](https://github.com/hieudoanm/chess/actions/workflows/ci.yaml?branch=master)  [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![CI](https://github.com/hieudoanm/chess/actions/workflows/ci.yaml/badge.svg?branch=master)](https://github.com/hieudoanm/chess/actions/workflows/ci.yaml?branch=master) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 Topics: `chess`, `chess-engine`, `rust`, `uci`, `cli`
-
 
 A multi-crate Rust chess engine with CLI interface.
 
@@ -47,7 +46,9 @@ Engine search:
 - Configurable search depth
 
 ### chess-cli
+
 Command-line interface:
+
 - `chess board` - Display starting FEN
 - `chess moves` - List all legal moves from start
 - `chess play --depth 3` - Interactive play mode with engine recommendations
@@ -104,6 +105,17 @@ cargo run -p chess-cli -- bench
 Reports node counts at depths 1-5, ns/node, and total nodes/second. Depths 1-3 match the published perft values for the initial position (20, 400, 8902).
 
 Supported UCI commands: `uci`, `isready`, `ucinewgame`, `position` (startpos/fen + moves), `go` (depth, wtime, btime, winc, binc, nodes, mate, infinite), `stop`, `quit`.
+
+## Packages
+
+```text
+packages/
+  landing/    # Next.js static landing page → GitHub Pages
+  desktop/    # Tauri desktop tournament manager (Next.js + sql.js)
+```
+
+`packages/desktop` is a pnpm workspace package — run `pnpm install` at the repo
+root, then `pnpm --filter chess-desktop run dev|build|tauri`.
 
 ## Get Started
 
@@ -165,7 +177,6 @@ Sources: [Rama Chess](https://ramachess.com/best-chess-engines/), [CCI Ratings](
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-
 
 ### Streamable HTTP
 

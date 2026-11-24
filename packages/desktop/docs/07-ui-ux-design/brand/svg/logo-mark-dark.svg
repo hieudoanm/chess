@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="TOURNEY">
+  <title>TOURNEY</title>
+  <rect x="32" y="32" width="192" height="192" rx="24" fill="#60A5FA" />
+  <line x1="192" y1="64" x2="64" y2="192" stroke="#0F172A" stroke-width="14" stroke-linecap="round" />
+</svg>
