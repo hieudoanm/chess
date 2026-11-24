@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import type { FC, ReactNode } from 'react';
 import type { IconType } from 'react-icons';
 import {
@@ -32,6 +33,7 @@ interface Cell {
   icon: IconType;
   desc: string;
   assets: Asset[];
+  guide?: string;
 }
 
 const CLI: Cell[] = [
@@ -73,6 +75,77 @@ const CLI: Cell[] = [
       {
         label: '.exe',
         href: `${RELEASES}/cli-chess-x86_64-pc-windows-msvc.exe`,
+      },
+    ],
+  },
+];
+
+const DESKTOP: Cell[] = [
+  {
+    name: 'macOS (Silicon)',
+    icon: PiAppleLogo,
+    desc: 'Apple Silicon Macs — M1 and later.',
+    guide: '/docs/guides/how-to-install-desktop-macos-silicon/',
+    assets: [
+      {
+        label: '.dmg',
+        href: `${RELEASES}/desktop-chess-aarch64-apple-darwin.dmg`,
+      },
+      {
+        label: '.app.zip',
+        href: `${RELEASES}/desktop-chess-aarch64-apple-darwin.app.zip`,
+      },
+    ],
+  },
+  {
+    name: 'macOS (Intel)',
+    icon: PiAppleLogo,
+    desc: 'Intel-based Macs.',
+    guide: '/docs/guides/how-to-install-desktop-macos-intel/',
+    assets: [
+      {
+        label: '.dmg',
+        href: `${RELEASES}/desktop-chess-x86_64-apple-darwin.dmg`,
+      },
+      {
+        label: '.app.zip',
+        href: `${RELEASES}/desktop-chess-x86_64-apple-darwin.app.zip`,
+      },
+    ],
+  },
+  {
+    name: 'Linux',
+    icon: PiLinuxLogo,
+    desc: 'x86_64 GNU/Linux distributions.',
+    guide: '/docs/guides/how-to-install-desktop-linux/',
+    assets: [
+      {
+        label: '.deb',
+        href: `${RELEASES}/desktop-chess-x86_64-unknown-linux-gnu.deb`,
+      },
+      {
+        label: '.rpm',
+        href: `${RELEASES}/desktop-chess-x86_64-unknown-linux-gnu.rpm`,
+      },
+      {
+        label: '.AppImage',
+        href: `${RELEASES}/desktop-chess-x86_64-unknown-linux-gnu.AppImage`,
+      },
+    ],
+  },
+  {
+    name: 'Windows',
+    icon: PiWindowsLogo,
+    desc: 'Windows 10/11, x86_64.',
+    guide: '/docs/guides/how-to-install-desktop-windows/',
+    assets: [
+      {
+        label: '.msi',
+        href: `${RELEASES}/desktop-chess-x86_64-pc-windows-msvc.msi`,
+      },
+      {
+        label: 'setup .exe',
+        href: `${RELEASES}/desktop-chess-x86_64-pc-windows-msvc-setup.exe`,
       },
     ],
   },
@@ -127,6 +200,13 @@ function CardGrid({ cells, cols }: { cells: Cell[]; cols: string }) {
               </a>
             ))}
           </div>
+          {c.guide && (
+            <Link
+              href={c.guide}
+              className="text-primary mt-3 inline-block text-xs">
+              How to install →
+            </Link>
+          )}
         </div>
       ))}
     </div>
@@ -156,6 +236,32 @@ const Downloads: FC = () => (
 
         <Section icon={PiTerminal} title="CLI">
           <CardGrid cells={CLI} cols="lg:grid-cols-4" />
+        </Section>
+
+        <Section icon={PiDownloadSimple} title="Desktop">
+          <CardGrid cells={DESKTOP} cols="lg:grid-cols-4" />
+          <p className="text-base-content/60 mt-4 text-sm">
+            Desktop builds are the Tauri app (Next.js + local SQLite).
+            Step-by-step guides:{' '}
+            <Link
+              href="/docs/guides/how-to-install-desktop-macos-silicon/"
+              className="text-primary">
+              macOS
+            </Link>
+            {' · '}
+            <Link
+              href="/docs/guides/how-to-install-desktop-linux/"
+              className="text-primary">
+              Linux
+            </Link>
+            {' · '}
+            <Link
+              href="/docs/guides/how-to-install-desktop-windows/"
+              className="text-primary">
+              Windows
+            </Link>
+            .
+          </p>
         </Section>
 
         {MODELS.length > 0 && (
