@@ -8,3 +8,4 @@ crates/games/pgn/**/*.pgn
 
 node_modules/
 .tracers-cache/
+.tracers/cache/
