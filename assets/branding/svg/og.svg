@@ -1,26 +1,167 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 640" width="1280" height="640">
-  <rect width="1280" height="640" fill="#ffffff" />
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title desc">
+  <title id="title">CHESS — A chess engine in one Rust binary</title>
+  <desc id="desc">CHESS. A chess engine in one Rust binary rust · uci · alpha-beta · mcp · cli.</desc>
+
   <defs>
-    <pattern id="grid" width="16" height="16" patternUnits="userSpaceOnUse">
-      <path d="M16 0H0V16" fill="none" stroke="#e5e7eb" stroke-width="1" />
+    <pattern
+      id="small-grid"
+      width="20"
+      height="20"
+      patternUnits="userSpaceOnUse"
+    >
+      <path
+        d="M20 0H0V20"
+        fill="none"
+        stroke="#191919"
+        stroke-opacity="0.055"
+        stroke-width="0.8"
+      />
     </pattern>
+
+    <pattern
+      id="large-grid"
+      width="100"
+      height="100"
+      patternUnits="userSpaceOnUse"
+    >
+      <rect width="100" height="100" fill="url(#small-grid)"/>
+      <path
+        d="M100 0H0V100"
+        fill="none"
+        stroke="#191919"
+        stroke-opacity="0.09"
+        stroke-width="1"
+      />
+    </pattern>
+
+    <linearGradient id="curve-fade" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#191919" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#191919" stop-opacity="0.04"/>
+    </linearGradient>
   </defs>
-  <rect width="1280" height="640" fill="url(#grid)" />
 
-  <text x="64" y="64" font-family="ui-monospace, Menlo, monospace" font-size="32" font-weight="700" fill="#111827">Chess</text>
-  <text x="1216" y="64" text-anchor="end" font-family="ui-monospace, Menlo, monospace" font-size="24" fill="#6b7280">hieudoanm.github.io/chess</text>
+  <!-- Grid background -->
+  <rect width="1280" height="640" fill="#f8f8f7"/>
+  <rect width="1280" height="640" fill="url(#large-grid)"/>
 
-  <g transform="translate(64 192) scale(0.6667) translate(-64 -64)">
-    <rect x="128" y="152" width="256" height="288" />
-    <rect x="128" y="72" width="64" height="80" />
-    <rect x="224" y="72" width="64" height="80" />
-    <rect x="320" y="72" width="64" height="80" />
+  <!-- Upper-right Bézier decorations -->
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path
+      d="M820 35 C910 35 910 145 1000 145 S1090 55 1180 95"
+      stroke="url(#curve-fade)"
+      stroke-width="2"
+    />
+    <path
+      d="M845 55 C935 55 935 165 1025 165 S1115 75 1205 115"
+      stroke="#191919"
+      stroke-opacity="0.13"
+      stroke-width="1.5"
+    />
+
+    <!-- Control handles -->
+    <g
+      stroke="#191919"
+      stroke-opacity="0.16"
+      stroke-width="1"
+      stroke-dasharray="4 5"
+    >
+      <path d="M820 35L865 35"/>
+      <path d="M910 145L955 145"/>
+      <path d="M1000 145L1045 145"/>
+    </g>
+
+    <!-- Lower-right flowing curves -->
+    <path
+      d="M820 535 C910 535 910 435 1000 435 S1090 545 1180 505"
+      stroke="#191919"
+      stroke-opacity="0.11"
+      stroke-width="2"
+    />
+    <path
+      d="M850 560 C940 560 940 460 1030 460 S1120 570 1210 530"
+      stroke="#191919"
+      stroke-opacity="0.09"
+      stroke-width="1.5"
+    />
+
+    <!-- Lower-left curves -->
+    <path
+      d="M40 525 C105 525 105 465 170 465"
+      stroke="#191919"
+      stroke-opacity="0.09"
+      stroke-width="2"
+    />
+    <path
+      d="M40 550 C120 550 120 490 200 490"
+      stroke="#191919"
+      stroke-opacity="0.07"
+      stroke-width="1.5"
+    />
   </g>
 
-  <text x="384" y="240" font-family="ui-monospace, Menlo, monospace" font-size="32" fill="#6b7280">RUST GAME ENGINE</text>
-  <text x="384" y="320" font-family="ui-monospace, Menlo, monospace" font-size="64" font-weight="700" fill="#111827">Chess</text>
-  <text x="384" y="376" font-family="ui-monospace, Menlo, monospace" font-size="24" fill="#6b7280">A multi-crate Rust chess engine with CLI interface.</text>
-  <text x="384" y="420" font-family="ui-monospace, Menlo, monospace" font-size="20" fill="#9ca3af">rust · chess · uci · alpha-beta · cli</text>
+  <!-- Vector anchor points -->
 
-  <text x="1216" y="592" text-anchor="end" font-family="ui-monospace, Menlo, monospace" font-size="24" fill="#6b7280">github.com/hieudoanm/chess</text>
+  <!-- Vector anchor points -->
+  <g
+    fill="#f8f8f7"
+    stroke="#191919"
+    stroke-width="1.5"
+    opacity="0.32"
+  >
+    <circle cx="820" cy="35" r="4"/>
+    <circle cx="910" cy="145" r="4"/>
+    <circle cx="1000" cy="145" r="4"/>
+    <circle cx="1180" cy="95" r="4"/>
+    <circle cx="845" cy="55" r="4"/>
+    <circle cx="1025" cy="165" r="4"/>
+    <circle cx="1205" cy="115" r="4"/>
+
+    <circle cx="820" cy="535" r="4"/>
+    <circle cx="1000" cy="435" r="4"/>
+    <circle cx="1180" cy="505" r="4"/>
+    <circle cx="850" cy="560" r="4"/>
+    <circle cx="1030" cy="460" r="4"/>
+    <circle cx="1210" cy="530" r="4"/>
+  </g>
+
+  <!-- Logo -->
+  <g transform="translate(130 103) scale(1.05)" fill="none" stroke="#191919" stroke-width="11" stroke-linecap="round" stroke-linejoin="round">
+
+    <circle cx="210" cy="140" r="34"/>
+    <path d="M176 176 L244 176 L272 266 L148 266 Z"/>
+    <line x1="132" y1="266" x2="288" y2="266"/>
+  
+    </g>
+
+  <!-- Brand typography -->
+  <g fill="#191919">
+    <text
+      x="620"
+      y="270"
+      font-family="Comfortaa, 'Trebuchet MS', sans-serif"
+      font-size="76"
+      font-weight="700"
+      letter-spacing="-2"
+    >CHESS</text>
+
+    <rect x="624" y="297" width="64" height="5" rx="2.5"/>
+
+    <text
+      x="620"
+      y="352"
+      font-family="Comfortaa, 'Trebuchet MS', sans-serif"
+      font-size="25"
+      font-weight="500"
+      letter-spacing="-0.5"
+    >A chess engine in one Rust binary</text>
+
+    <text
+      x="620"
+      y="394"
+      font-family="Comfortaa, 'Trebuchet MS', sans-serif"
+      font-size="16"
+      font-weight="400"
+      fill="#737373"
+    >rust · uci · alpha-beta · mcp · cli</text>
+  </g>
 </svg>
