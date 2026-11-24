@@ -192,7 +192,7 @@ jobs:
 
       - name: Zip macOS app bundle
         if: runner.os == 'macOS'
-        working-directory: target/release/bundle/macos
+        working-directory: packages/desktop/src-tauri/target/release/bundle/macos
         run: |
           shopt -s nullglob
           apps=(*.app)
@@ -207,7 +207,7 @@ jobs:
       # before the artifacts merge in the release job.
       - name: Rename macOS bundles for release
         if: runner.os == 'macOS'
-        working-directory: target/release/bundle
+        working-directory: packages/desktop/src-tauri/target/release/bundle
         shell: bash
         run: |
           set -euo pipefail
@@ -227,7 +227,7 @@ jobs:
 
       - name: Rename Linux bundles for release
         if: runner.os == 'Linux'
-        working-directory: target/release/bundle
+        working-directory: packages/desktop/src-tauri/target/release/bundle
         shell: bash
         run: |
           set -euo pipefail
@@ -243,7 +243,7 @@ jobs:
 
       - name: Rename Windows bundles for release
         if: runner.os == 'Windows'
-        working-directory: target/release/bundle
+        working-directory: packages/desktop/src-tauri/target/release/bundle
         shell: bash
         run: |
           set -euo pipefail
@@ -257,8 +257,8 @@ jobs:
         with:
           name: chess-desktop-${{ matrix.os }}
           path: |
-            target/release/bundle/dmg/*.dmg
-            target/release/bundle/macos/*.app.zip
+            packages/desktop/src-tauri/target/release/bundle/dmg/*.dmg
+            packages/desktop/src-tauri/target/release/bundle/macos/*.app.zip
           if-no-files-found: error
 
       - name: Upload Linux artifacts
@@ -267,9 +267,9 @@ jobs:
         with:
           name: chess-desktop-${{ matrix.os }}
           path: |
-            target/release/bundle/deb/*.deb
-            target/release/bundle/rpm/*.rpm
-            target/release/bundle/appimage/*.AppImage
+            packages/desktop/src-tauri/target/release/bundle/deb/*.deb
+            packages/desktop/src-tauri/target/release/bundle/rpm/*.rpm
+            packages/desktop/src-tauri/target/release/bundle/appimage/*.AppImage
           if-no-files-found: error
 
       - name: Upload Windows artifacts
@@ -278,8 +278,8 @@ jobs:
         with:
           name: chess-desktop-${{ matrix.os }}
           path: |
-            target/release/bundle/msi/*.msi
-            target/release/bundle/nsis/*.exe
+            packages/desktop/src-tauri/target/release/bundle/msi/*.msi
+            packages/desktop/src-tauri/target/release/bundle/nsis/*.exe
           if-no-files-found: error
           retention-days: 7
 
