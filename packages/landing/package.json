@@ -36,6 +36,6 @@
     "rimraf": "6.1.4",
     "tailwindcss": "4.3.5",
     "typescript": "6.0.3",
-    "vitest": "5.1.1"
+    "vitest": "5.1.2"
   }
 }
