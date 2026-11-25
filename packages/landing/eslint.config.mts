@@ -10,7 +10,11 @@ export default defineConfig([
     'node_modules/**',
     'public/**',
     'out/**',
+    'build/**',
     'coverage/**',
+    'test-results/**',
+    'playwright-report/**',
+    'videos/**',
     'next-env.d.ts',
   ]),
 ]);
