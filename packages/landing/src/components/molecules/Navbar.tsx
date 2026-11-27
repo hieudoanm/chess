@@ -3,7 +3,8 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import type { FC, MouseEventHandler } from 'react';
-import { PiGithubLogo, PiStar } from 'react-icons/pi';
+import { PiGithubLogo } from 'react-icons/pi';
+import ThemeToggle from '@/components/molecules/ThemeToggle';
 
 export interface NavLink {
   label: string;
@@ -118,6 +119,7 @@ const Navbar: FC<NavbarProps> = ({
           {links.map((link) => (
             <NavItemLink key={link.href} link={link} className={NAV_LINK} />
           ))}
+          <ThemeToggle className="btn btn-ghost btn-sm btn-square ml-1" />
           <a
             href={githubUrl}
             target="_blank"
@@ -126,30 +128,14 @@ const Navbar: FC<NavbarProps> = ({
             <PiGithubLogo className="h-4 w-4" />
             GitHub
           </a>
-          <a
-            href={githubUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-outline btn-sm ml-1 gap-1.5"
-            aria-label={`Star ${name} on GitHub`}>
-            <PiStar className="h-4 w-4" />
-            Star
-          </a>
         </nav>
+        <ThemeToggle className="btn btn-ghost btn-sm btn-square ml-auto md:hidden" />
         <a
           href={githubUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="btn btn-ghost btn-sm ml-auto gap-1.5 md:hidden">
+          className="btn btn-ghost btn-sm gap-1.5 md:hidden">
           <PiGithubLogo className="h-4 w-4" />
-        </a>
-        <a
-          href={githubUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn btn-ghost btn-sm ml-1 gap-1.5 md:hidden"
-          aria-label={`Star ${name} on GitHub`}>
-          <PiStar className="h-4 w-4" />
         </a>
       </div>
     </header>

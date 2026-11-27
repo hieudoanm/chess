@@ -60,3 +60,63 @@
   --tw-prose-th-borders: var(--color-base-300);
   --tw-prose-td-borders: var(--color-base-300);
 }
+
+@plugin 'daisyui/theme' {
+  name: 'chess-dark';
+  default: false;
+  prefersdark: false;
+  color-scheme: 'dark';
+  --color-base-100: #0f172a;
+  --color-base-200: #1e293b;
+  --color-base-300: #334155;
+  --color-base-content: #f1f5f9;
+  --color-neutral: #e2e8f0;
+  --color-neutral-content: #0f172a;
+  --color-primary: #1d4ed8;
+  --color-primary-content: #ffffff;
+  --color-secondary: #1e40af;
+  --color-secondary-content: #ffffff;
+  --color-accent: #0ea5e9;
+  --color-accent-content: #ffffff;
+  --color-info: oklch(74% 0.16 232.661);
+  --color-info-content: oklch(29% 0.066 243.157);
+  --color-success: oklch(76% 0.177 163.223);
+  --color-success-content: oklch(37% 0.077 168.94);
+  --color-warning: oklch(82% 0.189 84.429);
+  --color-warning-content: oklch(41% 0.112 45.904);
+  --color-error: oklch(71% 0.194 13.428);
+  --color-error-content: oklch(27% 0.105 12.094);
+  --radius-selector: 0.5rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.5rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+}
+
+/* theme toggle icons: moon shows in light mode, sun in dark mode */
+[data-theme='chess-dark'] .theme-icon-moon,
+[data-theme='chess'] .theme-icon-sun {
+  display: none;
+}
+
+[data-theme='chess-dark'] .prose {
+  --tw-prose-lead: #9ca3af;
+  --tw-prose-counters: #9ca3af;
+  --tw-prose-quotes: #9ca3af;
+  --tw-prose-captions: #9ca3af;
+}
+
+/* ---------- outline buttons: soften so they don't overpower ---------- */
+
+.btn-outline {
+  border-color: color-mix(in oklab, currentColor 30%, transparent);
+  color: color-mix(in oklab, currentColor 80%, transparent);
+}
+
+.btn-outline:hover {
+  border-color: color-mix(in oklab, currentColor 50%, transparent);
+  background-color: color-mix(in oklab, currentColor 8%, transparent);
+}
