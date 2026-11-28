@@ -39,7 +39,7 @@
     "tauri": "tauri"
   },
   "dependencies": {
-    "@tauri-apps/api": "2.12.5",
+    "@tauri-apps/api": "2.13.0",
     "next": "16.4.6",
     "react": "19.3.1",
     "react-dom": "19.3.1",
@@ -49,7 +49,7 @@
   "devDependencies": {
     "@playwright/test": "1.65.1",
     "@tailwindcss/postcss": "4.3.5",
-    "@tauri-apps/cli": "2.12.6",
+    "@tauri-apps/cli": "2.13.0",
     "@testing-library/jest-dom": "8.0.0",
     "@testing-library/react": "16.3.3",
     "@testing-library/user-event": "14.6.13",
