@@ -20,7 +20,7 @@
     "@commitlint/cli": "21.2.4",
     "@commitlint/config-conventional": "21.2.4",
     "husky": "9.1.7",
-    "lint-staged": "17.6.2",
+    "lint-staged": "17.6.3",
     "prettier": "3.10.1",
     "prettier-plugin-tailwindcss": "0.8.1"
   },
